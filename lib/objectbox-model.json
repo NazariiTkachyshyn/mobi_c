@@ -1,0 +1,278 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "1:7267715397295541197",
+      "lastPropertyId": "10:7161420217736022023",
+      "name": "ObNom",
+      "properties": [
+        {
+          "id": "1:3878690552691398274",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:1225013316628404657",
+          "name": "ref",
+          "type": 9
+        },
+        {
+          "id": "3:7563345867198570317",
+          "name": "description",
+          "type": 9
+        },
+        {
+          "id": "4:3028183838268531226",
+          "name": "article",
+          "type": 9
+        },
+        {
+          "id": "5:4447064196371992799",
+          "name": "parentKey",
+          "type": 9
+        },
+        {
+          "id": "6:349954176695152497",
+          "name": "imageKey",
+          "type": 9
+        },
+        {
+          "id": "7:8036011953633676593",
+          "name": "unitKey",
+          "type": 9
+        },
+        {
+          "id": "8:2583911243502809439",
+          "name": "descriptionLower",
+          "type": 9
+        },
+        {
+          "id": "9:4650133491600558510",
+          "name": "articleLower",
+          "type": 9
+        },
+        {
+          "id": "10:7161420217736022023",
+          "name": "isFolder",
+          "type": 1
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "2:6879025521139470878",
+      "lastPropertyId": "7:2835483101819167717",
+      "name": "ObPrice",
+      "properties": [
+        {
+          "id": "1:5312977068715037429",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:260647958851481407",
+          "name": "priceType",
+          "type": 9
+        },
+        {
+          "id": "3:1842869755860105357",
+          "name": "packKey",
+          "type": 9
+        },
+        {
+          "id": "4:3498201845148066642",
+          "name": "currencyKey",
+          "type": 9
+        },
+        {
+          "id": "5:870048203181635540",
+          "name": "nomKey",
+          "type": 9
+        },
+        {
+          "id": "6:5993533499103335044",
+          "name": "price",
+          "type": 8
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "3:5521694212117040765",
+      "lastPropertyId": "3:7004431487949366806",
+      "name": "ObStorage",
+      "properties": [
+        {
+          "id": "1:6394411400387327402",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:1213495664106130246",
+          "name": "refKey",
+          "type": 9
+        },
+        {
+          "id": "3:7004431487949366806",
+          "name": "description",
+          "type": 9
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "4:6985453350114521232",
+      "lastPropertyId": "4:8402096546183612902",
+      "name": "ObBarocde",
+      "properties": [
+        {
+          "id": "1:2916520733024367230",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:410434834825563203",
+          "name": "packKey",
+          "type": 9
+        },
+        {
+          "id": "3:4837697549912629196",
+          "name": "barcode",
+          "type": 9
+        },
+        {
+          "id": "4:8402096546183612902",
+          "name": "nomKey",
+          "type": 9
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "5:2401690754765832120",
+      "lastPropertyId": "8:7146399739788448595",
+      "name": "ObCounterparty",
+      "properties": [
+        {
+          "id": "1:127150190425147610",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:8686531818291558388",
+          "name": "refKey",
+          "type": 9
+        },
+        {
+          "id": "3:1688642145731211482",
+          "name": "description",
+          "type": 9
+        },
+        {
+          "id": "4:6015736912050197449",
+          "name": "mainCounterpartyKey",
+          "type": 9
+        },
+        {
+          "id": "5:3097670010478127553",
+          "name": "fullDescription",
+          "type": 9
+        },
+        {
+          "id": "6:1627018293343355778",
+          "name": "descriptionLower",
+          "type": 9
+        },
+        {
+          "id": "7:4916868348974046367",
+          "name": "fullDescriptionLower",
+          "type": 9
+        },
+        {
+          "id": "8:7146399739788448595",
+          "name": "partnerKey",
+          "type": 9
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "6:2530145175776008345",
+      "lastPropertyId": "9:4387579556907442762",
+      "name": "ObOrderNom",
+      "properties": [
+        {
+          "id": "1:3668035614159120563",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:1045652045117512153",
+          "name": "orderId",
+          "type": 6
+        },
+        {
+          "id": "3:8001125667147202437",
+          "name": "ref",
+          "type": 9
+        },
+        {
+          "id": "4:5746051074440049002",
+          "name": "description",
+          "type": 9
+        },
+        {
+          "id": "5:7463922974071348735",
+          "name": "article",
+          "type": 9
+        },
+        {
+          "id": "6:463163445805795903",
+          "name": "imageKey",
+          "type": 9
+        },
+        {
+          "id": "7:4338186138601759130",
+          "name": "unitKey",
+          "type": 9
+        },
+        {
+          "id": "8:463301504714541900",
+          "name": "qty",
+          "type": 6
+        },
+        {
+          "id": "9:4387579556907442762",
+          "name": "price",
+          "type": 8
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "6:2530145175776008345",
+  "lastIndexId": "1:3024279412695165456",
+  "lastRelationId": "1:722765356975776349",
+  "lastSequenceId": "0:0",
+  "modelVersion": 5,
+  "modelVersionParserMinimum": 5,
+  "retiredEntityUids": [],
+  "retiredIndexUids": [
+    3024279412695165456
+  ],
+  "retiredPropertyUids": [
+    2835483101819167717
+  ],
+  "retiredRelationUids": [
+    722765356975776349
+  ],
+  "version": 1
+}
