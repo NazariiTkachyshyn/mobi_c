@@ -27,6 +27,7 @@ class ProductView extends StatelessWidget {
                         context.read<CreateOrderCubit>().insertNom(nom);
                         Navigator.pop(context);
                       });
+
                     },
                     icon: const Icon(Icons.search))),
             Expanded(

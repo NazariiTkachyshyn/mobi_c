@@ -1,7 +1,7 @@
 import 'package:mobi_c/objectbox.g.dart';
 import 'package:get_it/get_it.dart';
 
-import '../../../services/object_box/models/ob_counterparty.dart';
+import '../../../services/data_bases/object_box/models/ob_counterparty.dart';
 
 class SelectCounterpartyClient {
   final db = GetIt.I.get<Store>();

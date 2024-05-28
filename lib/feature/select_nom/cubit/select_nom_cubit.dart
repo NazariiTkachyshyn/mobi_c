@@ -10,9 +10,10 @@ class SelectNomCubit extends Cubit<SelectNomState> {
 
   final SelectNomRepo _selectNomRepo;
 
-  getAllNoms() {
+  getAllNoms() async {
     try {
-      final noms = _selectNomRepo.getAllNoms();
+      var noms = await _selectNomRepo.getAllNoms();
+      noms.sort((a, b) => a.description.compareTo(b.description));
       emit(state.copyWith(noms: noms, status: SelectNomStatus.success));
       return noms;
     } catch (e) {
@@ -23,6 +24,15 @@ class SelectNomCubit extends Cubit<SelectNomState> {
   Future<void> getNoms(String value) async {
     try {
       final noms = await _selectNomRepo.getNoms(value);
+      emit(state.copyWith(noms: noms, status: SelectNomStatus.success));
+    } catch (e) {
+      emit(state.copyWith(status: SelectNomStatus.failure));
+    }
+  }
+
+  Future<void> getNomsInFolder(String value, String parentKey) async {
+    try {
+      final noms = await _selectNomRepo.getNomsInFolder(value, parentKey);
       emit(state.copyWith(noms: noms, status: SelectNomStatus.success));
     } catch (e) {
       emit(state.copyWith(status: SelectNomStatus.failure));

@@ -11,12 +11,6 @@ class DataSyncApiClient {
     final uri = Uri.http(
       ApiConstants.odataHost,
       '${ApiConstants.odataPath}/Catalog_Номенклатура?\$format=json&\$select=Ref_Key,Description,Артикул,ЕдиницаИзмерения,Parent_Key,IsFolder&\$filter=DeletionMark eq false',
-      //     {
-      //   "\$filter": "DeletionMark eq false",
-
-      //   "\$format": 'json',
-      //   "\$select": 'Ref_Key,Description,Артикул,ЕдиницаИзмерения,Parent_Key,',
-      // }
     );
 
     try {
@@ -32,7 +26,6 @@ class DataSyncApiClient {
 
       if (nomRes.statusCode == 200) {
         final json = jsonDecode(nomRes.body);
-        print((json['value'] as List).length);
         return (json['value'] as List).map((e) => Nom.fromJson(e)).toList();
       } else {
         throw Exception(
@@ -64,6 +57,7 @@ class DataSyncApiClient {
       if (nomRes.statusCode == 200) {
         final json = jsonDecode(nomRes.body);
         return (json['value'] as List).map((e) => Price.fromJson(e)).toList();
+
       } else {
         throw Exception(
             "${nomRes.reasonPhrase ?? ''} ${nomRes.statusCode} ${utf8.decode(nomRes.bodyBytes)}");

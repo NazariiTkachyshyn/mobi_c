@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:mobi_c/services/object_box/models/ob_counterparty.dart';
+import 'package:mobi_c/services/data_bases/object_box/models/ob_counterparty.dart';
 
 class Counterparty extends Equatable {
   final String refKey;

@@ -1,5 +1,5 @@
 import 'package:mobi_c/objectbox.g.dart';
-import 'package:mobi_c/services/object_box/models/models.dart';
+import 'package:mobi_c/services/data_bases/object_box/models/models.dart';
 import 'package:get_it/get_it.dart';
 
 class CreateOrderClient {

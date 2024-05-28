@@ -7,6 +7,8 @@ import 'package:mobi_c/models/models.dart';
 
 import '../../../common/common.dart';
 
+String parentKey = '';
+
 class SelectNomPage extends StatefulWidget {
   const SelectNomPage({super.key});
 
@@ -15,51 +17,105 @@ class SelectNomPage extends StatefulWidget {
 }
 
 class _SelectNomPageState extends State<SelectNomPage> {
+  @override
+  Widget build(context) {
+    return BlocProvider(
+        create: (context) => SelectNomCubit(
+            SelectNomRepoImpl(selectNomClient: SelectNomClient())),
+        child: const SelectNomView());
+  }
+}
+
+class SelectNomView extends StatefulWidget {
+  const SelectNomView({super.key});
+
+  @override
+  State<SelectNomView> createState() => _SelectNomViewState();
+}
+
+class _SelectNomViewState extends State<SelectNomView> {
   SearchType searchType = SearchType.folder;
+  @override
+  void initState() {
+    context.read<SelectNomCubit>().getAllNoms();
+    super.initState();
+  }
 
   @override
   Widget build(context) {
     final onSelect =
-        ModalRoute.of(context)!.settings.arguments as Function(Nom nom);
-    return BlocProvider(
-        create: (context) => SelectNomCubit(
-            SelectNomRepoImpl(selectNomClient: SelectNomClient())),
-        child: Scaffold(
-          appBar: AppBar(
-            centerTitle: false,
-            title: const Row(
-              children: [
-                Icon(Icons.production_quantity_limits),
-                Text('Товари'),
-              ],
-            ),
-            actions: [
-              IconButton(
-                  onPressed: () {
-                    searchType = searchType.isFolder
-                        ? SearchType.textField
-                        : SearchType.folder;
-                    setState(() {});
-                  },
-                  icon: Icon(searchType.isFolder
-                      ? Icons.search
-                      : Icons.folder_copy_outlined)),
+        ModalRoute.of(context)!.settings.arguments as Function(TreeNom nom);
+    return Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+              onPressed: () {
+                if (searchType.isFolder) {
+                  Navigator.pop(context);
+                }
+                context.read<SelectNomCubit>().getAllNoms();
+
+                searchType = SearchType.folder;
+                setState(() {});
+              },
+              icon: const Icon(Icons.arrow_back)),
+          centerTitle: false,
+          title: const Row(
+            children: [
+              Icon(Icons.production_quantity_limits),
+              Text('Товари'),
             ],
           ),
-          body: searchType.isFolder
-              ? _SearchByFolder(
-                  onSelect: onSelect,
-                )
-              : _SearchByTextField(
-                  onSelect: onSelect,
+        ),
+        body: searchType.isFolder
+            ? Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: BlocConsumer<SelectNomCubit, SelectNomState>(
+                  listener: (context, state) {},
+                  builder: (context, state) {
+                    List<TreeNom> treeData = buildTree(
+                        state.noms.map((e) => TreeNom.toTreeNom(e)).toList());
+
+                    return ListView(
+                      children: treeData
+                          .map((item) => buildNode(item, context))
+                          .toList(),
+                    );
+                  },
                 ),
-        ));
+              )
+            : _SearchByTextField(
+                onSelect: onSelect,
+                parentKey: parentKey,
+              ));
+  }
+
+  Widget buildNode(TreeNom node, BuildContext context) {
+    if (node.children.isEmpty) {
+      return ListTile(
+        title: Text(node.description),
+        onTap: () {
+          parentKey = node.ref;
+
+          searchType =
+              searchType.isFolder ? SearchType.textField : SearchType.folder;
+          setState(() {});
+        },
+      );
+    } else {
+      return ExpansionTile(
+        onExpansionChanged: (value) {},
+        title: Text(node.description),
+        children:
+            node.children.map((child) => buildNode(child, context)).toList(),
+      );
+    }
   }
 }
 
 class _SearchByTextField extends StatefulWidget {
-  const _SearchByTextField({required this.onSelect});
-  final Function(Nom nom) onSelect;
+  const _SearchByTextField({required this.onSelect, required this.parentKey});
+  final Function(TreeNom nom) onSelect;
+  final String parentKey;
 
   @override
   State<_SearchByTextField> createState() => _SearchByTextFieldState();
@@ -68,7 +124,7 @@ class _SearchByTextField extends StatefulWidget {
 class _SearchByTextFieldState extends State<_SearchByTextField> {
   @override
   void initState() {
-    context.read<SelectNomCubit>().getAllNoms();
+    context.read<SelectNomCubit>().getNomsByParentKey(widget.parentKey);
     super.initState();
   }
 
@@ -83,7 +139,9 @@ class _SearchByTextFieldState extends State<_SearchByTextField> {
             children: [
               TextField(
                 onChanged: (value) {
-                  context.read<SelectNomCubit>().getNoms(value);
+                  context
+                      .read<SelectNomCubit>()
+                      .getNomsInFolder(value, parentKey);
                 },
                 decoration:
                     const InputDecoration(labelText: 'Назва або артикул'),
@@ -102,7 +160,7 @@ class _SearchByTextFieldState extends State<_SearchByTextField> {
                         borderRadius: BorderRadius.circular(8)),
                     child: ListTile(
                       onTap: () {
-                        widget.onSelect(nom);
+                        // widget.onSelect(nom);
                       },
                       title: Text(nom.description),
                       subtitle: Text(nom.article),
@@ -118,63 +176,55 @@ class _SearchByTextFieldState extends State<_SearchByTextField> {
   }
 }
 
-class _SearchByFolder extends StatefulWidget {
-  const _SearchByFolder({required this.onSelect});
-  final Function(Nom nom) onSelect;
-
-  @override
-  State<_SearchByFolder> createState() => _SearchByFolderState();
-}
-
-class _SearchByFolderState extends State<_SearchByFolder> {
-  @override
-  void initState() {
-    context.read<SelectNomCubit>().getAllNoms();
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: BlocConsumer<SelectNomCubit, SelectNomState>(
-        listener: (context, state) {},
-        builder: (context, state) {
-          List<Nom> treeData = buildTree(state.noms);
-
-          return TreeWidget(
-            treeData: treeData,
-            onSelect: widget.onSelect,
-          );
-        },
-      ),
-    );
-  }
-}
-
-List<Nom> buildTree(List<Nom> noms) {
-  final Map<String, Nom> map = {};
-  final List<Nom> roots = [];
+List<TreeNom> buildTree(List<TreeNom> noms) {
+  final Map<String, TreeNom> map = {};
+  final List<TreeNom> roots = [
+    TreeNom(
+        id: 0,
+        ref: '',
+        isFolder: true,
+        description: 'Показати все',
+        article: '',
+        parentKey: '',
+        unitKey: '',
+        imageKey: '',
+        children: [],
+        price: 0)
+  ];
 
   for (var nom in noms) {
     map[nom.ref] = nom;
   }
 
   for (var nom in noms) {
-    if (nom.parentKey == '00000000-0000-0000-0000-000000000000' &&
-        nom.isFolder) {
+    if (nom.isFolder &&
+        (nom.ref == "08f6f5d4-24c0-11e1-b235-3e32ff0a5e79" ||
+            nom.ref == "08f6f5d4-24c0-11e1-b235-3e32ff0a5e79" ||
+            nom.ref == "35e3c75c-24bf-11e1-b235-3e32ff0a5e79" ||
+            nom.ref == "d1a81622-d0a2-11e1-9a25-c24921fc8a30")) {
       roots.add(nom);
     } else {
       map[nom.parentKey]?.addChild(nom);
     }
   }
+  roots.add(TreeNom(
+      id: 0,
+      ref: '',
+      isFolder: true,
+      description: '',
+      article: '',
+      parentKey: '',
+      unitKey: 'uniKey',
+      imageKey: '',
+      children: [],
+      price: 0));
 
   return roots;
 }
 
 class TreeWidget extends StatelessWidget {
-  final List<Nom> treeData;
-  final Function(Nom nom) onSelect;
+  final List<TreeNom> treeData;
+  final Function(TreeNom nom) onSelect;
 
   const TreeWidget({super.key, required this.treeData, required this.onSelect});
 
@@ -185,8 +235,8 @@ class TreeWidget extends StatelessWidget {
     );
   }
 
-  Widget buildNode(Nom node, BuildContext context) {
-    if (node.children.isEmpty && node.isFolder == false) {
+  Widget buildNode(TreeNom node, BuildContext context) {
+    if (node.children.isEmpty) {
       return ListTile(
         title: Text(node.description),
         onTap: () {
@@ -195,10 +245,52 @@ class TreeWidget extends StatelessWidget {
       );
     } else {
       return ExpansionTile(
+        onExpansionChanged: (value) {},
         title: Text(node.description),
         children:
             node.children.map((child) => buildNode(child, context)).toList(),
       );
     }
   }
+}
+
+class TreeNom {
+  final int id;
+  final String ref;
+  final bool isFolder;
+  final String description;
+  final String article;
+  final String parentKey;
+  final String unitKey;
+  final String imageKey;
+  final double price;
+  List<TreeNom> children;
+
+  TreeNom(
+      {required this.id,
+      required this.ref,
+      required this.isFolder,
+      required this.description,
+      required this.article,
+      required this.parentKey,
+      required this.unitKey,
+      required this.imageKey,
+      required this.children,
+      required this.price});
+
+  void addChild(TreeNom child) {
+    children.add(child);
+  }
+
+  factory TreeNom.toTreeNom(Nom nom) => TreeNom(
+      id: 0,
+      ref: nom.ref,
+      isFolder: nom.isFolder,
+      description: nom.description,
+      article: nom.article,
+      parentKey: nom.parentKey,
+      unitKey: nom.unitKey,
+      imageKey: nom.imageKey,
+      children: [],
+      price: nom.price);
 }

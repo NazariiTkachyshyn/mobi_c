@@ -1,6 +1,8 @@
+import 'package:mobi_c/objectbox.g.dart';
+import 'package:mobi_c/services/data_bases/object_box/models/models.dart';
 import 'package:objectbox/objectbox.dart';
 
-import '../../../models/models.dart';
+import '../../../../models/models.dart';
 
 @Entity()
 class ObNom {
@@ -15,6 +17,7 @@ class ObNom {
   String? parentKey;
   String? imageKey;
   String? unitKey;
+  final price = ToOne<ObPrice>();
 
   ObNom(
       {required this.ref,

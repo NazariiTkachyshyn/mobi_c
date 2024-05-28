@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import '../services/object_box/models/models.dart';
+import '../services/data_bases/object_box/models/models.dart';
 
 class OrderNom extends Equatable {
   final int id;

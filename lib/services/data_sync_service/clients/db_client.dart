@@ -1,50 +1,64 @@
 import 'package:mobi_c/models/models.dart';
 import 'package:mobi_c/objectbox.g.dart';
-import 'package:mobi_c/services/object_box/models/models.dart';
-import 'package:mobi_c/services/object_box/models/ob_counterparty.dart';
+import 'package:mobi_c/services/data_bases/object_box/models/models.dart';
+import 'package:mobi_c/services/data_bases/object_box/models/ob_counterparty.dart';
+import 'package:sqflite/sqflite.dart';
 
 class DataSyncDbClient {
   final Store _store;
+  final Database _sqlite;
 
-  DataSyncDbClient({required Store store}) : _store = store;
+  DataSyncDbClient({required Store store, required Database sqlite})
+      : _store = store,
+        _sqlite = sqlite;
 
   //^----------NOMENKLATURA----------------
-  List<Nom> getAllNoms() {
+  Future<List<Nom>> getAllNoms() async {
     try {
-      final obNom = _store.box<ObNom>().getAll();
+      final noms = await _sqlite.query('noms');
 
-      return obNom.map((e) => Nom.fromObNom(e)).toList();
+      return noms.map((e) => Nom.fromSql(e)).toList();
     } catch (e) {
       throw Exception(e);
     }
   }
 
-  void setNewNoms(Set<Nom> noms) async {
+  void setNewNoms(List<Map<String, dynamic>> data) async {
     try {
-      await _store
-          .box<ObNom>()
-          .putManyAsync(noms.map((e) => ObNom.fromApi(e)).toList());
+      Batch batch = _sqlite.batch();
+
+      for (var item in data) {
+        batch.insert('noms', item,
+            conflictAlgorithm: ConflictAlgorithm.replace);
+      }
+
+      await batch.commit(noResult: true);
     } catch (e) {
       throw Exception(e);
     }
   }
 
   //^----------PRICES----------------
-  List<Price> getAllPrices() {
+  Future<List<Price>> getAllPrices() async{
     try {
-      final obPrice = _store.box<ObPrice>().getAll();
+      final prices = await _sqlite.query('prices');
 
-      return obPrice.map((e) => Price.fromObPrice(e)).toList();
+      return prices.map((e) => Price.fromSql(e)).toList();
     } catch (e) {
       throw Exception(e);
     }
   }
 
-  void setNewPrices(Set<Price> prices) async {
+  void setNewPrices(List<Map<String, dynamic>> data) async {
     try {
-      await _store
-          .box<ObPrice>()
-          .putManyAsync(prices.map((e) => ObPrice.fromApi(e)).toList());
+   Batch batch = _sqlite.batch();
+
+      for (var item in data) {
+        batch.insert('prices', item,
+            conflictAlgorithm: ConflictAlgorithm.replace);
+      }
+
+      await batch.commit(noResult: true);
     } catch (e) {
       throw Exception(e);
     }

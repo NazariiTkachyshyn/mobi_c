@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:mobi_c/services/object_box/models/models.dart';
+import 'package:mobi_c/services/data_bases/object_box/models/models.dart';
 
 class Barcode extends Equatable {
   final String barcode;

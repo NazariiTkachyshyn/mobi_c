@@ -14,12 +14,12 @@ import 'package:objectbox/internal.dart'
 import 'package:objectbox/objectbox.dart' as obx;
 import 'package:objectbox_flutter_libs/objectbox_flutter_libs.dart';
 
-import 'services/object_box/models/ob.barcode.dart';
-import 'services/object_box/models/ob.price.dart';
-import 'services/object_box/models/ob_counterparty.dart';
-import 'services/object_box/models/ob_nom.dart';
-import 'services/object_box/models/ob_order_nom.dart';
-import 'services/object_box/models/ob_storage.dart';
+import 'services/data_bases/object_box/models/ob.barcode.dart';
+import 'services/data_bases/object_box/models/ob.price.dart';
+import 'services/data_bases/object_box/models/ob_counterparty.dart';
+import 'services/data_bases/object_box/models/ob_nom.dart';
+import 'services/data_bases/object_box/models/ob_order_nom.dart';
+import 'services/data_bases/object_box/models/ob_storage.dart';
 
 export 'package:objectbox/objectbox.dart'; // so that callers only have to import this file
 
@@ -27,7 +27,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
       id: const obx_int.IdUid(1, 7267715397295541197),
       name: 'ObNom',
-      lastPropertyId: const obx_int.IdUid(10, 7161420217736022023),
+      lastPropertyId: const obx_int.IdUid(11, 4489590605171627329),
       flags: 0,
       properties: <obx_int.ModelProperty>[
         obx_int.ModelProperty(
@@ -79,14 +79,21 @@ final _entities = <obx_int.ModelEntity>[
             id: const obx_int.IdUid(10, 7161420217736022023),
             name: 'isFolder',
             type: 1,
-            flags: 0)
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(11, 4489590605171627329),
+            name: 'priceId',
+            type: 11,
+            flags: 520,
+            indexId: const obx_int.IdUid(2, 9020169584786767910),
+            relationTarget: 'ObPrice')
       ],
       relations: <obx_int.ModelRelation>[],
       backlinks: <obx_int.ModelBacklink>[]),
   obx_int.ModelEntity(
       id: const obx_int.IdUid(2, 6879025521139470878),
       name: 'ObPrice',
-      lastPropertyId: const obx_int.IdUid(7, 2835483101819167717),
+      lastPropertyId: const obx_int.IdUid(8, 3433106400630908473),
       flags: 0,
       properties: <obx_int.ModelProperty>[
         obx_int.ModelProperty(
@@ -118,7 +125,14 @@ final _entities = <obx_int.ModelEntity>[
             id: const obx_int.IdUid(6, 5993533499103335044),
             name: 'price',
             type: 8,
-            flags: 0)
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(8, 3433106400630908473),
+            name: 'nomId',
+            type: 11,
+            flags: 520,
+            indexId: const obx_int.IdUid(3, 7103564559432852772),
+            relationTarget: 'ObNom')
       ],
       relations: <obx_int.ModelRelation>[],
       backlinks: <obx_int.ModelBacklink>[]),
@@ -316,7 +330,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
   final model = obx_int.ModelInfo(
       entities: _entities,
       lastEntityId: const obx_int.IdUid(6, 2530145175776008345),
-      lastIndexId: const obx_int.IdUid(1, 3024279412695165456),
+      lastIndexId: const obx_int.IdUid(3, 7103564559432852772),
       lastRelationId: const obx_int.IdUid(1, 722765356975776349),
       lastSequenceId: const obx_int.IdUid(0, 0),
       retiredEntityUids: const [],
@@ -330,7 +344,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
   final bindings = <Type, obx_int.EntityDefinition>{
     ObNom: obx_int.EntityDefinition<ObNom>(
         model: _entities[0],
-        toOneRelations: (ObNom object) => [],
+        toOneRelations: (ObNom object) => [object.price],
         toManyRelations: (ObNom object) => {},
         getId: (ObNom object) => object.id,
         setId: (ObNom object, int id) {
@@ -358,7 +372,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
           final articleLowerOffset = object.articleLower == null
               ? null
               : fbb.writeString(object.articleLower!);
-          fbb.startTable(11);
+          fbb.startTable(12);
           fbb.addInt64(0, object.id);
           fbb.addOffset(1, refOffset);
           fbb.addOffset(2, descriptionOffset);
@@ -369,6 +383,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
           fbb.addOffset(7, descriptionLowerOffset);
           fbb.addOffset(8, articleLowerOffset);
           fbb.addBool(9, object.isFolder);
+          fbb.addInt64(10, object.price.targetId);
           fbb.finish(fbb.endTable());
           return object.id;
         },
@@ -408,12 +423,14 @@ obx_int.ModelDefinition getObjectBoxModel() {
               id: idParam)
             ..imageKey = const fb.StringReader(asciiOptimization: true)
                 .vTableGetNullable(buffer, rootOffset, 14);
-
+          object.price.targetId =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 24, 0);
+          object.price.attach(store);
           return object;
         }),
     ObPrice: obx_int.EntityDefinition<ObPrice>(
         model: _entities[1],
-        toOneRelations: (ObPrice object) => [],
+        toOneRelations: (ObPrice object) => [object.nom],
         toManyRelations: (ObPrice object) => {},
         getId: (ObPrice object) => object.id,
         setId: (ObPrice object, int id) {
@@ -430,13 +447,14 @@ obx_int.ModelDefinition getObjectBoxModel() {
               : fbb.writeString(object.currencyKey!);
           final nomKeyOffset =
               object.nomKey == null ? null : fbb.writeString(object.nomKey!);
-          fbb.startTable(8);
+          fbb.startTable(9);
           fbb.addInt64(0, object.id);
           fbb.addOffset(1, priceTypeOffset);
           fbb.addOffset(2, packKeyOffset);
           fbb.addOffset(3, currencyKeyOffset);
           fbb.addOffset(4, nomKeyOffset);
           fbb.addFloat64(5, object.price);
+          fbb.addInt64(7, object.nom.targetId);
           fbb.finish(fbb.endTable());
           return object.id;
         },
@@ -463,7 +481,9 @@ obx_int.ModelDefinition getObjectBoxModel() {
               currencyKey: currencyKeyParam,
               nomKey: nomKeyParam,
               id: idParam);
-
+          object.nom.targetId =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 18, 0);
+          object.nom.attach(store);
           return object;
         }),
     ObStorage: obx_int.EntityDefinition<ObStorage>(
@@ -733,6 +753,10 @@ class ObNom_ {
   /// See [ObNom.isFolder].
   static final isFolder =
       obx.QueryBooleanProperty<ObNom>(_entities[0].properties[9]);
+
+  /// See [ObNom.price].
+  static final price =
+      obx.QueryRelationToOne<ObNom, ObPrice>(_entities[0].properties[10]);
 }
 
 /// [ObPrice] entity fields to define ObjectBox queries.
@@ -760,6 +784,10 @@ class ObPrice_ {
   /// See [ObPrice.price].
   static final price =
       obx.QueryDoubleProperty<ObPrice>(_entities[1].properties[5]);
+
+  /// See [ObPrice.nom].
+  static final nom =
+      obx.QueryRelationToOne<ObPrice, ObNom>(_entities[1].properties[6]);
 }
 
 /// [ObStorage] entity fields to define ObjectBox queries.

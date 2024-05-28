@@ -38,18 +38,18 @@ class _CreateOrderPageState extends State<_CreateOrderPage>
     tabController = TabController(
         length: 3, vsync: this, animationDuration: Duration(milliseconds: 100));
 
-    tabController.addListener(() {
-      if (!tabController.indexIsChanging) {
-        final state = context.read<CreateOrderCubit>().state;
-        if (tabController.index != 0 &&
-            state.counterparty == Counterparty.empty) {
-          tabController.index = 0;
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Клієнта не вибрано.')),
-          );
-        }
-      }
-    });
+    // tabController.addListener(() {
+    //   if (!tabController.indexIsChanging) {
+    //     final state = context.read<CreateOrderCubit>().state;
+    //     if (tabController.index != 0 &&
+    //         state.counterparty == Counterparty.empty) {
+    //       tabController.index = 0;
+    //       ScaffoldMessenger.of(context).showSnackBar(
+    //         const SnackBar(content: Text('Клієнта не вибрано.')),
+    //       );
+    //     }
+    //   }
+    // });
     super.initState();
   }
 
@@ -69,17 +69,18 @@ class _CreateOrderPageState extends State<_CreateOrderPage>
           leading: const Icon(Icons.note_alt_outlined),
           centerTitle: false,
           title: const Text('Замовлення'),
+          actions: [IconButton(onPressed: (){}, icon: Icon(Icons.more_vert_sharp))],
           bottom: TabBar(
             controller: tabController,
             onTap: (value) {
               final state = context.read<CreateOrderCubit>().state;
 
-              if (value != 0 && state.counterparty == Counterparty.empty) {
-                tabController.index = 0;
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Клієнта не вибрано.')),
-                );
-              }
+              // if (value != 0 && state.counterparty == Counterparty.empty) {
+              //   tabController.index = 0;
+              //   ScaffoldMessenger.of(context).showSnackBar(
+              //     const SnackBar(content: Text('Клієнта не вибрано.')),
+              //   );
+              // }
             },
             tabs: <Widget>[
               const Tab(

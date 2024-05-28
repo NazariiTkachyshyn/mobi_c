@@ -6,12 +6,12 @@ class Updater {
 
   Updater({required this.dbService});
 
-  Future<void> updateNomsOb(Set<Nom> noms) async {
-    dbService.setNewNoms(noms);
+  Future<void> updateNomsOb(Set<Nom> data) async {
+    dbService.setNewNoms(data.map((e) => e.toJson()).toList());
   }
 
-  Future<void> updatePricesOb(Set<Price> prices) async {
-    dbService.setNewPrices(prices);
+  Future<void> updatePricesOb(Set<Price> data) async {
+    dbService.setNewPrices(data.map((e) => e.toJson()).toList());
   }
 
   Future<void> updateStoragesOb(Set<Storage> storages) async {

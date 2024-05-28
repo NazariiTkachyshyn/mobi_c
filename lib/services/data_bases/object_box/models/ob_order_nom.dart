@@ -1,6 +1,6 @@
 import 'package:objectbox/objectbox.dart';
 
-import '../../../models/models.dart';
+import '../../../../models/models.dart';
 
 @Entity()
 class ObOrderNom {
