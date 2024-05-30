@@ -21,10 +21,13 @@ final class CreateOrderState extends Equatable {
       this.errorMassage = '',
       this.noms = const [],
       this.coment = '',
+      this.contracts = const [],
+      Discount? discount,
       Order? order,
       Counterparty? counterparty})
       : counterparty = counterparty ?? Counterparty.empty,
-        order = order ?? Order.empty;
+        order = order ?? Order.empty,
+        discount = discount ?? Discount.empty;
 
   final CreateOrderStatus status;
   final int orderId;
@@ -33,6 +36,8 @@ final class CreateOrderState extends Equatable {
   final String errorMassage;
   final List<OrderNom> noms;
   final String coment;
+  final List<Contract> contracts;
+  final Discount discount;
 
   double get summ => noms.fold(0, (a, b) => a + b.price);
   int get totalSumm => noms.fold(0, (a, b) => a + b.qty);
@@ -43,18 +48,31 @@ final class CreateOrderState extends Equatable {
       Order? order,
       String? errorMassage,
       Counterparty? counterparty,
-      List<OrderNom>? noms}) {
+      List<OrderNom>? noms,
+      List<Contract>? contracts,
+      Discount? discount}) {
     return CreateOrderState(
         status: status ?? this.status,
         order: order ?? this.order,
         orderId: orderId ?? this.orderId,
         errorMassage: errorMassage ?? this.errorMassage,
         counterparty: counterparty ?? this.counterparty,
-        noms: noms ?? this.noms);
+        noms: noms ?? this.noms,
+        contracts: contracts ?? this.contracts,
+        discount: discount ?? this.discount);
   }
 
   @override
-  List<Object?> get props =>
-      [status, orderId, errorMassage, counterparty, noms, order];
-}
+  List<Object?> get props => [
+        status,
+        orderId,
+        errorMassage,
+        counterparty,
+        noms,
+        order,
+        contracts,
+        discount
+      ];
 
+
+}

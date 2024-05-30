@@ -7,9 +7,9 @@ class Order extends Equatable {
   final DateTime? shipmentDate;
   final String counterpartyKey;
   final String partnerKey;
-  final String ofertaKey;
   final String storageKey;
   final String organization;
+  final String contractKey;
   final String comment;
   final List<OrderNom> goods;
 
@@ -18,8 +18,8 @@ class Order extends Equatable {
       required this.shipmentDate,
       required this.counterpartyKey,
       required this.partnerKey,
-      required this.ofertaKey,
       this.storageKey = KeyConst.storageKey,
+      required this.contractKey,
       this.organization = "49b22f0e-2258-11e1-b864-002354e1ef1c",
       required this.comment,
       required this.goods});
@@ -30,22 +30,22 @@ class Order extends Equatable {
     String? counterpartyKey,
     String? partnerKey,
     String? ofertaKey,
+    String? contractKey,
     String? storageKey,
     String? organization,
     String? comment,
     List<OrderNom>? goods,
   }) {
     return Order(
-      date: date ?? this.date,
-      shipmentDate: shipmentDate ?? this.shipmentDate,
-      counterpartyKey: counterpartyKey ?? this.counterpartyKey,
-      partnerKey: partnerKey ?? this.partnerKey,
-      ofertaKey: ofertaKey ?? this.ofertaKey,
-      storageKey: storageKey ?? this.storageKey,
-      organization: organization ?? this.organization,
-      comment: comment ?? this.comment,
-      goods: goods ?? this.goods,
-    );
+        date: date ?? this.date,
+        shipmentDate: shipmentDate ?? this.shipmentDate,
+        counterpartyKey: counterpartyKey ?? this.counterpartyKey,
+        partnerKey: partnerKey ?? this.partnerKey,
+        storageKey: storageKey ?? this.storageKey,
+        organization: organization ?? this.organization,
+        comment: comment ?? this.comment,
+        goods: goods ?? this.goods,
+        contractKey: contractKey ?? this.contractKey);
   }
 
   Map<String, dynamic> toJson(List<Map<String, dynamic>> products) {
@@ -57,14 +57,15 @@ class Order extends Equatable {
       "DeletionMark": false,
       'Контрагент_Key': counterpartyKey,
       'Партнер_Key': partnerKey,
-      'Соглашение_Key': ofertaKey,
       'Склад_Key': KeyConst.storageKey,
       'ЦенаВключаетНДС': true,
       'АвторасчетНДС': true,
       'Статус': "КОбеспечению",
+      "ДоговорКонтрагента_Key": contractKey,
       'ХозяйственнаяОперация': "РеализацияКлиенту",
       'ДокументОснование_Type': "StandardODATA.Undefined",
       'Согласован': false,
+      "СуммаДокумента": products.fold(0.0, (a, b) => a + b['Цена']),
       'Организация_Key': KeyConst.organizationKey,
       'Комментарий': comment,
       'Товары': products
@@ -72,16 +73,15 @@ class Order extends Equatable {
   }
 
   static const empty = Order(
-    date: null,
-    shipmentDate: null,
-    counterpartyKey: '',
-    partnerKey: '',
-    ofertaKey: '',
-    storageKey: '',
-    organization: '',
-    comment: '',
-    goods: [],
-  );
+      date: null,
+      shipmentDate: null,
+      counterpartyKey: '',
+      partnerKey: '',
+      storageKey: '',
+      organization: '',
+      comment: '',
+      goods: [],
+      contractKey: "");
 
   @override
   List<Object?> get props => [
@@ -89,11 +89,11 @@ class Order extends Equatable {
         shipmentDate,
         counterpartyKey,
         partnerKey,
-        ofertaKey,
         storageKey,
         organization,
         comment,
         goods,
+        contractKey
       ];
 }
 

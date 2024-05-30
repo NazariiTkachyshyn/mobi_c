@@ -1,3 +1,4 @@
+import 'package:mobi_c/common/func.dart';
 import 'package:mobi_c/feature/select_nom/cubit/select_nom_cubit.dart';
 import 'package:mobi_c/feature/select_nom/select_nom_client/select_nom_client.dart';
 import 'package:mobi_c/feature/select_nom/select_nom_repo/select_nom_repo.dart';
@@ -43,8 +44,10 @@ class _SelectNomViewState extends State<SelectNomView> {
 
   @override
   Widget build(context) {
-    final onSelect =
-        ModalRoute.of(context)!.settings.arguments as Function(Nom nom);
+    final arguments =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    final onSelect = arguments['onTap'] as Function(Nom nom);
+    final discount = arguments['discount'];
     return Scaffold(
         appBar: AppBar(
           leading: IconButton(
@@ -87,6 +90,7 @@ class _SelectNomViewState extends State<SelectNomView> {
             : _SearchByTextField(
                 onSelect: onSelect,
                 parentKey: parentKey,
+                discount: discount,
               ));
   }
 
@@ -119,9 +123,13 @@ class _SelectNomViewState extends State<SelectNomView> {
 }
 
 class _SearchByTextField extends StatefulWidget {
-  const _SearchByTextField({required this.onSelect, required this.parentKey});
+  const _SearchByTextField(
+      {required this.onSelect,
+      required this.parentKey,
+      required this.discount});
   final Function(Nom nom) onSelect;
   final String parentKey;
+  final double discount;
 
   @override
   State<_SearchByTextField> createState() => _SearchByTextFieldState();
@@ -165,11 +173,13 @@ class _SearchByTextFieldState extends State<_SearchByTextField> {
                         borderRadius: BorderRadius.circular(8)),
                     child: ListTile(
                       onTap: () {
-                        widget.onSelect(nom);
+                        widget.onSelect(nom.copyWith(
+                            price: nom.calcDiscount(widget.discount)));
                       },
                       title: Text(nom.description),
                       subtitle: Text(nom.article),
-                      trailing: Text(nom.price.toString()),
+                      trailing: Text(
+                          nom.calcDiscount(widget.discount).toStringAsFixed(2)),
                     ),
                   );
                 },

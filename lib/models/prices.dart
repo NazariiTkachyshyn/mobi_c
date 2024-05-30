@@ -16,7 +16,7 @@ class Price extends Equatable {
 
   factory Price.fromJson(Map<String, dynamic> json) => Price(
       price: ((json['Цена'] ?? 0) as num).toDouble(),
-      priceType: json['ВидЦены_Key'] ?? '',
+      priceType: json['ТипЦен_Key'] ?? '',
       packKey: json['Упаковка_Key'] ?? '',
       currencyKey: json['Валюта_Key'] ?? '',
       nomKey: json['Номенклатура_Key'] ?? '');
@@ -26,7 +26,7 @@ class Price extends Equatable {
 
         Map<String, dynamic> toJson() => {
         'Цена': price,
-        'ВидЦены_Key': priceType,
+        'ТипЦен_Key': priceType,
         'Упаковка_Key': packKey,
         'Валюта_Key': currencyKey,
         'Номенклатура_Key': nomKey,

@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:mobi_c/common/constants/key_const.dart';
-import 'package:mobi_c/common/odata_func.dart';
 import 'package:mobi_c/feature/create_order/create_order_repo/create_order_repo.dart';
 import 'package:mobi_c/models/order.dart';
 
@@ -19,12 +18,12 @@ class CreateOrderCubit extends Cubit<CreateOrderState> {
   }
 
   selectCounterparty(Counterparty counterparty) async {
-    final oferta = "000";
-    // await OdataClient().getOferta(counterparty.refKey);
+    await getContracts(counterparty.refKey);
+    await getDiscount(state.contracts.first.refKey);
     emit(state.copyWith(
         counterparty: counterparty,
         order: state.order.copyWith(
-            ofertaKey: oferta,
+          contractKey: state.contracts.first.refKey,
             counterpartyKey: counterparty.refKey,
             partnerKey: counterparty.refKey)));
   }
@@ -33,6 +32,26 @@ class CreateOrderCubit extends Cubit<CreateOrderState> {
     final order = state.order.copyWith(date: date);
     emit(state.copyWith(order: order));
     state;
+  }
+
+  Future<void> getContracts(String ownerKey) async {
+    try {
+      final contracts = await _createOrderRepo.getContracts(ownerKey);
+      emit(state.copyWith(
+          contracts: contracts, status: CreateOrderStatus.success));
+    } catch (e) {
+      emit(state.copyWith(status: CreateOrderStatus.failure));
+    }
+  }
+
+  Future<void> getDiscount(String discountRecipient) async {
+    try {
+      final discount = await _createOrderRepo.getDiscount(discountRecipient);
+      emit(state.copyWith(
+          discount: discount, status: CreateOrderStatus.success));
+    } catch (e) {
+      emit(state.copyWith(status: CreateOrderStatus.failure));
+    }
   }
 
   Future<void> getNoms() async {

@@ -23,9 +23,12 @@ class ProductView extends StatelessWidget {
               text: '',
               lableText: 'Пошук',
               onTap: () {
-                Navigator.pushNamed(context, 'selectNom', arguments: (nom) {
-                  context.read<CreateOrderCubit>().insertNom(nom);
-                  Navigator.pop(context);
+                Navigator.pushNamed(context, 'selectNom', arguments: {
+                  "onTap": (nom) {
+                    context.read<CreateOrderCubit>().insertNom(nom);
+                    Navigator.pop(context);
+                  },
+                  "discount": state.discount.percentDiscounts
                 });
               },
             ),
@@ -71,7 +74,7 @@ class ProductView extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             Text(nom.qty.toString() + " шт."),
-                            Text(nom.price.toString() + 'грн.')
+                            Text(nom.price.toStringAsFixed(2) + 'грн.')
                           ],
                         ),
                       ),

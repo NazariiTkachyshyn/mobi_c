@@ -12,6 +12,9 @@ abstract interface class CreateOrderRepo {
   Future<void> deleteNom(int id);
 
   Future<void> createOrder(Map<String, dynamic> order);
+
+  Future<List<Contract>> getContracts(String ownerKey);
+  Future<Discount> getDiscount(String discountRecipient);
 }
 
 class CreateOrderRepoImpl implements CreateOrderRepo {
@@ -60,6 +63,24 @@ class CreateOrderRepoImpl implements CreateOrderRepo {
   Future<void> createOrder(Map<String, dynamic> order) async {
     try {
       await _createOrderClient.createOrder(order);
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  @override
+  Future<List<Contract>> getContracts(String ownerKey) async {
+    try {
+      return await _createOrderClient.getContracts(ownerKey);
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  @override
+  Future<Discount> getDiscount(String discountRecipient) async {
+    try {
+      return await _createOrderClient.getDiscount(discountRecipient);
     } catch (e) {
       throw Exception(e);
     }

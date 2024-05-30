@@ -40,7 +40,7 @@ class DataSyncApiClient {
   Future<List<Price>> getAllPrices() async {
     final uri = Uri.http(
         ApiConstants.odataHost,
-        '${ApiConstants.odataPath}/InformationRegister_ЦеныНоменклатуры_RecordType/SliceLast',
+        "${ApiConstants.odataPath}/InformationRegister_ЦеныНоменклатуры_RecordType/SliceLast?\$filter=ТипЦен_Key eq guid'940e4d76-9712-11e4-249e-8e887ee7bcbd'",
         {"\$format": 'json'});
 
     try {
@@ -57,7 +57,6 @@ class DataSyncApiClient {
       if (nomRes.statusCode == 200) {
         final json = jsonDecode(nomRes.body);
         return (json['value'] as List).map((e) => Price.fromJson(e)).toList();
-
       } else {
         throw Exception(
             "${nomRes.reasonPhrase ?? ''} ${nomRes.statusCode} ${utf8.decode(nomRes.bodyBytes)}");
@@ -130,6 +129,40 @@ class DataSyncApiClient {
     }
   }
 
+  //^----------CONTRAKT----------------
+
+  Future<List<Contract>> getAllContract() async {
+    final uri = Uri.http(ApiConstants.odataHost,
+        '${ApiConstants.odataPath}/Catalog_ДоговорыКонтрагентов', {
+      "\$format": 'json',
+      "\$select": "Ref_Key,Owner_Key,Description,Организация_Key",
+    });
+
+    try {
+      final nomRes = await http.get(
+        uri,
+        headers: {
+          'Authorization': ApiConstants.basicAuth,
+          "Accept": "application/json",
+          "Accept-Charset": "UTF-8",
+          "Content-Type": "application/json",
+        },
+      );
+
+      if (nomRes.statusCode == 200) {
+        final json = jsonDecode(nomRes.body);
+        print((json['value'] as List).length);
+        return (json['value'] as List)
+            .map((e) => Contract.fromJson(e))
+            .toList();
+      } else {
+        throw Exception(
+            "${nomRes.reasonPhrase ?? ''} ${nomRes.statusCode} ${utf8.decode(nomRes.bodyBytes)}");
+      }
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
   //^----------KONTRAGENT----------------
 
   Future<List<Counterparty>> getAllCounterparty() async {
@@ -155,6 +188,42 @@ class DataSyncApiClient {
         final json = jsonDecode(nomRes.body);
         return (json['value'] as List)
             .map((e) => Counterparty.fromJson(e))
+            .toList();
+      } else {
+        throw Exception(
+            "${nomRes.reasonPhrase ?? ''} ${nomRes.statusCode} ${utf8.decode(nomRes.bodyBytes)}");
+      }
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  //^----------DISCOUNT----------------
+
+  Future<List<Discount>> getAllDiscount() async {
+    final uri = Uri.http(
+        ApiConstants.odataHost,
+        '${ApiConstants.odataPath}/InformationRegister_СкидкиНаценкиНоменклатуры_RecordType',
+        {
+          "\$format": 'json',
+          "\$select": "ПолучательСкидки,ПроцентСкидкиНаценки",
+        });
+
+    try {
+      final nomRes = await http.get(
+        uri,
+        headers: {
+          'Authorization': ApiConstants.basicAuth,
+          "Accept": "application/json",
+          "Accept-Charset": "UTF-8",
+          "Content-Type": "application/json",
+        },
+      );
+
+      if (nomRes.statusCode == 200) {
+        final json = jsonDecode(nomRes.body);
+        return (json['value'] as List)
+            .map((e) => Discount.fromJson(e))
             .toList();
       } else {
         throw Exception(

@@ -61,6 +61,14 @@ class _CounterpartyViewState extends State<CounterpartyView> {
                       } as Function));
                 },
               ),
+              const Padding(padding: EdgeInsets.all(4)),
+              TextFielButton(
+                text: state.contracts.isEmpty
+                    ? "Відсутній"
+                    : state.contracts.first.description,
+                lableText: 'Угода',
+                onTap: () {},
+              ),
             ],
           ),
         );

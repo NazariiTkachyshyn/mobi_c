@@ -76,6 +76,7 @@ class _SearchByTextField extends StatelessWidget {
                         borderRadius: BorderRadius.circular(8)),
                     child: ListTile(
                       onTap: () {
+                        print(counterparty.refKey);
                         onTup(counterparty);
                       },
                       title: Text(counterparty.description),

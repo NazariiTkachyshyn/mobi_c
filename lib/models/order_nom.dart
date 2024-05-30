@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:mobi_c/common/constants/api_constants.dart';
 import 'package:mobi_c/common/constants/key_const.dart';
 import 'package:mobi_c/models/models.dart';
 
@@ -64,12 +63,13 @@ class OrderNom extends Equatable {
     return {
       'LineNumber': number,
       'Номенклатура_Key': ref,
+      "ЕдиницаИзмерения_Key": KeyConst.unitKey,
       'Склад_Key': KeyConst.storageKey,
       'КоличествоУпаковок': qty,
       'Количество': qty,
       'Цена': price,
       'СтавкаНДС': 'НДС20',
-      'ВидЦены_Key': KeyConst.priceType,
+      'ТипЦен_Key': KeyConst.priceType,
       'ВариантОбеспечения': 'Отгрузить',
     };
   }

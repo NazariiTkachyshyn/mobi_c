@@ -1,3 +1,4 @@
+import 'package:mobi_c/common/constants/table_named.dart';
 import 'package:mobi_c/feature/create_order/ui/create_order_page.dart';
 import 'package:mobi_c/feature/select_counterparty/ui/select_counterparty_page.dart';
 import 'package:mobi_c/feature/select_nom/ui/select_nom_page.dart';
@@ -10,16 +11,16 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get_it/get_it.dart';
 import 'package:sqflite/sqflite.dart';
 
-
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   final sqlite = await SQFLiteServices().database;
 
-// await sqlite.delete('noms');
-// await sqlite.delete('prices');
-// await sqlite.delete('counterparty');
+  await sqlite.delete(tableNoms);
+  await sqlite.delete(tablePrices);
+  await sqlite.delete(tableCounterparty);
+  await sqlite.delete(tableContract);
+  await sqlite.delete(tableDiscount);
 
   GetIt.instance.registerSingleton<Database>(sqlite);
 
@@ -31,19 +32,20 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
     // objectbox.store.box<ObNom>().removeAll();
     // objectbox.store.box<ObPrice>().removeAll();
     // objectbox.store.box<ObBarocde>().removeAll();
     // objectbox.store.box<ObStorage>().removeAll();
     // objectbox.store.box<ObCounterparty>().removeAll();
     // DataSyncService().syncBarcodesData();
-        // DataSyncService().syncStoragesData();
+    // DataSyncService().syncStoragesData();
 
+    DataSyncService().syncDiscountData();
+    DataSyncService().syncNomData();
+    DataSyncService().syncPriceData();
+    DataSyncService().syncCounterpartyData();
+    DataSyncService().syncContractData();
 
-    // DataSyncService().syncNomData();
-    // DataSyncService().syncPriceData();
-    // DataSyncService().syncCounterpartyData();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       localizationsDelegates: const [GlobalMaterialLocalizations.delegate],

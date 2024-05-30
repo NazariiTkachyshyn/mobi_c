@@ -47,7 +47,7 @@ class DataSyncService {
 
       if (validationResult.needsUpdate) {
         await updater
-            .updatePricesOb(validationResult.updatedData)
+            .updatePrices(validationResult.updatedData)
             .whenComplete(() => print('Price updated'));
         return 1;
       } else {
@@ -104,6 +104,28 @@ class DataSyncService {
 //     }
 //   }
 
+  Future<int> syncContractData() async {
+    try {
+      final dbData = await _dbClient.getAllContract();
+      final apiData = await _apiClient.getAllContract();
+
+      final validationResult = validator.validate(apiData, dbData);
+
+      if (validationResult.needsUpdate) {
+        await updater
+            .updateContract(validationResult.updatedData)
+            .whenComplete(() => print('Contract updated'));
+        return 1;
+      } else {
+        print('Contract is already up to date.');
+        return 0;
+      }
+    } catch (e) {
+      print('Error during data sync: $e');
+      return 2;
+    }
+  }
+
   Future<int> syncCounterpartyData() async {
     try {
       final dbData = await _dbClient.getAllCounterparty();
@@ -113,11 +135,33 @@ class DataSyncService {
 
       if (validationResult.needsUpdate) {
         await updater
-            .updateCounterpartyOb(validationResult.updatedData)
+            .updateCounterparty(validationResult.updatedData)
             .whenComplete(() => print('Counterparty updated'));
         return 1;
       } else {
         print('Counterparty is already up to date.');
+        return 0;
+      }
+    } catch (e) {
+      print('Error during data sync: $e');
+      return 2;
+    }
+  }
+
+  Future<int> syncDiscountData() async {
+    try {
+      final dbData = await _dbClient.getAllDiscount();
+      final apiData = await _apiClient.getAllDiscount();
+
+      final validationResult = validator.validate(apiData, dbData);
+
+      if (validationResult.needsUpdate) {
+        await updater
+            .updateDiscount(validationResult.updatedData)
+            .whenComplete(() => print('Discount updated'));
+        return 1;
+      } else {
+        print('Discount is already up to date.');
         return 0;
       }
     } catch (e) {
