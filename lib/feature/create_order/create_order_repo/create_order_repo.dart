@@ -1,16 +1,17 @@
 import 'package:mobi_c/feature/create_order/create_order_client/cerate_order_client.dart';
-import 'package:mobi_c/services/data_bases/object_box/models/models.dart';
 
 import '../../../models/models.dart';
 
 abstract interface class CreateOrderRepo {
   Future<List<OrderNom>> getNoms(int orderId);
 
-  Future<void> insertNom(OrderNom nom);
+  Future<void> insertNom(OrderNom nom, int orderId);
 
-  Future<void> updateNom(OrderNom nom);
+  Future<void> updateNom(int id, int qty);
 
   Future<void> deleteNom(int id);
+
+  Future<void> createOrder(Map<String, dynamic> order);
 }
 
 class CreateOrderRepoImpl implements CreateOrderRepo {
@@ -22,17 +23,16 @@ class CreateOrderRepoImpl implements CreateOrderRepo {
   @override
   Future<List<OrderNom>> getNoms(int orderId) async {
     try {
-      final obNoms = await _createOrderClient.getNoms(orderId);
-      return obNoms.map((e) => OrderNom.fromOb(e)).toList();
+      return await _createOrderClient.getNoms(orderId);
     } catch (e) {
       throw Exception(e);
     }
   }
 
   @override
-  Future<void> insertNom(OrderNom nom) async {
+  Future<void> insertNom(OrderNom nom, int orderId) async {
     try {
-      await _createOrderClient.insertNom(ObOrderNom.fromOrderNom(nom));
+      await _createOrderClient.insertNom(nom, orderId);
     } catch (e) {
       throw Exception(e);
     }
@@ -48,9 +48,18 @@ class CreateOrderRepoImpl implements CreateOrderRepo {
   }
 
   @override
-  Future<void> updateNom(OrderNom nom) async {
+  Future<void> updateNom(int id, int qty) async {
     try {
-      await _createOrderClient.updateNom(ObOrderNom.fromOrderNom(nom));
+      await _createOrderClient.updateNom(id, qty);
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  @override
+  Future<void> createOrder(Map<String, dynamic> order) async {
+    try {
+      await _createOrderClient.createOrder(order);
     } catch (e) {
       throw Exception(e);
     }

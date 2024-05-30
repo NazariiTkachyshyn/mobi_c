@@ -2,11 +2,12 @@ import '../../../models/models.dart';
 import '../select_nom_client/select_nom_client.dart';
 
 abstract interface class SelectNomRepo {
-  Future<List<Nom>> getNoms(String value);
-  Future<List<Nom>> getNomsByParentKey(String parentKey);
-  Future<List<Nom>> getNomsInFolder(String value, String parentKey);
-
+  
   Future<List<Nom>> getAllNoms();
+
+  Future<List<Nom>> getNomsByParentKey(String parentKey);
+
+  Future<List<Nom>> getFolders();
 }
 
 class SelectNomRepoImpl implements SelectNomRepo {
@@ -16,9 +17,9 @@ class SelectNomRepoImpl implements SelectNomRepo {
       : _selecNomClient = selectNomClient;
 
   @override
-  Future<List<Nom>> getAllNoms() async {
+  Future<List<Nom>> getFolders() async {
     try {
-      final noms = await _selecNomClient.getAll();
+      final noms = await _selecNomClient.getFolders();
       return noms;
     } catch (e) {
       throw Exception(e);
@@ -26,14 +27,13 @@ class SelectNomRepoImpl implements SelectNomRepo {
   }
 
   @override
-  Future<List<Nom>> getNoms(String value) async {
-    // try {
-    //   final obCounterpartys = await _selecNomClient.getNoms(value);
-    //   return obCounterpartys.map((e) => Nom.fromObNom(e)).toList();
-    // } catch (e) {
-    //   throw Exception(e);
-    // }
-    return [];
+  Future<List<Nom>> getAllNoms() async {
+    try {
+      final noms = await _selecNomClient.getAllNoms();
+      return noms;
+    } catch (e) {
+      throw Exception(e);
+    }
   }
 
   @override
@@ -46,13 +46,5 @@ class SelectNomRepoImpl implements SelectNomRepo {
     }
   }
 
-  @override
-  Future<List<Nom>> getNomsInFolder(String value, String parentKey) async {
-    try {
-      final noms = await _selecNomClient.getNomsInFolder(value, parentKey);
-      return noms;
-    } catch (e) {
-      throw Exception(e);
-    }
-  }
+
 }

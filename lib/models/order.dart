@@ -1,128 +1,103 @@
 import 'package:equatable/equatable.dart';
+import 'package:mobi_c/common/constants/key_const.dart';
+import 'package:mobi_c/models/models.dart';
 
 class Order extends Equatable {
-  final DateTime date;
-  final DateTime preferredShippingDate;
-  final DateTime shippingDate;
-  final String counterpartyRef;
-  final bool posted;
-  final bool deleteionMark;
-  final String oferta;
+  final DateTime? date;
+  final DateTime? shipmentDate;
+  final String counterpartyKey;
+  final String partnerKey;
+  final String ofertaKey;
   final String storageKey;
-  final bool nds;
-  final bool autoCalcNds;
-  final String status;
-  final String operation;
-  final String documentBaseType;
-  final bool agreed;
-  final String organizationKey;
-  final List<Product> products;
+  final String organization;
+  final String comment;
+  final List<OrderNom> goods;
 
   const Order(
       {required this.date,
-      required this.preferredShippingDate,
-      required this.shippingDate,
-      required this.counterpartyRef,
-      required this.posted,
-      required this.deleteionMark,
-      required this.oferta,
-      required this.storageKey,
-      required this.nds,
-      required this.autoCalcNds,
-      required this.status,
-      required this.operation,
-      required this.documentBaseType,
-      required this.agreed,
-      required this.organizationKey,
-      required this.products});
+      required this.shipmentDate,
+      required this.counterpartyKey,
+      required this.partnerKey,
+      required this.ofertaKey,
+      this.storageKey = KeyConst.storageKey,
+      this.organization = "49b22f0e-2258-11e1-b864-002354e1ef1c",
+      required this.comment,
+      required this.goods});
+
+  Order copyWith({
+    DateTime? date,
+    DateTime? shipmentDate,
+    String? counterpartyKey,
+    String? partnerKey,
+    String? ofertaKey,
+    String? storageKey,
+    String? organization,
+    String? comment,
+    List<OrderNom>? goods,
+  }) {
+    return Order(
+      date: date ?? this.date,
+      shipmentDate: shipmentDate ?? this.shipmentDate,
+      counterpartyKey: counterpartyKey ?? this.counterpartyKey,
+      partnerKey: partnerKey ?? this.partnerKey,
+      ofertaKey: ofertaKey ?? this.ofertaKey,
+      storageKey: storageKey ?? this.storageKey,
+      organization: organization ?? this.organization,
+      comment: comment ?? this.comment,
+      goods: goods ?? this.goods,
+    );
+  }
+
+  Map<String, dynamic> toJson(List<Map<String, dynamic>> products) {
+    return {
+      'Date': (date ?? DateTime.now()).toIso8601String(),
+      'ЖелаемаяДатаОтгрузки': (date ?? DateTime.now()).toIso8601String(),
+      "ДатаОтгрузки": (date ?? DateTime.now()).toIso8601String(),
+      "Posted": false,
+      "DeletionMark": false,
+      'Контрагент_Key': counterpartyKey,
+      'Партнер_Key': partnerKey,
+      'Соглашение_Key': ofertaKey,
+      'Склад_Key': KeyConst.storageKey,
+      'ЦенаВключаетНДС': true,
+      'АвторасчетНДС': true,
+      'Статус': "КОбеспечению",
+      'ХозяйственнаяОперация': "РеализацияКлиенту",
+      'ДокументОснование_Type': "StandardODATA.Undefined",
+      'Согласован': false,
+      'Организация_Key': KeyConst.organizationKey,
+      'Комментарий': comment,
+      'Товары': products
+    };
+  }
+
+  static const empty = Order(
+    date: null,
+    shipmentDate: null,
+    counterpartyKey: '',
+    partnerKey: '',
+    ofertaKey: '',
+    storageKey: '',
+    organization: '',
+    comment: '',
+    goods: [],
+  );
 
   @override
   List<Object?> get props => [
         date,
-        preferredShippingDate,
-        shippingDate,
-        counterpartyRef,
-        posted,
-        deleteionMark,
-        oferta,
+        shipmentDate,
+        counterpartyKey,
+        partnerKey,
+        ofertaKey,
         storageKey,
-        nds,
-        autoCalcNds,
-        status,
-        operation,
-        documentBaseType,
-        agreed,
-        organizationKey,
-        products
-      ];
-
-  Map<String, dynamic> toJson(Order order) => {
-        "Date": date,
-        "Posted": posted,
-        "DeletionMark": deleteionMark,
-        "Контрагент_Key": counterpartyRef,
-        "Партнер_Key": counterpartyRef,
-        "Соглашение_Key": oferta,
-        "Склад_Key": storageKey,
-        "ЖелаемаяДатаОтгрузки": preferredShippingDate,
-        "ДатаОтгрузки": shippingDate,
-        "ЦенаВключаетНДС": nds,
-        "АвторасчетНДС": autoCalcNds,
-        "Статус": status,
-        "ХозяйственнаяОперация": operation,
-        "ДокументОснование_Type": documentBaseType,
-        "Согласован": agreed,
-        "Организация_Key": organizationKey,
-        "Товары": products.map((e) => e.toJson()).toList()
-      };
-}
-
-class Product extends Equatable {
-  final String lineNumber;
-  final String nomKey;
-  final String storageKey;
-  final int packCount;
-  final int count;
-  final String price;
-  final String ndsRate;
-  final String priceTypeKey;
-  final String optionProvision;
-
-  const Product(
-      {required this.lineNumber,
-      required this.nomKey,
-      required this.storageKey,
-      required this.packCount,
-      required this.count,
-      required this.price,
-      required this.ndsRate,
-      required this.priceTypeKey,
-      required this.optionProvision});
-
-  Map<String, dynamic> toJson() => {
-        "LineNumber": lineNumber,
-        "Номенклатура_Key": nomKey,
-        "Склад_Key": storageKey,
-        "КоличествоУпаковок": packCount,
-        "Количество": count,
-        "Цена": price,
-        "СтавкаНДС": ndsRate,
-        "ВидЦены_Key": priceTypeKey,
-        "ВариантОбеспечения": optionProvision
-      };
-  @override
-  List<Object?> get props => [
-        lineNumber,
-        nomKey,
-        storageKey,
-        packCount,
-        count,
-        price,
-        ndsRate,
-        priceTypeKey,
-        optionProvision
+        organization,
+        comment,
+        goods,
       ];
 }
+
+
 
 
 

@@ -18,30 +18,36 @@ final class CreateOrderState extends Equatable {
   const CreateOrderState(
       {this.status = CreateOrderStatus.initial,
       this.orderId = 0,
-      this.date,
       this.errorMassage = '',
       this.noms = const [],
+      this.coment = '',
+      Order? order,
       Counterparty? counterparty})
-      : counterparty = counterparty ?? Counterparty.empty;
+      : counterparty = counterparty ?? Counterparty.empty,
+        order = order ?? Order.empty;
 
   final CreateOrderStatus status;
   final int orderId;
   final Counterparty counterparty;
-  final DateTime? date;
+  final Order order;
   final String errorMassage;
   final List<OrderNom> noms;
+  final String coment;
+
+  double get summ => noms.fold(0, (a, b) => a + b.price);
+  int get totalSumm => noms.fold(0, (a, b) => a + b.qty);
 
   CreateOrderState copyWith(
       {CreateOrderStatus? status,
       int? orderId,
+      Order? order,
       String? errorMassage,
-      DateTime? date,
       Counterparty? counterparty,
       List<OrderNom>? noms}) {
     return CreateOrderState(
         status: status ?? this.status,
+        order: order ?? this.order,
         orderId: orderId ?? this.orderId,
-        date: date ?? this.date,
         errorMassage: errorMassage ?? this.errorMassage,
         counterparty: counterparty ?? this.counterparty,
         noms: noms ?? this.noms);
@@ -49,5 +55,6 @@ final class CreateOrderState extends Equatable {
 
   @override
   List<Object?> get props =>
-      [status, orderId, errorMassage, counterparty, date, noms];
+      [status, orderId, errorMassage, counterparty, noms, order];
 }
+

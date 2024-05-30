@@ -30,7 +30,7 @@ class _CounterpartyViewState extends State<CounterpartyView> {
                   width: 130,
                   child: TextFielButton(
                     text: DateFormat('dd.MM.yy')
-                        .format(state.date ?? DateTime.now()),
+                        .format(state.order.date ?? DateTime.now()),
                     lableText: 'Дата',
                     onTap: () async {
                       selectDate = await showDatePicker(

@@ -17,26 +17,32 @@ extension SelectCounterpartyStatusX on SelectCounterpartyStatus {
 final class SelectCounterpartyState extends Equatable {
   const SelectCounterpartyState({
     this.status = SelectCounterpartyStatus.initial,
+    this.allCounterparty = const [],
     this.counterparty = const [],
     this.errorMassage = '',
   });
 
   final SelectCounterpartyStatus status;
+  final List<Counterparty> allCounterparty;
   final List<Counterparty> counterparty;
+
   final String errorMassage;
 
   SelectCounterpartyState copyWith({
     SelectCounterpartyStatus? status,
+    List<Counterparty>? allCounterparty,
     List<Counterparty>? counterparty,
     String? errorMassage,
   }) {
     return SelectCounterpartyState(
       status: status ?? this.status,
+      allCounterparty: allCounterparty ?? this.allCounterparty,
       counterparty: counterparty ?? this.counterparty,
       errorMassage: errorMassage ?? this.errorMassage,
     );
   }
 
   @override
-  List<Object?> get props => [status, errorMassage, counterparty];
+  List<Object?> get props =>
+      [status, errorMassage, allCounterparty, counterparty];
 }

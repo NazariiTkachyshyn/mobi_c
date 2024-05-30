@@ -1,4 +1,3 @@
-import 'package:mobi_c/objectbox.g.dart';
 import 'package:mobi_c/services/data_sync_service/clients/api_client.dart';
 import 'package:mobi_c/services/data_sync_service/clients/db_client.dart';
 import 'package:get_it/get_it.dart';
@@ -10,10 +9,10 @@ import 'updater.dart';
 class DataSyncService {
   final DataSyncApiClient _apiClient = DataSyncApiClient();
   final DataSyncDbClient _dbClient =
-      DataSyncDbClient(store: GetIt.I.get<Store>(),sqlite: GetIt.I.get<Database>());
+      DataSyncDbClient(sqlite: GetIt.I.get<Database>());
   final Validator validator = Validator();
   final Updater updater =
-      Updater(dbService: DataSyncDbClient(store: GetIt.I.get<Store>(),sqlite: GetIt.I.get<Database>()));
+      Updater(dbService: DataSyncDbClient(sqlite: GetIt.I.get<Database>()));
 
   DataSyncService();
 
@@ -26,7 +25,7 @@ class DataSyncService {
 
       if (validationResult.needsUpdate) {
         await updater
-            .updateNomsOb(validationResult.updatedData)
+            .updateNoms(validationResult.updatedData)
             .whenComplete(() => print('Nom updated'));
         return 1;
       } else {
@@ -61,53 +60,53 @@ class DataSyncService {
     }
   }
 
-  Future<int> syncStoragesData() async {
-    try {
-      final dbData = _dbClient.getAllStorages();
-      final apiData = await _apiClient.getAllStorages();
+//   Future<int> syncStoragesData() async {
+//     try {
+//       final dbData = _dbClient.getAllStorages();
+//       final apiData = await _apiClient.getAllStorages();
 
-      final validationResult = validator.validate(apiData, dbData);
+//       final validationResult = validator.validate(apiData, dbData);
 
-      if (validationResult.needsUpdate) {
-        await updater
-            .updateStoragesOb(validationResult.updatedData)
-            .whenComplete(() => print('Storages updated'));
-        return 1;
-      } else {
-        print('Storages is already up to date.');
-        return 0;
-      }
-    } catch (e) {
-      print('Error during data sync: $e');
-      return 2;
-    }
-  }
+//       if (validationResult.needsUpdate) {
+//         await updater
+//             .updateStoragesOb(validationResult.updatedData)
+//             .whenComplete(() => print('Storages updated'));
+//         return 1;
+//       } else {
+//         print('Storages is already up to date.');
+//         return 0;
+//       }
+//     } catch (e) {
+//       print('Error during data sync: $e');
+//       return 2;
+//     }
+//   }
 
-  Future<int> syncBarcodesData() async {
-    try {
-      final dbData = _dbClient.getAllBarcodes();
-      final apiData = await _apiClient.getAllBarcodes();
+//   Future<int> syncBarcodesData() async {
+//     try {
+//       final dbData = _dbClient.getAllBarcodes();
+//       final apiData = await _apiClient.getAllBarcodes();
 
-      final validationResult = validator.validate(apiData, dbData);
+//       final validationResult = validator.validate(apiData, dbData);
 
-      if (validationResult.needsUpdate) {
-        await updater
-            .updateBarcodesOb(validationResult.updatedData)
-            .whenComplete(() => print('Barcodes updated'));
-        return 1;
-      } else {
-        print('Barcodes is already up to date.');
-        return 0;
-      }
-    } catch (e) {
-      print('Error during data sync: $e');
-      return 2;
-    }
-  }
+//       if (validationResult.needsUpdate) {
+//         await updater
+//             .updateBarcodesOb(validationResult.updatedData)
+//             .whenComplete(() => print('Barcodes updated'));
+//         return 1;
+//       } else {
+//         print('Barcodes is already up to date.');
+//         return 0;
+//       }
+//     } catch (e) {
+//       print('Error during data sync: $e');
+//       return 2;
+//     }
+//   }
 
   Future<int> syncCounterpartyData() async {
     try {
-      final dbData = _dbClient.getAllCounterparty();
+      final dbData = await _dbClient.getAllCounterparty();
       final apiData = await _apiClient.getAllCounterparty();
 
       final validationResult = validator.validate(apiData, dbData);

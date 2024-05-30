@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:mobi_c/services/data_bases/object_box/models/ob_counterparty.dart';
 
 class Counterparty extends Equatable {
   final String refKey;
@@ -22,13 +21,15 @@ class Counterparty extends Equatable {
       description: json['Description'] ?? '',
       fullDescription: json['НаименованиеПолное'] ?? '');
 
-  factory Counterparty.fromObCounterparty(ObCounterparty counterparty) =>
-      Counterparty(
-          refKey: counterparty.refKey ?? '',
-          mainCounterpartyKey: counterparty.mainCounterpartyKey ?? '',
-          partnerKey: counterparty.partnerKey ?? '',
-          description: counterparty.description ?? '',
-          fullDescription: counterparty.fullDescription ?? '');
+  Map<String, dynamic> toJson() {
+    return {
+      'Ref_Key': refKey,
+      'ГоловнойКонтрагент_Key': mainCounterpartyKey,
+      'Партнер_Key': partnerKey,
+      'Description': description,
+      'НаименованиеПолное': fullDescription,
+    };
+  }
 
   static const empty = Counterparty(
       refKey: '',

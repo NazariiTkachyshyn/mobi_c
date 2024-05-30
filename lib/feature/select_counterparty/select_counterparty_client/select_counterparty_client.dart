@@ -1,44 +1,25 @@
-import 'package:mobi_c/objectbox.g.dart';
 import 'package:get_it/get_it.dart';
-
-import '../../../services/data_bases/object_box/models/ob_counterparty.dart';
+import 'package:mobi_c/models/counterparty.dart';
+import 'package:sqflite/sqflite.dart';
 
 class SelectCounterpartyClient {
-  final db = GetIt.I.get<Store>();
+  final sqlite = GetIt.I.get<Database>();
 
-  Future<List<ObCounterparty>> getAll() async {
+  Future<List<Counterparty>> getAll() async {
     try {
-      final counterparty = db.box<ObCounterparty>().getAll();
-      return counterparty;
+      final counterparty = await sqlite.query('counterparty');
+      return counterparty.map((e) => Counterparty.fromJson(e)).toList();
     } catch (e) {
       throw Exception(e);
     }
   }
 
-  Future<List<ObCounterparty>> getByParendKey(String parentKey) async {
+  Future<List<Counterparty>> getCounterpartys(String value) async {
     try {
-      final query = db
-          .box<ObCounterparty>()
-          .query(ObCounterparty_.partnerKey.equals(parentKey))
-          .build();
-      final counterparty = await query.findAsync();
-      return counterparty;
-    } catch (e) {
-      throw Exception(e);
-    }
-  }
-
-  Future<List<ObCounterparty>> getCounterpartys(String value) async {
-    try {
-      final query = db
-          .box<ObCounterparty>()
-          .query(ObCounterparty_.descriptionLower
-              .contains(value.toLowerCase())
-              .or(ObCounterparty_.fullDescriptionLower
-                  .contains(value.toLowerCase())))
-          .build();
-      final counterparty = await query.findAsync();
-      return counterparty;
+      final counterparty = await sqlite.query('counterparty',
+          where:
+              'НаименованиеПолное like "%$value%" or Description like "%$value%"');
+      return counterparty.map((e) => Counterparty.fromJson(e)).toList();
     } catch (e) {
       throw Exception(e);
     }

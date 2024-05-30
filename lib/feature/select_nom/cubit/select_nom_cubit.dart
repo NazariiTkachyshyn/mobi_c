@@ -10,40 +10,42 @@ class SelectNomCubit extends Cubit<SelectNomState> {
 
   final SelectNomRepo _selectNomRepo;
 
-  getAllNoms() async {
+  getFolders() async {
     try {
-      var noms = await _selectNomRepo.getAllNoms();
-      noms.sort((a, b) => a.description.compareTo(b.description));
-      emit(state.copyWith(noms: noms, status: SelectNomStatus.success));
-      return noms;
+      var folders = await _selectNomRepo.getFolders();
+      emit(state.copyWith(folders: folders, status: SelectNomStatus.success));
+      return folders;
     } catch (e) {
       emit(state.copyWith(status: SelectNomStatus.failure));
     }
   }
 
-  Future<void> getNoms(String value) async {
+  Future<void> getAllNoms() async {
     try {
-      final noms = await _selectNomRepo.getNoms(value);
-      emit(state.copyWith(noms: noms, status: SelectNomStatus.success));
-    } catch (e) {
-      emit(state.copyWith(status: SelectNomStatus.failure));
-    }
-  }
-
-  Future<void> getNomsInFolder(String value, String parentKey) async {
-    try {
-      final noms = await _selectNomRepo.getNomsInFolder(value, parentKey);
+      final noms = await _selectNomRepo.getAllNoms();
       emit(state.copyWith(noms: noms, status: SelectNomStatus.success));
     } catch (e) {
       emit(state.copyWith(status: SelectNomStatus.failure));
     }
   }
 
-  Future<List<Nom>> getNomsByParentKey(String parentkey) async {
+  Future<void> getNomsInFolder(String value) async {
+    final noms = state.noms
+        .where(
+            (e) => (e.description.toLowerCase()).contains(value.toLowerCase()))
+        .toList();
     try {
+      emit(state.copyWith(searchNoms: noms, status: SelectNomStatus.success));
+    } catch (e) {
+      emit(state.copyWith(status: SelectNomStatus.failure));
+    }
+  }
+
+  Future<void> getNomsByParentKey(String parentkey) async {
+    try {
+      if (parentkey.isEmpty) return;
       final noms = await _selectNomRepo.getNomsByParentKey(parentkey);
-      emit(state.copyWith(noms: noms, status: SelectNomStatus.success));
-      return noms;
+      emit(state.copyWith(searchNoms: noms, status: SelectNomStatus.success));
     } catch (e) {
       emit(state.copyWith(status: SelectNomStatus.failure));
       rethrow;

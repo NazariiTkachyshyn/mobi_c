@@ -18,18 +18,20 @@ class ProductView extends StatelessWidget {
           builder: (context, state) {
         return Column(
           children: [
-            Align(
-                alignment: Alignment.topRight,
-                child: IconButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, 'selectNom',
-                          arguments: (nom) {
-                        context.read<CreateOrderCubit>().insertNom(nom);
-                        Navigator.pop(context);
-                      });
-
-                    },
-                    icon: const Icon(Icons.search))),
+            TextFielButton(
+              prefixIcon: const Icon(Icons.search),
+              text: '',
+              lableText: 'Пошук',
+              onTap: () {
+                Navigator.pushNamed(context, 'selectNom', arguments: (nom) {
+                  context.read<CreateOrderCubit>().insertNom(nom);
+                  Navigator.pop(context);
+                });
+              },
+            ),
+            const SizedBox(
+              height: 5,
+            ),
             Expanded(
                 child: ListView.builder(
               itemCount: state.noms.length,

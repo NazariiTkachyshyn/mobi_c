@@ -13,36 +13,23 @@ class SelectCounterpartyCubit extends Cubit<SelectCounterpartyState> {
 
   Future<void> getAll() async {
     try {
+      await Future.delayed(const Duration(milliseconds: 500));
       final counterparty = await _selectCounterpartyRepo.getAll();
       emit(state.copyWith(
-          counterparty: counterparty,
+          allCounterparty: counterparty,
           status: SelectCounterpartyStatus.success));
     } catch (e) {
       emit(state.copyWith(status: SelectCounterpartyStatus.failure));
     }
   }
 
-  Future<void> getCounterparty(String value) async {
-    try {
-      final counterparty =
-          await _selectCounterpartyRepo.getCounterpartys(value);
-      emit(state.copyWith(
-          counterparty: counterparty,
-          status: SelectCounterpartyStatus.success));
-    } catch (e) {
-      emit(state.copyWith(status: SelectCounterpartyStatus.failure));
-    }
-  }
+  searchCounterparty(String value) {
+    final counterparty = state.allCounterparty
+        .where(
+            (e) => (e.description.toLowerCase()).contains(value.toLowerCase()))
+        .toList();
 
-  Future<void> getCounterpartysByParentKey(String parentKey) async {
-    try {
-      final counterparty =
-          await _selectCounterpartyRepo.getCounterpartysByParentKey(parentKey);
-      emit(state.copyWith(
-          counterparty: counterparty,
-          status: SelectCounterpartyStatus.success));
-    } catch (e) {
-      emit(state.copyWith(status: SelectCounterpartyStatus.failure));
-    }
+    emit(state.copyWith(
+        counterparty: counterparty, status: SelectCounterpartyStatus.success));
   }
 }

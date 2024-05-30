@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:mobi_c/constants/api_constants.dart';
+import 'package:mobi_c/common/constants/api_constants.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../models/models.dart';
@@ -10,7 +10,7 @@ class DataSyncApiClient {
   Future<List<Nom>> getAllNom() async {
     final uri = Uri.http(
       ApiConstants.odataHost,
-      '${ApiConstants.odataPath}/Catalog_Номенклатура?\$format=json&\$select=Ref_Key,Description,Артикул,ЕдиницаИзмерения,Parent_Key,IsFolder&\$filter=DeletionMark eq false',
+      '${ApiConstants.odataPath}/Catalog_Номенклатура?\$format=json&\$select=Ref_Key,Description,Артикул,БазоваяЕдиницаИзмерения_Key,Parent_Key,IsFolder&\$filter=DeletionMark eq false',
     );
 
     try {

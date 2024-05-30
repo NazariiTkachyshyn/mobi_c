@@ -6,22 +6,8 @@ import 'package:mobi_c/models/counterparty.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../common/common.dart';
-
-class SelectCounterpartyPage extends StatefulWidget {
+class SelectCounterpartyPage extends StatelessWidget {
   const SelectCounterpartyPage({super.key});
-
-  @override
-  State<SelectCounterpartyPage> createState() => _SelectCounterpartyPageState();
-}
-
-class _SelectCounterpartyPageState extends State<SelectCounterpartyPage> {
-  // SearchType searchType = SearchType.folder;
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
 
   @override
   Widget build(context) {
@@ -40,21 +26,11 @@ class _SelectCounterpartyPageState extends State<SelectCounterpartyPage> {
               ],
             ),
             actions: [
-              // IconButton(
-              //     onPressed: () {
-              //       searchType = searchType.isFolder
-              //           ? SearchType.textField
-              //           : SearchType.folder;
-              //       setState(() {});
-              //     },
-              //     icon: Icon(searchType.isFolder
-              //         ? Icons.search
-              //         : Icons.folder_copy_outlined)),
+        
               IconButton(onPressed: () {}, icon: const Icon(Icons.person_add))
             ],
           ),
           body:
-              // searchType.isFolder? _SearchByFolder(onTup: onTup, ) :
               _SearchByTextField(
             onTup: onTup,
           ),
@@ -82,7 +58,7 @@ class _SearchByTextField extends StatelessWidget {
                 onChanged: (value) {
                   context
                       .read<SelectCounterpartyCubit>()
-                      .getCounterparty(value);
+                      .searchCounterparty(value);
                 },
                 decoration: const InputDecoration(labelText: 'Назва клієнта'),
               ),
@@ -116,6 +92,7 @@ class _SearchByTextField extends StatelessWidget {
   }
 }
 
+// ignore: unused_element
 class _SearchByFolder extends StatelessWidget {
   const _SearchByFolder({required this.onTup});
   final Function(Counterparty counterparty) onTup;

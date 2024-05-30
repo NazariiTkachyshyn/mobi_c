@@ -37,14 +37,14 @@ class _SelectNomViewState extends State<SelectNomView> {
   SearchType searchType = SearchType.folder;
   @override
   void initState() {
-    context.read<SelectNomCubit>().getAllNoms();
+    context.read<SelectNomCubit>().getFolders();
     super.initState();
   }
 
   @override
   Widget build(context) {
     final onSelect =
-        ModalRoute.of(context)!.settings.arguments as Function(TreeNom nom);
+        ModalRoute.of(context)!.settings.arguments as Function(Nom nom);
     return Scaffold(
         appBar: AppBar(
           leading: IconButton(
@@ -52,7 +52,7 @@ class _SelectNomViewState extends State<SelectNomView> {
                 if (searchType.isFolder) {
                   Navigator.pop(context);
                 }
-                context.read<SelectNomCubit>().getAllNoms();
+                context.read<SelectNomCubit>().getFolders();
 
                 searchType = SearchType.folder;
                 setState(() {});
@@ -72,8 +72,9 @@ class _SelectNomViewState extends State<SelectNomView> {
                 child: BlocConsumer<SelectNomCubit, SelectNomState>(
                   listener: (context, state) {},
                   builder: (context, state) {
-                    List<TreeNom> treeData = buildTree(
-                        state.noms.map((e) => TreeNom.toTreeNom(e)).toList());
+                    List<TreeNom> treeData = buildTree(state.folders
+                        .map((e) => TreeNom.toTreeNom(e))
+                        .toList());
 
                     return ListView(
                       children: treeData
@@ -94,10 +95,15 @@ class _SelectNomViewState extends State<SelectNomView> {
       return ListTile(
         title: Text(node.description),
         onTap: () {
-          parentKey = node.ref;
+          print(node.ref);
+          if (node.ref.isEmpty) {
+            context.read<SelectNomCubit>().getAllNoms();
+          }
 
+          parentKey = node.ref;
           searchType =
               searchType.isFolder ? SearchType.textField : SearchType.folder;
+
           setState(() {});
         },
       );
@@ -114,7 +120,7 @@ class _SelectNomViewState extends State<SelectNomView> {
 
 class _SearchByTextField extends StatefulWidget {
   const _SearchByTextField({required this.onSelect, required this.parentKey});
-  final Function(TreeNom nom) onSelect;
+  final Function(Nom nom) onSelect;
   final String parentKey;
 
   @override
@@ -135,13 +141,12 @@ class _SearchByTextFieldState extends State<_SearchByTextField> {
       child: BlocConsumer<SelectNomCubit, SelectNomState>(
         listener: (context, state) {},
         builder: (context, state) {
+          final noms = state.searchNoms;
           return Column(
             children: [
               TextField(
                 onChanged: (value) {
-                  context
-                      .read<SelectNomCubit>()
-                      .getNomsInFolder(value, parentKey);
+                  context.read<SelectNomCubit>().getNomsInFolder(value);
                 },
                 decoration:
                     const InputDecoration(labelText: 'Назва або артикул'),
@@ -149,9 +154,9 @@ class _SearchByTextFieldState extends State<_SearchByTextField> {
               const Padding(padding: EdgeInsets.all(4)),
               Expanded(
                   child: ListView.builder(
-                itemCount: state.noms.length,
+                itemCount: noms.length,
                 itemBuilder: (context, index) {
-                  final nom = state.noms[index];
+                  final nom = noms[index];
                   return Container(
                     margin: const EdgeInsets.symmetric(vertical: 2),
                     decoration: BoxDecoration(
@@ -160,10 +165,11 @@ class _SearchByTextFieldState extends State<_SearchByTextField> {
                         borderRadius: BorderRadius.circular(8)),
                     child: ListTile(
                       onTap: () {
-                        // widget.onSelect(nom);
+                        widget.onSelect(nom);
                       },
                       title: Text(nom.description),
                       subtitle: Text(nom.article),
+                      trailing: Text(nom.price.toString()),
                     ),
                   );
                 },
@@ -198,10 +204,9 @@ List<TreeNom> buildTree(List<TreeNom> noms) {
 
   for (var nom in noms) {
     if (nom.isFolder &&
-        (nom.ref == "08f6f5d4-24c0-11e1-b235-3e32ff0a5e79" ||
-            nom.ref == "08f6f5d4-24c0-11e1-b235-3e32ff0a5e79" ||
-            nom.ref == "35e3c75c-24bf-11e1-b235-3e32ff0a5e79" ||
-            nom.ref == "d1a81622-d0a2-11e1-9a25-c24921fc8a30")) {
+        (nom.ref == 'd1a81622-d0a2-11e1-9a25-c24921fc8a30' ||
+            nom.ref == '08f6f5d4-24c0-11e1-b235-3e32ff0a5e79' ||
+            nom.ref == '35e3c75c-24bf-11e1-b235-3e32ff0a5e79')) {
       roots.add(nom);
     } else {
       map[nom.parentKey]?.addChild(nom);
@@ -220,38 +225,6 @@ List<TreeNom> buildTree(List<TreeNom> noms) {
       price: 0));
 
   return roots;
-}
-
-class TreeWidget extends StatelessWidget {
-  final List<TreeNom> treeData;
-  final Function(TreeNom nom) onSelect;
-
-  const TreeWidget({super.key, required this.treeData, required this.onSelect});
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView(
-      children: treeData.map((item) => buildNode(item, context)).toList(),
-    );
-  }
-
-  Widget buildNode(TreeNom node, BuildContext context) {
-    if (node.children.isEmpty) {
-      return ListTile(
-        title: Text(node.description),
-        onTap: () {
-          onSelect(node);
-        },
-      );
-    } else {
-      return ExpansionTile(
-        onExpansionChanged: (value) {},
-        title: Text(node.description),
-        children:
-            node.children.map((child) => buildNode(child, context)).toList(),
-      );
-    }
-  }
 }
 
 class TreeNom {

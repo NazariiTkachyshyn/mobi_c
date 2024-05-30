@@ -1,6 +1,7 @@
 import 'package:mobi_c/feature/create_order/create_order_client/cerate_order_client.dart';
 import 'package:mobi_c/feature/create_order/create_order_repo/create_order_repo.dart';
 import 'package:mobi_c/feature/create_order/cubit/create_order_cubit.dart';
+import 'package:mobi_c/feature/create_order/ui/ather_view.dart';
 import 'package:mobi_c/feature/create_order/ui/counterparty_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -69,7 +70,9 @@ class _CreateOrderPageState extends State<_CreateOrderPage>
           leading: const Icon(Icons.note_alt_outlined),
           centerTitle: false,
           title: const Text('Замовлення'),
-          actions: [IconButton(onPressed: (){}, icon: Icon(Icons.more_vert_sharp))],
+          actions: [
+            IconButton(onPressed: () {}, icon: Icon(Icons.more_vert_sharp))
+          ],
           bottom: TabBar(
             controller: tabController,
             onTap: (value) {
@@ -82,14 +85,14 @@ class _CreateOrderPageState extends State<_CreateOrderPage>
               //   );
               // }
             },
-            tabs: <Widget>[
-              const Tab(
+            tabs: const <Widget>[
+              Tab(
                 text: 'КЛІЄНТ',
               ),
-              const Tab(
+              Tab(
                 text: 'ТОВАРИ',
               ),
-              const Tab(
+              Tab(
                 text: 'ІНШЕ',
               ),
             ],
@@ -97,12 +100,10 @@ class _CreateOrderPageState extends State<_CreateOrderPage>
         ),
         body: TabBarView(
           controller: tabController,
-          children: <Widget>[
-            const CounterpartyView(),
-            const ProductView(),
-            const Center(
-              child: Text("It's sunny here"),
-            ),
+          children: const <Widget>[
+            CounterpartyView(),
+            ProductView(),
+            AtherView(),
           ],
         ),
       ),

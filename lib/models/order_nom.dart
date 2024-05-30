@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
-
-import '../services/data_bases/object_box/models/models.dart';
+import 'package:mobi_c/common/constants/api_constants.dart';
+import 'package:mobi_c/common/constants/key_const.dart';
+import 'package:mobi_c/models/models.dart';
 
 class OrderNom extends Equatable {
   final int id;
@@ -24,6 +25,30 @@ class OrderNom extends Equatable {
       required this.qty,
       required this.price});
 
+  factory OrderNom.fromJson(Map<String, dynamic> json) {
+    return OrderNom(
+      id: json['id'] ?? 0,
+      orderId: json['orderId'] ?? 0,
+      ref: json['ref'] ?? '',
+      description: json['description'] ?? '',
+      article: json['article'] ?? '',
+      imageKey: json['imageKey'] ?? '',
+      unitKey: json['unitKey'] ?? '',
+      qty: json['qty'] ?? 0,
+      price: (json['price'] ?? 0.0).toDouble(),
+    );
+  }
+  factory OrderNom.fromNom(Nom nom, int orderId) => OrderNom(
+      id: 0,
+      orderId: orderId,
+      ref: nom.ref,
+      description: nom.description,
+      article: nom.article,
+      imageKey: nom.imageKey,
+      unitKey: nom.unitKey,
+      qty: 0,
+      price: nom.price);
+
   OrderNom copyWith({int? qty, String? unitKey}) => OrderNom(
       id: id,
       orderId: orderId,
@@ -35,16 +60,19 @@ class OrderNom extends Equatable {
       qty: qty ?? this.qty,
       price: price);
 
-  factory OrderNom.fromOb(ObOrderNom nom) => OrderNom(
-      id: nom.id,
-      orderId: nom.orderId ?? 0,
-      qty: nom.qty ?? 0,
-      price: nom.price ?? 0,
-      ref: nom.ref ?? '',
-      article: nom.article ?? '',
-      description: nom.description ?? '',
-      unitKey: nom.unitKey ?? '',
-      imageKey: nom.imageKey ?? '');
+  Map<String, dynamic> toJson(int number, String storageKey) {
+    return {
+      'LineNumber': number,
+      'Номенклатура_Key': ref,
+      'Склад_Key': KeyConst.storageKey,
+      'КоличествоУпаковок': qty,
+      'Количество': qty,
+      'Цена': price,
+      'СтавкаНДС': 'НДС20',
+      'ВидЦены_Key': KeyConst.priceType,
+      'ВариантОбеспечения': 'Отгрузить',
+    };
+  }
 
   @override
   List<Object?> get props =>

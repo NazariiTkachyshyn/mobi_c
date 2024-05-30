@@ -6,23 +6,23 @@ class Updater {
 
   Updater({required this.dbService});
 
-  Future<void> updateNomsOb(Set<Nom> data) async {
-    dbService.setNewNoms(data.map((e) => e.toJson()).toList());
+  Future<void> updateNoms(Set<Nom> data) async {
+    dbService.setNewRows(data.map((e) => e.toJson()).toList(), 'noms');
   }
 
   Future<void> updatePricesOb(Set<Price> data) async {
-    dbService.setNewPrices(data.map((e) => e.toJson()).toList());
+    dbService.setNewRows(data.map((e) => e.toJson()).toList(), 'prices');
   }
 
-  Future<void> updateStoragesOb(Set<Storage> storages) async {
-    dbService.setNewStorages(storages);
-  }
+  // Future<void> updateStoragesOb(Set<Storage> storages) async {
+  //   dbService.setNewStorages(storages);
+  // }
 
-  Future<void> updateBarcodesOb(Set<Barcode> barcodes) async {
-    dbService.setNewBarcodes(barcodes);
-  }
+  // Future<void> updateBarcodesOb(Set<Barcode> barcodes) async {
+  //   dbService.setNewBarcodes(barcodes);
+  // }
 
-  Future<void> updateCounterpartyOb(Set<Counterparty> counterparty) async {
-    dbService.setNewCounterparty(counterparty);
+  Future<void> updateCounterpartyOb(Set<Counterparty> data) async {
+    dbService.setNewRows(data.map((e) => e.toJson()).toList(), 'counterparty');
   }
 }
