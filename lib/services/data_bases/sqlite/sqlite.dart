@@ -14,7 +14,7 @@ class SQFLiteServices {
   }
 
   Future<String> fullPath() async {
-    const name = 'test35.db';
+    const name = 'test41.db';
     final path = await getDatabasesPath();
     return join(path, name);
   }

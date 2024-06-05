@@ -12,6 +12,8 @@ class OrderNom extends Equatable {
   final String unitKey;
   final int qty;
   final double price;
+  final int ratio;
+  final String unitName;
 
   const OrderNom(
       {required this.id,
@@ -22,7 +24,9 @@ class OrderNom extends Equatable {
       required this.imageKey,
       required this.unitKey,
       required this.qty,
-      required this.price});
+      required this.price,
+      required this.ratio,
+      required this.unitName});
 
   factory OrderNom.fromJson(Map<String, dynamic> json) {
     return OrderNom(
@@ -35,6 +39,8 @@ class OrderNom extends Equatable {
       unitKey: json['unitKey'] ?? '',
       qty: json['qty'] ?? 0,
       price: (json['price'] ?? 0.0).toDouble(),
+      ratio: (json['ratio'] ?? 0),
+      unitName: json['unitName'] ?? '',
     );
   }
   factory OrderNom.fromNom(Nom nom, int orderId) => OrderNom(
@@ -46,7 +52,9 @@ class OrderNom extends Equatable {
       imageKey: nom.imageKey,
       unitKey: nom.unitKey,
       qty: 0,
-      price: nom.price);
+      price: nom.price,
+      ratio: 0,
+      unitName: '');
 
   OrderNom copyWith({int? qty, String? unitKey}) => OrderNom(
       id: id,
@@ -57,24 +65,42 @@ class OrderNom extends Equatable {
       imageKey: imageKey,
       unitKey: unitKey ?? this.unitKey,
       qty: qty ?? this.qty,
-      price: price);
+      price: price,
+      ratio: ratio,
+      unitName: unitName);
 
-  Map<String, dynamic> toJson(int number, String storageKey) {
+  Map<String, dynamic> toJson(int number, String storageKey, double discount) {
     return {
       'LineNumber': number,
-      'Номенклатура_Key': ref,
-      "ЕдиницаИзмерения_Key": KeyConst.unitKey,
-      'Склад_Key': KeyConst.storageKey,
-      'КоличествоУпаковок': qty,
+      "ЕдиницаИзмерения_Key": unitKey,
       'Количество': qty,
-      'Цена': price,
+      "Коэффициент": 1,
+      'Номенклатура_Key': ref,
       'СтавкаНДС': 'НДС20',
+      'Цена': price,
+      "ПроцентАвтоматическихСкидок": discount,
+      "УсловиеАвтоматическойСкидки": "ПоКоличествуТовара",
+      "ЗначениеУсловияАвтоматическойСкидки": "0",
+      "ЗначениеУсловияАвтоматическойСкидки_Type": "Edm.Double",
       'ТипЦен_Key': KeyConst.priceType,
-      'ВариантОбеспечения': 'Отгрузить',
     };
   }
 
+  double calcDiscount(double discount) {
+    return price * (1 - discount / 100);
+  }
+
   @override
-  List<Object?> get props =>
-      [id, orderId, qty, price, ref, article, description, unitKey];
+  List<Object?> get props => [
+        id,
+        orderId,
+        qty,
+        price,
+        ref,
+        article,
+        description,
+        unitKey,
+        ratio,
+        unitName
+      ];
 }

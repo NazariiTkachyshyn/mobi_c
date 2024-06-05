@@ -54,6 +54,8 @@ CREATE TABLE IF NOT EXISTS orderProduct (
   "article" TEXT ,
   "imageKey" TEXT,
   "unitKey" TEXT,
+  "unitName" TEXT,
+  "ratio" INTEGER,
   "priceType" TEXT ,
   "price" REAL ,
   "qty" INTEGER
@@ -64,6 +66,21 @@ CREATE TABLE IF NOT EXISTS orderProduct (
 CREATE TABLE IF NOT EXISTS $tableDiscount (
   $fieldDiscountRecipient TEXT,
   $fieldPercentDiscounts REAL
+);
+''');
+    await database.execute('''
+CREATE TABLE IF NOT EXISTS $tableUnit (
+  $fieldRefKey TEXT,
+  $fieldOwner TEXT,
+  $fieldRatio INTEGER,
+  $fieldClasificatorkey TEXT
+);
+''');
+    await database.execute('''
+CREATE TABLE IF NOT EXISTS $tableUnitClassificator (
+  $fieldRefKey TEXT,
+  $fieldDescription TEXT,
+  $fieldFullName TEXT
 );
 ''');
   }

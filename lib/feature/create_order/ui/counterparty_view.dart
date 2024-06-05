@@ -1,3 +1,4 @@
+import 'package:animations/animations.dart';
 import 'package:mobi_c/feature/create_order/cubit/create_order_cubit.dart';
 import 'package:mobi_c/models/counterparty.dart';
 import 'package:mobi_c/ui/components/widgets/text_field_button.dart';
@@ -65,9 +66,16 @@ class _CounterpartyViewState extends State<CounterpartyView> {
               TextFielButton(
                 text: state.contracts.isEmpty
                     ? "Відсутній"
-                    : state.contracts.first.description,
+                    : state.order.contractKey.isEmpty
+                        ? state.contracts.first.description
+                        : state.contracts
+                            .firstWhere(
+                                (e) => e.refKey == state.order.contractKey)
+                            .description ,
                 lableText: 'Угода',
-                onTap: () {},
+                onTap: () {
+                  selectContractDialog(context);
+                },
               ),
             ],
           ),
@@ -75,4 +83,37 @@ class _CounterpartyViewState extends State<CounterpartyView> {
       },
     );
   }
+}
+
+selectContractDialog(BuildContext context) {
+  showModal(
+      context: context,
+      builder: (_) => BlocProvider.value(
+            value: context.read<CreateOrderCubit>(),
+            child: AlertDialog(
+              content: BlocBuilder<CreateOrderCubit, CreateOrderState>(
+                builder: (context, state) {
+                  return SizedBox(
+                    height: state.contracts.length * 50,
+                    width: 400,
+                    child: ListView.builder(
+                      itemCount: state.contracts.length,
+                      itemBuilder: (context, index) => ListTile(
+                        leading: Radio<String>(
+                            value: state.order.contractKey,
+                            groupValue: state.contracts[index].refKey,
+                            onChanged: (value) {
+                              context.read<CreateOrderCubit>().changeContract(
+                                  state.contracts[index].refKey);
+
+                              Navigator.pop(context);
+                            }),
+                        title: Text(state.contracts[index].description),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ));
 }

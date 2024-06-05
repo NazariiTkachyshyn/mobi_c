@@ -173,8 +173,7 @@ class _SearchByTextFieldState extends State<_SearchByTextField> {
                         borderRadius: BorderRadius.circular(8)),
                     child: ListTile(
                       onTap: () {
-                        widget.onSelect(nom.copyWith(
-                            price: nom.calcDiscount(widget.discount)));
+                        widget.onSelect(nom);
                       },
                       title: Text(nom.description),
                       subtitle: Text(nom.article),

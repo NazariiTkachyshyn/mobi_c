@@ -85,17 +85,41 @@ class DataSyncDbClient {
     }
   }
 
+  //^----------Unit----------------
+  Future<List<Unit>> getAllUnit() async {
+    try {
+      final units = await _sqlite.query(tableUnit);
+
+      return units.map((e) => Unit.fromJson(e)).toList();
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  //^----------UnitClassificator----------------
+  Future<List<UnitClassificator>> getAllUnitClassificator() async {
+    try {
+      final units = await _sqlite.query(tableUnitClassificator);
+
+      return units.map((e) => UnitClassificator.fromJson(e)).toList();
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
   //!------------------------------------------------------------------------
   void setNewRows(List<Map<String, dynamic>> data, String tableName) async {
     try {
-      Batch batch = _sqlite.batch();
+      await _sqlite.transaction((txn) async {
+        Batch batch = txn.batch();
 
-      for (var item in data) {
-        batch.insert(tableName, item,
-            conflictAlgorithm: ConflictAlgorithm.replace);
-      }
+        for (var item in data) {
+          batch.insert(tableName, item,
+              conflictAlgorithm: ConflictAlgorithm.replace);
+        }
 
-      await batch.commit(noResult: true);
+        await batch.commit(noResult: true);
+      });
     } catch (e) {
       throw Exception(e);
     }

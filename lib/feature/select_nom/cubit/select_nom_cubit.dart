@@ -31,8 +31,9 @@ class SelectNomCubit extends Cubit<SelectNomState> {
 
   Future<void> getNomsInFolder(String value) async {
     final noms = state.noms
-        .where(
-            (e) => (e.description.toLowerCase()).contains(value.toLowerCase()))
+        .where((e) =>
+            (e.article.toLowerCase()).contains(value.toLowerCase()) ||
+            (e.description.toLowerCase()).contains(value.toLowerCase()))
         .toList();
     try {
       emit(state.copyWith(searchNoms: noms, status: SelectNomStatus.success));

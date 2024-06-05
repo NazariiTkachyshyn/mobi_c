@@ -1,3 +1,4 @@
+import 'package:get_it/get_it.dart';
 import 'package:mobi_c/feature/create_order/create_order_client/cerate_order_client.dart';
 import 'package:mobi_c/feature/create_order/create_order_repo/create_order_repo.dart';
 import 'package:mobi_c/feature/create_order/cubit/create_order_cubit.dart';
@@ -7,6 +8,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobi_c/feature/create_order/ui/product_view.dart';
 import 'package:mobi_c/models/counterparty.dart';
+import 'package:mobi_c/services/data_sync_service/data_sync_service.dart';
+import 'package:sqflite/sqflite.dart';
+
+import '../../../common/constants/table_named.dart';
 
 class CreateOrderPage extends StatelessWidget {
   const CreateOrderPage({super.key});
@@ -71,7 +76,27 @@ class _CreateOrderPageState extends State<_CreateOrderPage>
           centerTitle: false,
           title: const Text('Замовлення'),
           actions: [
-            IconButton(onPressed: () {}, icon: Icon(Icons.more_vert_sharp))
+            IconButton(
+                onPressed: () async {
+                  final sqlite = GetIt.I.get<Database>();
+                  await sqlite.delete(tableUnit);
+                  await sqlite.delete(tableNoms);
+                  await sqlite.delete(tablePrices);
+                  await sqlite.delete(tableCounterparty);
+                  await sqlite.delete(tableContract);
+                  await sqlite.delete(tableDiscount);
+                  await sqlite.delete(tableUnitClassificator);
+
+                  DataSyncService().syncDiscountData();
+                  DataSyncService().syncNomData();
+                  DataSyncService().syncPriceData();
+                  DataSyncService().syncCounterpartyData();
+                  DataSyncService().syncContractData();
+                  DataSyncService().syncUnitData();
+                  DataSyncService().syncUnitClassificatorData();
+                },
+                icon: Icon(Icons.sync)),
+            IconButton(onPressed: () {}, icon: Icon(Icons.more_vert_sharp)),
           ],
           bottom: TabBar(
             controller: tabController,

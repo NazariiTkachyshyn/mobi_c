@@ -169,4 +169,48 @@ class DataSyncService {
       return 2;
     }
   }
+
+  Future<int> syncUnitData() async {
+    try {
+      final dbData = await _dbClient.getAllUnit();
+      final apiData = await _apiClient.getAllUnit();
+
+      final validationResult = validator.validate(apiData, dbData);
+
+      if (validationResult.needsUpdate) {
+        await updater
+            .updateUnit(validationResult.updatedData)
+            .whenComplete(() => print('Unit updated'));
+        return 1;
+      } else {
+        print('Unit is already up to date.');
+        return 0;
+      }
+    } catch (e) {
+      print('Error during data sync: $e');
+      return 2;
+    }
+  }
+
+  Future<int> syncUnitClassificatorData() async {
+    try {
+      final dbData = await _dbClient.getAllUnitClassificator();
+      final apiData = await _apiClient.getAllUnitClassificator();
+
+      final validationResult = validator.validate(apiData, dbData);
+
+      if (validationResult.needsUpdate) {
+        await updater
+            .updateUnitClassificator(validationResult.updatedData)
+            .whenComplete(() => print('UnitClassificator updated'));
+        return 1;
+      } else {
+        print('UnitClassificator is already up to date.');
+        return 0;
+      }
+    } catch (e) {
+      print('Error during data sync: $e');
+      return 2;
+    }
+  }
 }

@@ -24,12 +24,23 @@ class Updater {
   // }
 
   Future<void> updateCounterparty(Set<Counterparty> data) async {
-    dbService.setNewRows(data.map((e) => e.toJson()).toList(), tableCounterparty);
+    dbService.setNewRows(
+        data.map((e) => e.toJson()).toList(), tableCounterparty);
   }
+
   Future<void> updateContract(Set<Contract> data) async {
     dbService.setNewRows(data.map((e) => e.toJson()).toList(), tableContract);
   }
-    Future<void> updateDiscount(Set<Discount> data) async {
+
+  Future<void> updateDiscount(Set<Discount> data) async {
     dbService.setNewRows(data.map((e) => e.toJson()).toList(), tableDiscount);
+  }
+
+  Future<void> updateUnit(Set<Unit> data) async {
+    dbService.setNewRows(data.map((e) => e.toJson()).toList(), tableUnit);
+
+  }
+    Future<void> updateUnitClassificator(Set<UnitClassificator> data) async {
+    dbService.setNewRows(data.map((e) => e.toJson()).toList(), tableUnitClassificator);
   }
 }

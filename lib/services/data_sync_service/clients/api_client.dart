@@ -6,6 +6,13 @@ import 'package:http/http.dart' as http;
 import '../../../models/models.dart';
 
 class DataSyncApiClient {
+  final headers = {
+    'Authorization': ApiConstants.basicAuth,
+    "Accept": "application/json",
+    "Accept-Charset": "UTF-8",
+    "Content-Type": "application/json",
+  };
+
   //^----------NOMENKLATURA----------------
   Future<List<Nom>> getAllNom() async {
     final uri = Uri.http(
@@ -14,15 +21,7 @@ class DataSyncApiClient {
     );
 
     try {
-      final nomRes = await http.get(
-        uri,
-        headers: {
-          'Authorization': ApiConstants.basicAuth,
-          "Accept": "application/json",
-          "Accept-Charset": "UTF-8",
-          "Content-Type": "application/json",
-        },
-      );
+      final nomRes = await http.get(uri, headers: headers);
 
       if (nomRes.statusCode == 200) {
         final json = jsonDecode(nomRes.body);
@@ -44,15 +43,7 @@ class DataSyncApiClient {
         {"\$format": 'json'});
 
     try {
-      final nomRes = await http.get(
-        uri,
-        headers: {
-          'Authorization': ApiConstants.basicAuth,
-          "Accept": "application/json",
-          "Accept-Charset": "UTF-8",
-          "Content-Type": "application/json",
-        },
-      );
+      final nomRes = await http.get(uri, headers: headers);
 
       if (nomRes.statusCode == 200) {
         final json = jsonDecode(nomRes.body);
@@ -76,15 +67,7 @@ class DataSyncApiClient {
     });
 
     try {
-      final nomRes = await http.get(
-        uri,
-        headers: {
-          'Authorization': ApiConstants.basicAuth,
-          "Accept": "application/json",
-          "Accept-Charset": "UTF-8",
-          "Content-Type": "application/json",
-        },
-      );
+      final nomRes = await http.get(uri, headers: headers);
 
       if (nomRes.statusCode == 200) {
         final json = jsonDecode(nomRes.body);
@@ -107,15 +90,7 @@ class DataSyncApiClient {
     });
 
     try {
-      final nomRes = await http.get(
-        uri,
-        headers: {
-          'Authorization': ApiConstants.basicAuth,
-          "Accept": "application/json",
-          "Accept-Charset": "UTF-8",
-          "Content-Type": "application/json",
-        },
-      );
+      final nomRes = await http.get(uri, headers: headers);
 
       if (nomRes.statusCode == 200) {
         final json = jsonDecode(nomRes.body);
@@ -139,19 +114,10 @@ class DataSyncApiClient {
     });
 
     try {
-      final nomRes = await http.get(
-        uri,
-        headers: {
-          'Authorization': ApiConstants.basicAuth,
-          "Accept": "application/json",
-          "Accept-Charset": "UTF-8",
-          "Content-Type": "application/json",
-        },
-      );
+      final nomRes = await http.get(uri, headers: headers);
 
       if (nomRes.statusCode == 200) {
         final json = jsonDecode(nomRes.body);
-        print((json['value'] as List).length);
         return (json['value'] as List)
             .map((e) => Contract.fromJson(e))
             .toList();
@@ -174,15 +140,7 @@ class DataSyncApiClient {
     });
 
     try {
-      final nomRes = await http.get(
-        uri,
-        headers: {
-          'Authorization': ApiConstants.basicAuth,
-          "Accept": "application/json",
-          "Accept-Charset": "UTF-8",
-          "Content-Type": "application/json",
-        },
-      );
+      final nomRes = await http.get(uri, headers: headers);
 
       if (nomRes.statusCode == 200) {
         final json = jsonDecode(nomRes.body);
@@ -210,20 +168,61 @@ class DataSyncApiClient {
         });
 
     try {
-      final nomRes = await http.get(
-        uri,
-        headers: {
-          'Authorization': ApiConstants.basicAuth,
-          "Accept": "application/json",
-          "Accept-Charset": "UTF-8",
-          "Content-Type": "application/json",
-        },
-      );
+      final nomRes = await http.get(uri, headers: headers);
 
       if (nomRes.statusCode == 200) {
         final json = jsonDecode(nomRes.body);
         return (json['value'] as List)
             .map((e) => Discount.fromJson(e))
+            .toList();
+      } else {
+        throw Exception(
+            "${nomRes.reasonPhrase ?? ''} ${nomRes.statusCode} ${utf8.decode(nomRes.bodyBytes)}");
+      }
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  //^----------Unit----------------
+
+  Future<List<Unit>> getAllUnit() async {
+    final uri = Uri.http(ApiConstants.odataHost,
+        '${ApiConstants.odataPath}/Catalog_ЕдиницыИзмерения', {
+      "\$format": 'json',
+      "\$select": "Ref_Key,Owner,Коэффициент,ЕдиницаПоКлассификатору_Key",
+    });
+
+    try {
+      final nomRes = await http.get(uri, headers: headers);
+
+      if (nomRes.statusCode == 200) {
+        final json = jsonDecode(nomRes.body);
+        return (json['value'] as List).map((e) => Unit.fromJson(e)).toList();
+      } else {
+        throw Exception(
+            "${nomRes.reasonPhrase ?? ''} ${nomRes.statusCode} ${utf8.decode(nomRes.bodyBytes)}");
+      }
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+  //^----------UnitClassificator----------------
+
+  Future<List<UnitClassificator>> getAllUnitClassificator() async {
+    final uri = Uri.http(ApiConstants.odataHost,
+        '${ApiConstants.odataPath}/Catalog_КлассификаторЕдиницИзмерения', {
+      "\$format": 'json',
+      "\$select": "Ref_Key,Description,НаименованиеПолное",
+    });
+
+    try {
+      final nomRes = await http.get(uri, headers: headers);
+
+      if (nomRes.statusCode == 200) {
+        final json = jsonDecode(nomRes.body);
+        return (json['value'] as List)
+            .map((e) => UnitClassificator.fromJson(e))
             .toList();
       } else {
         throw Exception(

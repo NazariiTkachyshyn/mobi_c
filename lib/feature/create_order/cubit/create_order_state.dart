@@ -1,5 +1,4 @@
 part of 'create_order_cubit.dart';
-
 enum CreateOrderStatus {
   initial,
   loading,
@@ -15,17 +14,18 @@ extension CreateStorageStatusX on CreateOrderStatus {
 }
 
 final class CreateOrderState extends Equatable {
-  const CreateOrderState(
-      {this.status = CreateOrderStatus.initial,
-      this.orderId = 0,
-      this.errorMassage = '',
-      this.noms = const [],
-      this.coment = '',
-      this.contracts = const [],
-      Discount? discount,
-      Order? order,
-      Counterparty? counterparty})
-      : counterparty = counterparty ?? Counterparty.empty,
+  const CreateOrderState({
+    this.status = CreateOrderStatus.initial,
+    this.orderId = 0,
+    this.errorMessage = '',
+    this.noms = const [],
+    this.contracts = const [],
+    this.units = const [],
+    this.selectedUnit = Unit.empty,
+    Discount? discount,
+    Order? order,
+    Counterparty? counterparty,
+  })  : counterparty = counterparty ?? Counterparty.empty,
         order = order ?? Order.empty,
         discount = discount ?? Discount.empty;
 
@@ -33,46 +33,58 @@ final class CreateOrderState extends Equatable {
   final int orderId;
   final Counterparty counterparty;
   final Order order;
-  final String errorMassage;
+  final String errorMessage;
   final List<OrderNom> noms;
-  final String coment;
   final List<Contract> contracts;
   final Discount discount;
+  final List<Unit> units;
+  final Unit selectedUnit;
+
+  double get discountedSumm =>
+      noms.fold(0, (a, b) => a + b.calcDiscount(discount.percentDiscounts));
 
   double get summ => noms.fold(0, (a, b) => a + b.price);
-  int get totalSumm => noms.fold(0, (a, b) => a + b.qty);
+  int get totalQty => noms.fold(0, (a, b) => a + b.qty);
 
-  CreateOrderState copyWith(
-      {CreateOrderStatus? status,
-      int? orderId,
-      Order? order,
-      String? errorMassage,
-      Counterparty? counterparty,
-      List<OrderNom>? noms,
-      List<Contract>? contracts,
-      Discount? discount}) {
+  double get discountInHrn => summ - discountedSumm;
+
+  CreateOrderState copyWith({
+    CreateOrderStatus? status,
+    int? orderId,
+    Order? order,
+    String? errorMessage,
+    Counterparty? counterparty,
+    List<OrderNom>? noms,
+    List<Contract>? contracts,
+    Discount? discount,
+    List<Unit>? units,
+    Unit? selectedUnit
+  }) {
     return CreateOrderState(
-        status: status ?? this.status,
-        order: order ?? this.order,
-        orderId: orderId ?? this.orderId,
-        errorMassage: errorMassage ?? this.errorMassage,
-        counterparty: counterparty ?? this.counterparty,
-        noms: noms ?? this.noms,
-        contracts: contracts ?? this.contracts,
-        discount: discount ?? this.discount);
+      status: status ?? this.status,
+      order: order ?? this.order,
+      orderId: orderId ?? this.orderId,
+      errorMessage: errorMessage ?? this.errorMessage,
+      counterparty: counterparty ?? this.counterparty,
+      noms: noms ?? this.noms,
+      contracts: contracts ?? this.contracts,
+      discount: discount ?? this.discount,
+      units: units ?? this.units,
+      selectedUnit: selectedUnit ?? this.selectedUnit
+    );
   }
 
   @override
   List<Object?> get props => [
         status,
         orderId,
-        errorMassage,
+        errorMessage,
         counterparty,
         noms,
         order,
         contracts,
-        discount
+        discount,
+        units,
+        selectedUnit
       ];
-
-
 }

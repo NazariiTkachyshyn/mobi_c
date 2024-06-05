@@ -41,19 +41,31 @@ class CreateOrderClient {
     }
   }
 
-  Future<void> insertNom(OrderNom nom, int orderId) async {
+  Future<void> insertNom(OrderNom nom) async {
     try {
       await sqlite.insert('orderProduct', {
         "ref": nom.ref,
-        "orderId": orderId,
+        "orderId": nom.orderId,
         "description": nom.description,
         "article": nom.article,
         "imageKey": nom.imageKey,
         "unitKey": nom.unitKey,
-        "priceType": '',
+        "unitName": nom.unitName,
+        "ratio": nom.ratio,
         "price": nom.price,
-        "qty": 1
+        "qty": nom.qty
       });
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future<List<Unit>> getUnits(String nomKey) async {
+    try {
+      final res = await sqlite.rawQuery(
+          'select u.*, uc.$fieldDescription from $tableUnit u left join $tableUnitClassificator uc on u.$fieldClasificatorkey = uc.$fieldRefKey  where $fieldOwner = "$nomKey"');
+      print(1);
+      return res.map((e) => Unit.fromJson(e)).toList();
     } catch (e) {
       throw Exception(e);
     }
@@ -67,10 +79,18 @@ class CreateOrderClient {
     }
   }
 
-  Future<void> updateNom(int id, int qty) async {
+  Future<void> updateNom(int id, int qty, Unit unit) async {
     try {
-      await sqlite.update('orderProduct', {"qty": qty},
-          where: 'id = ?', whereArgs: [id]);
+      await sqlite.update(
+          'orderProduct',
+          {
+            "qty": qty,
+            "unitKey": unit.refKey,
+            "unitName": unit.description,
+            "ratio": unit.ratio,
+          },
+          where: 'id = ?',
+          whereArgs: [id]);
     } catch (e) {
       throw Exception(e);
     }
@@ -96,6 +116,7 @@ class CreateOrderClient {
 
       if (res.statusCode == 201) {
       } else {
+        print(res.body);
         throw Exception(res.body);
       }
     } catch (e) {

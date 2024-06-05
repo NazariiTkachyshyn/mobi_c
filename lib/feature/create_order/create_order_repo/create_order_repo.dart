@@ -5,16 +5,19 @@ import '../../../models/models.dart';
 abstract interface class CreateOrderRepo {
   Future<List<OrderNom>> getNoms(int orderId);
 
-  Future<void> insertNom(OrderNom nom, int orderId);
+  Future<void> insertNom(OrderNom nom);
 
-  Future<void> updateNom(int id, int qty);
+  Future<void> updateNom(int id, int qty, Unit unit);
 
   Future<void> deleteNom(int id);
 
   Future<void> createOrder(Map<String, dynamic> order);
 
   Future<List<Contract>> getContracts(String ownerKey);
+
   Future<Discount> getDiscount(String discountRecipient);
+
+  Future<List<Unit>> getUnits(String nomKey);
 }
 
 class CreateOrderRepoImpl implements CreateOrderRepo {
@@ -33,9 +36,9 @@ class CreateOrderRepoImpl implements CreateOrderRepo {
   }
 
   @override
-  Future<void> insertNom(OrderNom nom, int orderId) async {
+  Future<void> insertNom(OrderNom nom) async {
     try {
-      await _createOrderClient.insertNom(nom, orderId);
+      await _createOrderClient.insertNom(nom);
     } catch (e) {
       throw Exception(e);
     }
@@ -51,9 +54,9 @@ class CreateOrderRepoImpl implements CreateOrderRepo {
   }
 
   @override
-  Future<void> updateNom(int id, int qty) async {
+  Future<void> updateNom(int id, int qty, Unit unit) async {
     try {
-      await _createOrderClient.updateNom(id, qty);
+      await _createOrderClient.updateNom(id, qty, unit);
     } catch (e) {
       throw Exception(e);
     }
@@ -81,6 +84,15 @@ class CreateOrderRepoImpl implements CreateOrderRepo {
   Future<Discount> getDiscount(String discountRecipient) async {
     try {
       return await _createOrderClient.getDiscount(discountRecipient);
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  @override
+  Future<List<Unit>> getUnits(String nomKey) async {
+    try {
+      return await _createOrderClient.getUnits(nomKey);
     } catch (e) {
       throw Exception(e);
     }

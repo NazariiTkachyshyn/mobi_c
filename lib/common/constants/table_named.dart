@@ -4,6 +4,8 @@ const String tableCounterparty = 'counterparty';
 const String tableContract = 'contract';
 const String tableOrderProduct = 'orderProduct';
 const String tableDiscount = 'discount';
+const String tableUnit = 'unit';
+const String tableUnitClassificator = 'unitClassificator';
 
 
 const String fieldId = 'id';
@@ -28,6 +30,9 @@ const String fieldOrderId = 'orderId';
 const String fieldPriceType = 'priceType';
 const String fieldQty = 'qty';
 const String fieldUnitKey = 'unitKey';
+const String fieldOwner = 'Owner';
+const String fieldRatio = 'Коэффициент';
+const String fieldClasificatorkey = 'ЕдиницаПоКлассификатору_Key';
 
 const String fieldDiscountRecipient = 'ПолучательСкидки';
 const String fieldPercentDiscounts = 'ПроцентСкидкиНаценки';

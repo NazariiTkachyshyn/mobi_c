@@ -22,11 +22,11 @@ class ProductView extends StatelessWidget {
               prefixIcon: const Icon(Icons.search),
               text: '',
               lableText: 'Пошук',
+              suffixIcon: const Icon(Icons.add),
               onTap: () {
                 Navigator.pushNamed(context, 'selectNom', arguments: {
                   "onTap": (nom) {
-                    context.read<CreateOrderCubit>().insertNom(nom);
-                    Navigator.pop(context);
+                    insertNomDialog(context, nom);
                   },
                   "discount": state.discount.percentDiscounts
                 });
@@ -64,7 +64,7 @@ class ProductView extends StatelessWidget {
                     ]),
                     child: ListTile(
                       onTap: () {
-                        changeQtydialog(context, nom);
+                        insertNomDialog(context, nom);
                       },
                       title: Text(nom.description),
                       subtitle: Text(nom.article),
@@ -73,8 +73,16 @@ class ProductView extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Text(nom.qty.toString() + " шт."),
-                            Text(nom.price.toStringAsFixed(2) + 'грн.')
+                            Text("${nom.qty} ${nom.unitName}"),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Text(
+                                    '${nom.calcDiscount(state.discount.percentDiscounts).toStringAsFixed(2)}грн.'),
+                                Text(
+                                    '${(nom.calcDiscount(state.discount.percentDiscounts) * nom.qty * nom.ratio).toStringAsFixed(2)}грн.'),
+                              ],
+                            )
                           ],
                         ),
                       ),
@@ -90,75 +98,149 @@ class ProductView extends StatelessWidget {
   }
 }
 
-changeQtydialog(BuildContext context, OrderNom nom) {
+insertNomDialog(BuildContext context, nom) {
+  showModal(
+    context: context,
+    builder: (_) => BlocProvider.value(
+        value: context.read<CreateOrderCubit>(),
+        child: InsertNomDialog(nom: nom)),
+  );
+}
+
+class InsertNomDialog extends StatefulWidget {
+  const InsertNomDialog({super.key, required this.nom});
+  final dynamic nom;
+
+  @override
+  State<InsertNomDialog> createState() => _InsertNomDialogState();
+}
+
+class _InsertNomDialogState extends State<InsertNomDialog> {
   final controller = TextEditingController();
+
+  @override
+  void initState() {
+    context
+        .read<CreateOrderCubit>()
+        .getUnits(widget.nom.ref, widget.nom.unitKey);
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SizedBox(
+            height: 70,
+            child: Row(
+              children: [
+                IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: const Icon(Icons.arrow_back)),
+                Expanded(
+                  child: Text(
+                    widget.nom.description,
+                    style: Theme.of(context).textTheme.labelSmall,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(
+                  height: 60,
+                  child: Row(
+                    children: [
+                      Expanded(
+                          child: TextField(
+                        autofocus: true,
+                        controller: controller,
+                        keyboardType: TextInputType.number,
+                        decoration:
+                            const InputDecoration(labelText: 'Кількість'),
+                      )),
+                      const Padding(padding: EdgeInsets.all(4)),
+                      Expanded(child:
+                          BlocBuilder<CreateOrderCubit, CreateOrderState>(
+                        builder: (context, state) {
+                          return TextFielButton(
+                              onTap: () {
+                                selectUnitDialog(context, widget.nom);
+                              },
+                              text: state.selectedUnit == Unit.empty
+                                  ? 'Відсутня'
+                                  : state.selectedUnit.description,
+                              lableText: 'Одиниця');
+                        },
+                      ))
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextButton(
+                onPressed: () {
+                  if (widget.nom.runtimeType == Nom) {
+                    final state = context.read<CreateOrderCubit>().state;
+                    context.read<CreateOrderCubit>().insertNom(
+                        widget.nom, controller.text);
+                    Navigator.pop(context);
+                  } else {
+                    context
+                        .read<CreateOrderCubit>()
+                        .updateNom(widget.nom, controller.text);
+                  }
+                  Navigator.pop(context);
+                },
+                child: const Text('Продовжити')),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+selectUnitDialog(BuildContext context, nom) {
   showModal(
     context: context,
     builder: (_) => BlocProvider.value(
       value: context.read<CreateOrderCubit>(),
-      child: Dialog(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SizedBox(
-              height: 70,
-              child: Row(
-                children: [
-                  IconButton(
-                      onPressed: () {
+      child: AlertDialog(
+        content: BlocBuilder<CreateOrderCubit, CreateOrderState>(
+          builder: (context, state) {
+            return SizedBox(
+              height: state.units.length * 50,
+              width: 400,
+              child: ListView.builder(
+                itemCount: state.units.length,
+                itemBuilder: (context, index) => ListTile(
+                  leading: Radio<String>(
+                      value: state.selectedUnit.clasificatorKey,
+                      groupValue: state.units[index].clasificatorKey,
+                      onChanged: (value) {
+                        context
+                            .read<CreateOrderCubit>()
+                            .selectUnit(state.units[index].clasificatorKey);
                         Navigator.pop(context);
-                      },
-                      icon: const Icon(Icons.arrow_back)),
-                  Expanded(
-                    child: Text(
-                      nom.description,
-                      style: Theme.of(context).textTheme.labelSmall,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                ],
+                      }),
+                  title: Text(state.units[index].description),
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  SizedBox(
-                    height: 60,
-                    child: Row(
-                      children: [
-                        Expanded(
-                            child: TextField(
-                          autofocus: true,
-                          controller: controller,
-                          keyboardType: TextInputType.number,
-                          decoration:
-                              const InputDecoration(labelText: 'Кількість'),
-                        )),
-                        const Padding(padding: EdgeInsets.all(4)),
-                        const Expanded(
-                            child: TextFielButton(
-                                text: 'шт', lableText: 'Одиниця'))
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextButton(
-                  onPressed: () {
-                    context
-                        .read<CreateOrderCubit>()
-                        .changeQty(nom, controller.text);
-                    Navigator.pop(context);
-                  },
-                  child: const Text('Оновити')),
-            )
-          ],
+            );
+          },
         ),
       ),
     ),

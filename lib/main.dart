@@ -1,10 +1,7 @@
-import 'package:mobi_c/common/constants/table_named.dart';
 import 'package:mobi_c/feature/create_order/ui/create_order_page.dart';
 import 'package:mobi_c/feature/select_counterparty/ui/select_counterparty_page.dart';
 import 'package:mobi_c/feature/select_nom/ui/select_nom_page.dart';
 import 'package:mobi_c/services/data_bases/sqlite/sqlite.dart';
-import 'package:mobi_c/services/data_sync_service/data_sync_service.dart';
-
 import 'package:mobi_c/ui/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -16,11 +13,7 @@ void main() async {
 
   final sqlite = await SQFLiteServices().database;
 
-  await sqlite.delete(tableNoms);
-  await sqlite.delete(tablePrices);
-  await sqlite.delete(tableCounterparty);
-  await sqlite.delete(tableContract);
-  await sqlite.delete(tableDiscount);
+
 
   GetIt.instance.registerSingleton<Database>(sqlite);
 
@@ -32,19 +25,11 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // objectbox.store.box<ObNom>().removeAll();
-    // objectbox.store.box<ObPrice>().removeAll();
-    // objectbox.store.box<ObBarocde>().removeAll();
-    // objectbox.store.box<ObStorage>().removeAll();
-    // objectbox.store.box<ObCounterparty>().removeAll();
+
     // DataSyncService().syncBarcodesData();
     // DataSyncService().syncStoragesData();
 
-    DataSyncService().syncDiscountData();
-    DataSyncService().syncNomData();
-    DataSyncService().syncPriceData();
-    DataSyncService().syncCounterpartyData();
-    DataSyncService().syncContractData();
+
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
