@@ -2,9 +2,9 @@ import '../../../models/models.dart';
 import '../select_counterparty_client/select_counterparty_client.dart';
 
 abstract interface class SelectCounterpartyRepo {
-  Future<List<Counterparty>> getCounterpartys(String value);
+  Future<List<ApiCounterparty>> getCounterpartys(String value);
 
-  Future<List<Counterparty>> getAll();
+  Future<List<ApiCounterparty>> getAll();
 }
 
 class SelectCounterpartyRepoImpl implements SelectCounterpartyRepo {
@@ -15,7 +15,7 @@ class SelectCounterpartyRepoImpl implements SelectCounterpartyRepo {
       : _selectCounterpartyClient = selectCounterpartyClient;
 
   @override
-  Future<List<Counterparty>> getAll() async {
+  Future<List<ApiCounterparty>> getAll() async {
     try {
       return await _selectCounterpartyClient.getAll();
     } catch (e) {
@@ -24,7 +24,7 @@ class SelectCounterpartyRepoImpl implements SelectCounterpartyRepo {
   }
 
   @override
-  Future<List<Counterparty>> getCounterpartys(String value) async {
+  Future<List<ApiCounterparty>> getCounterpartys(String value) async {
     try {
       return await _selectCounterpartyClient.getCounterpartys(value);
     } catch (e) {

@@ -48,7 +48,7 @@ class _CreateOrderPageState extends State<_CreateOrderPage>
       if (!tabController.indexIsChanging) {
         final state = context.read<CreateOrderCubit>().state;
         if (tabController.index != 0 &&
-            state.counterparty == Counterparty.empty) {
+            state.counterparty == ApiCounterparty.empty) {
           tabController.index = 0;
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Клієнта не вибрано.')),
@@ -103,7 +103,7 @@ class _CreateOrderPageState extends State<_CreateOrderPage>
             onTap: (value) {
               final state = context.read<CreateOrderCubit>().state;
 
-              if (value != 0 && state.counterparty == Counterparty.empty) {
+              if (value != 0 && state.counterparty == ApiCounterparty.empty) {
                 tabController.index = 0;
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text('Клієнта не вибрано.')),

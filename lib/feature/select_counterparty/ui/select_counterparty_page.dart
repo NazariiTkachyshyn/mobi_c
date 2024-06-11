@@ -12,7 +12,7 @@ class SelectCounterpartyPage extends StatelessWidget {
   @override
   Widget build(context) {
     final onTup = ModalRoute.of(context)!.settings.arguments as Function(
-        Counterparty counterparty);
+        ApiCounterparty counterparty);
     return BlocProvider(
         create: (context) => SelectCounterpartyCubit(SelectCounterpartyRepoImpl(
             selectCounterpartyClient: SelectCounterpartyClient())),
@@ -40,7 +40,7 @@ class SelectCounterpartyPage extends StatelessWidget {
 
 class _SearchByTextField extends StatelessWidget {
   const _SearchByTextField({required this.onTup});
-  final Function(Counterparty counterparty) onTup;
+  final Function(ApiCounterparty counterparty) onTup;
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +96,7 @@ class _SearchByTextField extends StatelessWidget {
 // ignore: unused_element
 class _SearchByFolder extends StatelessWidget {
   const _SearchByFolder({required this.onTup});
-  final Function(Counterparty counterparty) onTup;
+  final Function(ApiCounterparty counterparty) onTup;
 
   @override
   Widget build(BuildContext context) {

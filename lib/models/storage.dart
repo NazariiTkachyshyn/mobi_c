@@ -1,17 +1,17 @@
 import 'package:equatable/equatable.dart';
 
 
-class Storage extends Equatable {
+class ApiStorage extends Equatable {
   final String refKey;
   final String description;
 
-  const Storage({required this.refKey, required this.description});
+  const ApiStorage({required this.refKey, required this.description});
 
-  factory Storage.fromJson(Map<String, dynamic> json) => Storage(
+  factory ApiStorage.fromJson(Map<String, dynamic> json) => ApiStorage(
       refKey: json['Ref_Key'] ?? '', description: json['Description'] ?? '');
 
 
-static const empty = Storage(refKey: '', description: '');
+static const empty = ApiStorage(refKey: '', description: '');
   @override
   List<Object?> get props => [refKey, description];
 }

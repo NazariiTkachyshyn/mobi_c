@@ -1,15 +1,15 @@
 import 'package:equatable/equatable.dart';
 
-class Discount extends Equatable {
+class ApiDiscount extends Equatable {
   final String discountRecipientKey;
   final double percentDiscounts;
 
-  const Discount({
+  const ApiDiscount({
     required this.discountRecipientKey,
     required this.percentDiscounts,
   });
 
-  factory Discount.fromJson(Map<String, dynamic> json) => Discount(
+  factory ApiDiscount.fromJson(Map<String, dynamic> json) => ApiDiscount(
         discountRecipientKey: json['ПолучательСкидки'] ?? '',
         percentDiscounts:
             ((json['ПроцентСкидкиНаценки'] ?? 0) as num).toDouble(),
@@ -22,7 +22,7 @@ class Discount extends Equatable {
     };
   }
 
-  static const empty = Discount(
+  static const empty = ApiDiscount(
     discountRecipientKey: '',
     percentDiscounts: 0,
   );

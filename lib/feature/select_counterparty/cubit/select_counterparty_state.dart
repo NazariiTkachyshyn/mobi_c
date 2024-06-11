@@ -23,15 +23,15 @@ final class SelectCounterpartyState extends Equatable {
   });
 
   final SelectCounterpartyStatus status;
-  final List<Counterparty> allCounterparty;
-  final List<Counterparty> counterparty;
+  final List<ApiCounterparty> allCounterparty;
+  final List<ApiCounterparty> counterparty;
 
   final String errorMassage;
 
   SelectCounterpartyState copyWith({
     SelectCounterpartyStatus? status,
-    List<Counterparty>? allCounterparty,
-    List<Counterparty>? counterparty,
+    List<ApiCounterparty>? allCounterparty,
+    List<ApiCounterparty>? counterparty,
     String? errorMassage,
   }) {
     return SelectCounterpartyState(

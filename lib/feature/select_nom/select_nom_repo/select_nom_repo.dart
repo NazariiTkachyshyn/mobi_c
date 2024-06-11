@@ -3,11 +3,11 @@ import '../select_nom_client/select_nom_client.dart';
 
 abstract interface class SelectNomRepo {
   
-  Future<List<Nom>> getAllNoms();
+  Future<List<ApiNom>> getAllNoms();
 
-  Future<List<Nom>> getNomsByParentKey(String parentKey);
+  Future<List<ApiNom>> getNomsByParentKey(String parentKey);
 
-  Future<List<Nom>> getFolders();
+  Future<List<ApiNom>> getFolders();
 }
 
 class SelectNomRepoImpl implements SelectNomRepo {
@@ -17,7 +17,7 @@ class SelectNomRepoImpl implements SelectNomRepo {
       : _selecNomClient = selectNomClient;
 
   @override
-  Future<List<Nom>> getFolders() async {
+  Future<List<ApiNom>> getFolders() async {
     try {
       final noms = await _selecNomClient.getFolders();
       return noms;
@@ -27,7 +27,7 @@ class SelectNomRepoImpl implements SelectNomRepo {
   }
 
   @override
-  Future<List<Nom>> getAllNoms() async {
+  Future<List<ApiNom>> getAllNoms() async {
     try {
       final noms = await _selecNomClient.getAllNoms();
       return noms;
@@ -37,7 +37,7 @@ class SelectNomRepoImpl implements SelectNomRepo {
   }
 
   @override
-  Future<List<Nom>> getNomsByParentKey(String parentKey) async {
+  Future<List<ApiNom>> getNomsByParentKey(String parentKey) async {
     try {
       final noms = await _selecNomClient.getByParendKey(parentKey);
       return noms;

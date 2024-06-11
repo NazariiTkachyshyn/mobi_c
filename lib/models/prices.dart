@@ -1,20 +1,20 @@
 import 'package:equatable/equatable.dart';
 
-class Price extends Equatable {
+class ApiPrice extends Equatable {
   final double price;
   final String priceType;
   final String packKey;
   final String currencyKey;
   final String nomKey;
 
-  const Price(
+  const ApiPrice(
       {required this.price,
       required this.priceType,
       required this.packKey,
       required this.currencyKey,
       required this.nomKey});
 
-  factory Price.fromJson(Map<String, dynamic> json) => Price(
+  factory ApiPrice.fromJson(Map<String, dynamic> json) => ApiPrice(
       price: ((json['Цена'] ?? 0) as num).toDouble(),
       priceType: json['ТипЦен_Key'] ?? '',
       packKey: json['Упаковка_Key'] ?? '',

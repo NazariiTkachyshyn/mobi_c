@@ -11,37 +11,37 @@ import 'package:http/http.dart' as http;
 class CreateOrderClient {
   final sqlite = GetIt.I.get<Database>();
 
-  Future<List<Contract>> getContracts(String ownerKey) async {
+  Future<List<ApiContract>> getContracts(String ownerKey) async {
     try {
       final contracts = await sqlite
           .rawQuery('select * from contract where Owner_Key = "$ownerKey"');
-      return contracts.map((e) => Contract.fromJson(e)).toList();
+      return contracts.map((e) => ApiContract.fromJson(e)).toList();
     } catch (e) {
       throw Exception(e);
     }
   }
 
-  Future<Discount> getDiscount(String discountRecipient) async {
+  Future<ApiDiscount> getDiscount(String discountRecipient) async {
     try {
       final discount = await sqlite.rawQuery(
           'select *, count(*) from $tableDiscount where $fieldDiscountRecipient = "$discountRecipient"');
-      return Discount.fromJson(discount.first);
+      return ApiDiscount.fromJson(discount.first);
     } catch (e) {
       throw Exception(e);
     }
   }
 
-  Future<List<OrderNom>> getNoms(int orderId) async {
+  Future<List<ApiOrderNom>> getNoms(int orderId) async {
     try {
       final noms =
           await sqlite.query('orderProduct', where: 'orderId = $orderId');
-      return noms.map((e) => OrderNom.fromJson(e)).toList();
+      return noms.map((e) => ApiOrderNom.fromJson(e)).toList();
     } catch (e) {
       throw Exception(e);
     }
   }
 
-  Future<void> insertNom(OrderNom nom) async {
+  Future<void> insertNom(ApiOrderNom nom) async {
     try {
       await sqlite.insert('orderProduct', {
         "ref": nom.ref,
@@ -60,12 +60,12 @@ class CreateOrderClient {
     }
   }
 
-  Future<List<Unit>> getUnits(String nomKey) async {
+  Future<List<ApiUnit>> getUnits(String nomKey) async {
     try {
       final res = await sqlite.rawQuery(
           'select u.*, uc.$fieldDescription from $tableUnit u left join $tableUnitClassificator uc on u.$fieldClasificatorkey = uc.$fieldRefKey  where $fieldOwner = "$nomKey"');
       print(1);
-      return res.map((e) => Unit.fromJson(e)).toList();
+      return res.map((e) => ApiUnit.fromJson(e)).toList();
     } catch (e) {
       throw Exception(e);
     }
@@ -79,7 +79,7 @@ class CreateOrderClient {
     }
   }
 
-  Future<void> updateNom(int id, int qty, Unit unit) async {
+  Future<void> updateNom(int id, int qty, ApiUnit unit) async {
     try {
       await sqlite.update(
           'orderProduct',

@@ -177,7 +177,7 @@ class _InsertNomDialogState extends State<InsertNomDialog> {
                               onTap: () {
                                 selectUnitDialog(context, widget.nom);
                               },
-                              text: state.selectedUnit == Unit.empty
+                              text: state.selectedUnit == ApiUnit.empty
                                   ? 'Відсутня'
                                   : state.selectedUnit.description,
                               lableText: 'Одиниця');
@@ -193,7 +193,7 @@ class _InsertNomDialogState extends State<InsertNomDialog> {
             padding: const EdgeInsets.all(8.0),
             child: TextButton(
                 onPressed: () {
-                  if (widget.nom.runtimeType == Nom) {
+                  if (widget.nom.runtimeType == ApiNom) {
                     final state = context.read<CreateOrderCubit>().state;
                     context.read<CreateOrderCubit>().insertNom(
                         widget.nom, controller.text);
@@ -228,12 +228,12 @@ selectUnitDialog(BuildContext context, nom) {
                 itemCount: state.units.length,
                 itemBuilder: (context, index) => ListTile(
                   leading: Radio<String>(
-                      value: state.selectedUnit.clasificatorKey,
-                      groupValue: state.units[index].clasificatorKey,
+                      value: state.selectedUnit.classifierKey,
+                      groupValue: state.units[index].classifierKey,
                       onChanged: (value) {
                         context
                             .read<CreateOrderCubit>()
-                            .selectUnit(state.units[index].clasificatorKey);
+                            .selectUnit(state.units[index].classifierKey);
                         Navigator.pop(context);
                       }),
                   title: Text(state.units[index].description),

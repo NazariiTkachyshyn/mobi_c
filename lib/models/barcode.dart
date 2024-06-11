@@ -1,14 +1,14 @@
 import 'package:equatable/equatable.dart';
 
-class Barcode extends Equatable {
+class ApiBarcode extends Equatable {
   final String barcode;
   final String nomKey;
   final String packKey;
 
-  const Barcode(
+  const ApiBarcode(
       {required this.barcode, required this.nomKey, required this.packKey});
 
-  factory Barcode.fromJson(Map<String, dynamic> json) => Barcode(
+  factory ApiBarcode.fromJson(Map<String, dynamic> json) => ApiBarcode(
       barcode: json['Штрихкод'] ?? '',
       packKey: json['Упаковка_Key'] ?? '',
       nomKey: json['Номенклатура_Key'] ?? '');

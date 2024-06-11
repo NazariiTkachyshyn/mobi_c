@@ -1,20 +1,20 @@
 import 'package:equatable/equatable.dart';
 
-class Counterparty extends Equatable {
+class ApiCounterparty extends Equatable {
   final String refKey;
   final String description;
   final String mainCounterpartyKey;
   final String partnerKey;
   final String fullDescription;
 
-  const Counterparty(
+  const ApiCounterparty(
       {required this.refKey,
       required this.description,
       required this.partnerKey,
       required this.mainCounterpartyKey,
       required this.fullDescription});
 
-  factory Counterparty.fromJson(Map<String, dynamic> json) => Counterparty(
+  factory ApiCounterparty.fromJson(Map<String, dynamic> json) => ApiCounterparty(
       refKey: json['Ref_Key'] ?? '',
       mainCounterpartyKey: json['ГоловнойКонтрагент_Key'] ?? '',
       partnerKey: json['Партнер_Key'] ?? '',
@@ -31,7 +31,7 @@ class Counterparty extends Equatable {
     };
   }
 
-  static const empty = Counterparty(
+  static const empty = ApiCounterparty(
       refKey: '',
       description: '',
       mainCounterpartyKey: '',

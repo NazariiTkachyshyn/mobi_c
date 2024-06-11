@@ -3,21 +3,21 @@ import 'package:mobi_c/feature/create_order/create_order_client/cerate_order_cli
 import '../../../models/models.dart';
 
 abstract interface class CreateOrderRepo {
-  Future<List<OrderNom>> getNoms(int orderId);
+  Future<List<ApiOrderNom>> getNoms(int orderId);
 
-  Future<void> insertNom(OrderNom nom);
+  Future<void> insertNom(ApiOrderNom nom);
 
-  Future<void> updateNom(int id, int qty, Unit unit);
+  Future<void> updateNom(int id, int qty, ApiUnit unit);
 
   Future<void> deleteNom(int id);
 
   Future<void> createOrder(Map<String, dynamic> order);
 
-  Future<List<Contract>> getContracts(String ownerKey);
+  Future<List<ApiContract>> getContracts(String ownerKey);
 
-  Future<Discount> getDiscount(String discountRecipient);
+  Future<ApiDiscount> getDiscount(String discountRecipient);
 
-  Future<List<Unit>> getUnits(String nomKey);
+  Future<List<ApiUnit>> getUnits(String nomKey);
 }
 
 class CreateOrderRepoImpl implements CreateOrderRepo {
@@ -27,7 +27,7 @@ class CreateOrderRepoImpl implements CreateOrderRepo {
       : _createOrderClient = createOrderClient;
 
   @override
-  Future<List<OrderNom>> getNoms(int orderId) async {
+  Future<List<ApiOrderNom>> getNoms(int orderId) async {
     try {
       return await _createOrderClient.getNoms(orderId);
     } catch (e) {
@@ -36,7 +36,7 @@ class CreateOrderRepoImpl implements CreateOrderRepo {
   }
 
   @override
-  Future<void> insertNom(OrderNom nom) async {
+  Future<void> insertNom(ApiOrderNom nom) async {
     try {
       await _createOrderClient.insertNom(nom);
     } catch (e) {
@@ -54,7 +54,7 @@ class CreateOrderRepoImpl implements CreateOrderRepo {
   }
 
   @override
-  Future<void> updateNom(int id, int qty, Unit unit) async {
+  Future<void> updateNom(int id, int qty, ApiUnit unit) async {
     try {
       await _createOrderClient.updateNom(id, qty, unit);
     } catch (e) {
@@ -72,7 +72,7 @@ class CreateOrderRepoImpl implements CreateOrderRepo {
   }
 
   @override
-  Future<List<Contract>> getContracts(String ownerKey) async {
+  Future<List<ApiContract>> getContracts(String ownerKey) async {
     try {
       return await _createOrderClient.getContracts(ownerKey);
     } catch (e) {
@@ -81,7 +81,7 @@ class CreateOrderRepoImpl implements CreateOrderRepo {
   }
 
   @override
-  Future<Discount> getDiscount(String discountRecipient) async {
+  Future<ApiDiscount> getDiscount(String discountRecipient) async {
     try {
       return await _createOrderClient.getDiscount(discountRecipient);
     } catch (e) {
@@ -90,7 +90,7 @@ class CreateOrderRepoImpl implements CreateOrderRepo {
   }
 
   @override
-  Future<List<Unit>> getUnits(String nomKey) async {
+  Future<List<ApiUnit>> getUnits(String nomKey) async {
     try {
       return await _createOrderClient.getUnits(nomKey);
     } catch (e) {

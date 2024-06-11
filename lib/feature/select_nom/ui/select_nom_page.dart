@@ -46,7 +46,7 @@ class _SelectNomViewState extends State<SelectNomView> {
   Widget build(context) {
     final arguments =
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-    final onSelect = arguments['onTap'] as Function(Nom nom);
+    final onSelect = arguments['onTap'] as Function(ApiNom nom);
     final discount = arguments['discount'];
     return Scaffold(
         appBar: AppBar(
@@ -127,7 +127,7 @@ class _SearchByTextField extends StatefulWidget {
       {required this.onSelect,
       required this.parentKey,
       required this.discount});
-  final Function(Nom nom) onSelect;
+  final Function(ApiNom nom) onSelect;
   final String parentKey;
   final double discount;
 
@@ -264,7 +264,7 @@ class TreeNom {
     children.add(child);
   }
 
-  factory TreeNom.toTreeNom(Nom nom) => TreeNom(
+  factory TreeNom.toTreeNom(ApiNom nom) => TreeNom(
       id: 0,
       ref: nom.ref,
       isFolder: nom.isFolder,

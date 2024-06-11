@@ -8,33 +8,33 @@ import 'package:sqflite/sqflite.dart';
 class SelectNomClient {
   final sqlite = GetIt.I.get<Database>();
 
-  Future<List<Nom>> getFolders() async {
+  Future<List<ApiNom>> getFolders() async {
     try {
       final parentNoms =
           await sqlite.rawQuery('SELECT * FROM noms where IsFolder = 1 order by Description');
 
-      return parentNoms.map((e) => Nom.fromSql(e)).toList();
+      return parentNoms.map((e) => ApiNom.fromSql(e)).toList();
     } catch (e) {
       throw Exception(e);
     }
   }
 
-  Future<List<Nom>> getByParendKey(String parentKey) async {
+  Future<List<ApiNom>> getByParendKey(String parentKey) async {
     try {
       final parentNoms = await sqlite.rawQuery(
           'SELECT n.*, p.Цена FROM noms n  LEFT JOIN prices p on p.Номенклатура_Key = n.Ref_Key  where Parent_Key = "$parentKey" and ТипЦен_Key = "${KeyConst.priceType}" and $fieldIsFolder != 1');
 
-      return parentNoms.map((e) => Nom.fromSql(e)).toList();
+      return parentNoms.map((e) => ApiNom.fromSql(e)).toList();
     } catch (e) {
       throw Exception(e);
     }
   }
 
-  Future<List<Nom>> getAllNoms() async {
+  Future<List<ApiNom>> getAllNoms() async {
     try {
       final parentNoms = await sqlite.rawQuery('select n.*, p.Цена from $tableNoms n LEFT JOIN prices p on p.Номенклатура_Key = n.Ref_Key where $fieldIsFolder != 1');
 
-      return parentNoms.map((e) => Nom.fromSql(e)).toList();
+      return parentNoms.map((e) => ApiNom.fromSql(e)).toList();
     } catch (e) {
       throw Exception(e);
     }

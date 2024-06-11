@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:mobi_c/common/constants/key_const.dart';
 import 'package:mobi_c/models/models.dart';
 
-class Order extends Equatable {
+class ApiOrder extends Equatable {
   final DateTime? date;
   final DateTime? shipmentDate;
   final String counterpartyKey;
@@ -11,9 +11,9 @@ class Order extends Equatable {
   final String organization;
   final String contractKey;
   final String comment;
-  final List<OrderNom> goods;
+  final List<ApiOrderNom> goods;
 
-  const Order(
+  const ApiOrder(
       {required this.date,
       required this.shipmentDate,
       required this.counterpartyKey,
@@ -24,7 +24,7 @@ class Order extends Equatable {
       required this.comment,
       required this.goods});
 
-  Order copyWith({
+  ApiOrder copyWith({
     DateTime? date,
     DateTime? shipmentDate,
     String? counterpartyKey,
@@ -34,9 +34,9 @@ class Order extends Equatable {
     String? storageKey,
     String? organization,
     String? comment,
-    List<OrderNom>? goods,
+    List<ApiOrderNom>? goods,
   }) {
-    return Order(
+    return ApiOrder(
         date: date ?? this.date,
         shipmentDate: shipmentDate ?? this.shipmentDate,
         counterpartyKey: counterpartyKey ?? this.counterpartyKey,
@@ -73,7 +73,7 @@ class Order extends Equatable {
     };
   }
 
-  static const empty = Order(
+  static const empty = ApiOrder(
       date: null,
       shipmentDate: null,
       counterpartyKey: '',

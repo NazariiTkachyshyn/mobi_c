@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-class Nom extends Equatable {
+class ApiNom extends Equatable {
   final int id;
   final String ref;
   final bool isFolder;
@@ -11,7 +11,7 @@ class Nom extends Equatable {
   final String imageKey;
   final double price;
 
-  const Nom(
+  const ApiNom(
       {required this.id,
       required this.ref,
       required this.isFolder,
@@ -22,7 +22,7 @@ class Nom extends Equatable {
       required this.imageKey,
       required this.price});
 
-  factory Nom.fromJson(Map<String, dynamic> json) => Nom(
+  factory ApiNom.fromJson(Map<String, dynamic> json) => ApiNom(
       id: json['id'] ?? 0,
       ref: json['Ref_Key'] ?? '',
       isFolder: json['IsFolder'] ?? true,
@@ -33,7 +33,7 @@ class Nom extends Equatable {
       imageKey: json['ФайлКартинки_Key'] ?? '',
       price: 0);
 
-  factory Nom.fromSql(Map<String, dynamic> json) => Nom(
+  factory ApiNom.fromSql(Map<String, dynamic> json) => ApiNom(
       id: json['id'] ?? 0,
       ref: json['Ref_Key'] ?? '',
       isFolder: ((json['IsFolder'] ?? 0) == 0 ? false : true),
@@ -54,7 +54,7 @@ class Nom extends Equatable {
       };
 
 
-Nom copyWith({
+ApiNom copyWith({
     int? id,
     String? ref,
     bool? isFolder,
@@ -65,7 +65,7 @@ Nom copyWith({
     String? imageKey,
     double? price,
   }) {
-    return Nom(
+    return ApiNom(
       id: id ?? this.id,
       ref: ref ?? this.ref,
       isFolder: isFolder ?? this.isFolder,
@@ -84,7 +84,7 @@ Nom copyWith({
     return price * (1 - discount / 100);
   }
 
-  static const empty = Nom(
+  static const empty = ApiNom(
       id: 0,
       ref: '',
       isFolder: false,

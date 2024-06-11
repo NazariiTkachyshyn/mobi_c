@@ -24,17 +24,17 @@ final class SelectNomState extends Equatable {
   });
 
   final SelectNomStatus status;
-  final List<Nom> noms;
-  final List<Nom> searchNoms;
-  final List<Nom> folders;
+  final List<ApiNom> noms;
+  final List<ApiNom> searchNoms;
+  final List<ApiNom> folders;
 
   final String errorMassage;
 
   SelectNomState copyWith({
     SelectNomStatus? status,
-    List<Nom>? noms,
-    List<Nom>? searchNoms,
-    List<Nom>? folders,
+    List<ApiNom>? noms,
+    List<ApiNom>? searchNoms,
+    List<ApiNom>? folders,
     String? errorMassage,
   }) {
     return SelectNomState(

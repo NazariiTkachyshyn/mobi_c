@@ -21,24 +21,24 @@ final class CreateOrderState extends Equatable {
     this.noms = const [],
     this.contracts = const [],
     this.units = const [],
-    this.selectedUnit = Unit.empty,
-    Discount? discount,
-    Order? order,
-    Counterparty? counterparty,
-  })  : counterparty = counterparty ?? Counterparty.empty,
-        order = order ?? Order.empty,
-        discount = discount ?? Discount.empty;
+    this.selectedUnit = ApiUnit.empty,
+    ApiDiscount? discount,
+    ApiOrder? order,
+    ApiCounterparty? counterparty,
+  })  : counterparty = counterparty ?? ApiCounterparty.empty,
+        order = order ?? ApiOrder.empty,
+        discount = discount ?? ApiDiscount.empty;
 
   final CreateOrderStatus status;
   final int orderId;
-  final Counterparty counterparty;
-  final Order order;
+  final ApiCounterparty counterparty;
+  final ApiOrder order;
   final String errorMessage;
-  final List<OrderNom> noms;
-  final List<Contract> contracts;
-  final Discount discount;
-  final List<Unit> units;
-  final Unit selectedUnit;
+  final List<ApiOrderNom> noms;
+  final List<ApiContract> contracts;
+  final ApiDiscount discount;
+  final List<ApiUnit> units;
+  final ApiUnit selectedUnit;
 
   double get discountedSumm =>
       noms.fold(0, (a, b) => a + b.calcDiscount(discount.percentDiscounts));
@@ -51,14 +51,14 @@ final class CreateOrderState extends Equatable {
   CreateOrderState copyWith({
     CreateOrderStatus? status,
     int? orderId,
-    Order? order,
+    ApiOrder? order,
     String? errorMessage,
-    Counterparty? counterparty,
-    List<OrderNom>? noms,
-    List<Contract>? contracts,
-    Discount? discount,
-    List<Unit>? units,
-    Unit? selectedUnit
+    ApiCounterparty? counterparty,
+    List<ApiOrderNom>? noms,
+    List<ApiContract>? contracts,
+    ApiDiscount? discount,
+    List<ApiUnit>? units,
+    ApiUnit? selectedUnit
   }) {
     return CreateOrderState(
       status: status ?? this.status,

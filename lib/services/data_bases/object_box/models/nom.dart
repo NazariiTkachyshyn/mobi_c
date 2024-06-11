@@ -26,7 +26,7 @@ class ObNom {
       required this.unitKey,
       this.id = 0});
 
-  factory ObNom.fromApi(Nom nom) => ObNom(
+  factory ObNom.fromApi(ApiNom nom) => ObNom(
       ref: nom.ref,
       isFolder: nom.isFolder,
       article: nom.article,

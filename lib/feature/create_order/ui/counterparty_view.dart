@@ -54,7 +54,7 @@ class _CounterpartyViewState extends State<CounterpartyView> {
                 lableText: 'Клієнт',
                 onTap: () {
                   Navigator.pushNamed(context, 'selectCounterparty',
-                      arguments: ((Counterparty counterparty) {
+                      arguments: ((ApiCounterparty counterparty) {
                         context
                             .read<CreateOrderCubit>()
                             .selectCounterparty(counterparty);

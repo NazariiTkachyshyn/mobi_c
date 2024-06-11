@@ -17,7 +17,7 @@ class CreateOrderCubit extends Cubit<CreateOrderState> {
     emit(state.copyWith(orderId: DateTime.now().millisecondsSinceEpoch));
   }
 
-  Future<void> selectCounterparty(Counterparty counterparty) async {
+  Future<void> selectCounterparty(ApiCounterparty counterparty) async {
     emit(state.copyWith(order: state.order.copyWith(contractKey: '')));
     await getContracts(counterparty.refKey);
     await getDiscount(state.contracts.first.refKey);
@@ -73,11 +73,11 @@ class CreateOrderCubit extends Cubit<CreateOrderState> {
     }
   }
 
-  Future<void> insertNom(Nom nom, String qty) async {
+  Future<void> insertNom(ApiNom nom, String qty) async {
     try {
       final unit = state.selectedUnit;
       await _createOrderRepo.insertNom(
-        OrderNom(
+        ApiOrderNom(
             id: 0,
             orderId: state.orderId,
             ref: nom.ref,
@@ -107,7 +107,7 @@ class CreateOrderCubit extends Cubit<CreateOrderState> {
     }
   }
 
-  Future<void> updateNom(OrderNom nom, String qty, ) async {
+  Future<void> updateNom(ApiOrderNom nom, String qty, ) async {
     try {
       await _createOrderRepo.updateNom(nom.id, int.parse(qty), state.selectedUnit);
       await getNoms();
@@ -144,7 +144,7 @@ class CreateOrderCubit extends Cubit<CreateOrderState> {
       emit(state.copyWith(status: CreateOrderStatus.loading));
       final units = await _createOrderRepo.getUnits(nomKey);
        final selectedUnit = units
-        .firstWhere((e) => e.clasificatorKey == nomUnit);
+        .firstWhere((e) => e.classifierKey == nomUnit);
       emit(state.copyWith(units: units, selectedUnit: selectedUnit, status: CreateOrderStatus.success));
     } catch (e) {
       emit(state.copyWith(
@@ -154,7 +154,7 @@ class CreateOrderCubit extends Cubit<CreateOrderState> {
 
   selectUnit(String unitClassificatorKey) {
     final selectedUnit = state.units
-        .firstWhere((e) => e.clasificatorKey == unitClassificatorKey);
+        .firstWhere((e) => e.classifierKey == unitClassificatorKey);
     emit(state.copyWith(selectedUnit: selectedUnit));
   }
 }

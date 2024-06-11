@@ -14,7 +14,7 @@ class DataSyncApiClient {
   };
 
   //^----------NOMENKLATURA----------------
-  Future<List<Nom>> getAllNom() async {
+  Future<List<ApiNom>> getAllNom() async {
     final uri = Uri.http(
       ApiConstants.odataHost,
       '${ApiConstants.odataPath}/Catalog_Номенклатура?\$format=json&\$select=Ref_Key,Description,Артикул,БазоваяЕдиницаИзмерения_Key,Parent_Key,IsFolder&\$filter=DeletionMark eq false',
@@ -25,7 +25,7 @@ class DataSyncApiClient {
 
       if (nomRes.statusCode == 200) {
         final json = jsonDecode(nomRes.body);
-        return (json['value'] as List).map((e) => Nom.fromJson(e)).toList();
+        return (json['value'] as List).map((e) => ApiNom.fromJson(e)).toList();
       } else {
         throw Exception(
             "${nomRes.reasonPhrase ?? ''} ${nomRes.statusCode} ${utf8.decode(nomRes.bodyBytes)}");
@@ -36,7 +36,7 @@ class DataSyncApiClient {
   }
   //^----------PRICES----------------
 
-  Future<List<Price>> getAllPrices() async {
+  Future<List<ApiPrice>> getAllPrices() async {
     final uri = Uri.http(
         ApiConstants.odataHost,
         "${ApiConstants.odataPath}/InformationRegister_ЦеныНоменклатуры_RecordType/SliceLast?\$filter=ТипЦен_Key eq guid'940e4d76-9712-11e4-249e-8e887ee7bcbd'",
@@ -47,7 +47,7 @@ class DataSyncApiClient {
 
       if (nomRes.statusCode == 200) {
         final json = jsonDecode(nomRes.body);
-        return (json['value'] as List).map((e) => Price.fromJson(e)).toList();
+        return (json['value'] as List).map((e) => ApiPrice.fromJson(e)).toList();
       } else {
         throw Exception(
             "${nomRes.reasonPhrase ?? ''} ${nomRes.statusCode} ${utf8.decode(nomRes.bodyBytes)}");
@@ -59,7 +59,7 @@ class DataSyncApiClient {
 
   //^----------STORAGES----------------
 
-  Future<List<Storage>> getAllStorages() async {
+  Future<List<ApiStorage>> getAllStorages() async {
     final uri = Uri.http(
         ApiConstants.odataHost, '${ApiConstants.odataPath}/Catalog_Склады', {
       "\$format": 'json',
@@ -71,7 +71,7 @@ class DataSyncApiClient {
 
       if (nomRes.statusCode == 200) {
         final json = jsonDecode(nomRes.body);
-        return (json['value'] as List).map((e) => Storage.fromJson(e)).toList();
+        return (json['value'] as List).map((e) => ApiStorage.fromJson(e)).toList();
       } else {
         throw Exception(
             "${nomRes.reasonPhrase ?? ''} ${nomRes.statusCode} ${utf8.decode(nomRes.bodyBytes)}");
@@ -82,7 +82,7 @@ class DataSyncApiClient {
   }
   //^----------BARCODES----------------
 
-  Future<List<Barcode>> getAllBarcodes() async {
+  Future<List<ApiBarcode>> getAllBarcodes() async {
     final uri = Uri.http(ApiConstants.odataHost,
         '${ApiConstants.odataPath}/InformationRegister_ШтрихкодыНоменклатуры', {
       "\$format": 'json',
@@ -94,7 +94,7 @@ class DataSyncApiClient {
 
       if (nomRes.statusCode == 200) {
         final json = jsonDecode(nomRes.body);
-        return (json['value'] as List).map((e) => Barcode.fromJson(e)).toList();
+        return (json['value'] as List).map((e) => ApiBarcode.fromJson(e)).toList();
       } else {
         throw Exception(
             "${nomRes.reasonPhrase ?? ''} ${nomRes.statusCode} ${utf8.decode(nomRes.bodyBytes)}");
@@ -106,7 +106,7 @@ class DataSyncApiClient {
 
   //^----------CONTRAKT----------------
 
-  Future<List<Contract>> getAllContract() async {
+  Future<List<ApiContract>> getAllContract() async {
     final uri = Uri.http(ApiConstants.odataHost,
         '${ApiConstants.odataPath}/Catalog_ДоговорыКонтрагентов', {
       "\$format": 'json',
@@ -119,7 +119,7 @@ class DataSyncApiClient {
       if (nomRes.statusCode == 200) {
         final json = jsonDecode(nomRes.body);
         return (json['value'] as List)
-            .map((e) => Contract.fromJson(e))
+            .map((e) => ApiContract.fromJson(e))
             .toList();
       } else {
         throw Exception(
@@ -131,7 +131,7 @@ class DataSyncApiClient {
   }
   //^----------KONTRAGENT----------------
 
-  Future<List<Counterparty>> getAllCounterparty() async {
+  Future<List<ApiCounterparty>> getAllCounterparty() async {
     final uri = Uri.http(ApiConstants.odataHost,
         '${ApiConstants.odataPath}/Catalog_Контрагенты', {
       "\$format": 'json',
@@ -145,7 +145,7 @@ class DataSyncApiClient {
       if (nomRes.statusCode == 200) {
         final json = jsonDecode(nomRes.body);
         return (json['value'] as List)
-            .map((e) => Counterparty.fromJson(e))
+            .map((e) => ApiCounterparty.fromJson(e))
             .toList();
       } else {
         throw Exception(
@@ -158,7 +158,7 @@ class DataSyncApiClient {
 
   //^----------DISCOUNT----------------
 
-  Future<List<Discount>> getAllDiscount() async {
+  Future<List<ApiDiscount>> getAllDiscount() async {
     final uri = Uri.http(
         ApiConstants.odataHost,
         '${ApiConstants.odataPath}/InformationRegister_СкидкиНаценкиНоменклатуры_RecordType',
@@ -173,7 +173,7 @@ class DataSyncApiClient {
       if (nomRes.statusCode == 200) {
         final json = jsonDecode(nomRes.body);
         return (json['value'] as List)
-            .map((e) => Discount.fromJson(e))
+            .map((e) => ApiDiscount.fromJson(e))
             .toList();
       } else {
         throw Exception(
@@ -186,7 +186,7 @@ class DataSyncApiClient {
 
   //^----------Unit----------------
 
-  Future<List<Unit>> getAllUnit() async {
+  Future<List<ApiUnit>> getAllUnit() async {
     final uri = Uri.http(ApiConstants.odataHost,
         '${ApiConstants.odataPath}/Catalog_ЕдиницыИзмерения', {
       "\$format": 'json',
@@ -198,7 +198,7 @@ class DataSyncApiClient {
 
       if (nomRes.statusCode == 200) {
         final json = jsonDecode(nomRes.body);
-        return (json['value'] as List).map((e) => Unit.fromJson(e)).toList();
+        return (json['value'] as List).map((e) => ApiUnit.fromJson(e)).toList();
       } else {
         throw Exception(
             "${nomRes.reasonPhrase ?? ''} ${nomRes.statusCode} ${utf8.decode(nomRes.bodyBytes)}");
@@ -209,7 +209,7 @@ class DataSyncApiClient {
   }
   //^----------UnitClassificator----------------
 
-  Future<List<UnitClassificator>> getAllUnitClassificator() async {
+  Future<List<UnitClassifier>> getAllUnitClassificator() async {
     final uri = Uri.http(ApiConstants.odataHost,
         '${ApiConstants.odataPath}/Catalog_КлассификаторЕдиницИзмерения', {
       "\$format": 'json',
@@ -222,7 +222,7 @@ class DataSyncApiClient {
       if (nomRes.statusCode == 200) {
         final json = jsonDecode(nomRes.body);
         return (json['value'] as List)
-            .map((e) => UnitClassificator.fromJson(e))
+            .map((e) => UnitClassifier.fromJson(e))
             .toList();
       } else {
         throw Exception(

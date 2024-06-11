@@ -7,11 +7,11 @@ class Updater {
 
   Updater({required this.dbService});
 
-  Future<void> updateNoms(Set<Nom> data) async {
+  Future<void> updateNoms(Set<ApiNom> data) async {
     dbService.setNewRows(data.map((e) => e.toJson()).toList(), tableNoms);
   }
 
-  Future<void> updatePrices(Set<Price> data) async {
+  Future<void> updatePrices(Set<ApiPrice> data) async {
     dbService.setNewRows(data.map((e) => e.toJson()).toList(), tablePrices);
   }
 
@@ -23,24 +23,24 @@ class Updater {
   //   dbService.setNewBarcodes(barcodes);
   // }
 
-  Future<void> updateCounterparty(Set<Counterparty> data) async {
+  Future<void> updateCounterparty(Set<ApiCounterparty> data) async {
     dbService.setNewRows(
         data.map((e) => e.toJson()).toList(), tableCounterparty);
   }
 
-  Future<void> updateContract(Set<Contract> data) async {
+  Future<void> updateContract(Set<ApiContract> data) async {
     dbService.setNewRows(data.map((e) => e.toJson()).toList(), tableContract);
   }
 
-  Future<void> updateDiscount(Set<Discount> data) async {
+  Future<void> updateDiscount(Set<ApiDiscount> data) async {
     dbService.setNewRows(data.map((e) => e.toJson()).toList(), tableDiscount);
   }
 
-  Future<void> updateUnit(Set<Unit> data) async {
+  Future<void> updateUnit(Set<ApiUnit> data) async {
     dbService.setNewRows(data.map((e) => e.toJson()).toList(), tableUnit);
 
   }
-    Future<void> updateUnitClassificator(Set<UnitClassificator> data) async {
+    Future<void> updateUnitClassificator(Set<UnitClassifier> data) async {
     dbService.setNewRows(data.map((e) => e.toJson()).toList(), tableUnitClassificator);
   }
 }

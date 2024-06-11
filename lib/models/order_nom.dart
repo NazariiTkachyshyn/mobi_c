@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:mobi_c/common/constants/key_const.dart';
 import 'package:mobi_c/models/models.dart';
 
-class OrderNom extends Equatable {
+class ApiOrderNom extends Equatable {
   final int id;
   final int orderId;
   final String ref;
@@ -15,7 +15,7 @@ class OrderNom extends Equatable {
   final int ratio;
   final String unitName;
 
-  const OrderNom(
+  const ApiOrderNom(
       {required this.id,
       required this.orderId,
       required this.ref,
@@ -28,8 +28,8 @@ class OrderNom extends Equatable {
       required this.ratio,
       required this.unitName});
 
-  factory OrderNom.fromJson(Map<String, dynamic> json) {
-    return OrderNom(
+  factory ApiOrderNom.fromJson(Map<String, dynamic> json) {
+    return ApiOrderNom(
       id: json['id'] ?? 0,
       orderId: json['orderId'] ?? 0,
       ref: json['ref'] ?? '',
@@ -43,7 +43,7 @@ class OrderNom extends Equatable {
       unitName: json['unitName'] ?? '',
     );
   }
-  factory OrderNom.fromNom(Nom nom, int orderId) => OrderNom(
+  factory ApiOrderNom.fromNom(ApiNom nom, int orderId) => ApiOrderNom(
       id: 0,
       orderId: orderId,
       ref: nom.ref,
@@ -56,7 +56,7 @@ class OrderNom extends Equatable {
       ratio: 0,
       unitName: '');
 
-  OrderNom copyWith({int? qty, String? unitKey}) => OrderNom(
+  ApiOrderNom copyWith({int? qty, String? unitKey}) => ApiOrderNom(
       id: id,
       orderId: orderId,
       ref: ref,

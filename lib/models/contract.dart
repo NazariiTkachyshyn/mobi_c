@@ -1,19 +1,19 @@
 import 'package:equatable/equatable.dart';
 
-class Contract extends Equatable {
+class ApiContract extends Equatable {
   final String refKey;
   final String description;
   final String ownerKey;
   final String organizationKey;
 
-  const Contract({
+  const ApiContract({
     required this.refKey,
     required this.description,
     required this.organizationKey,
     required this.ownerKey,
   });
 
-  factory Contract.fromJson(Map<String, dynamic> json) => Contract(
+  factory ApiContract.fromJson(Map<String, dynamic> json) => ApiContract(
         refKey: json['Ref_Key'] ?? '',
         ownerKey: json['Owner_Key'] ?? '',
         organizationKey: json['Организация_Key'] ?? '',
@@ -29,7 +29,7 @@ class Contract extends Equatable {
     };
   }
 
-  static const empty = Contract(
+  static const empty = ApiContract(
     refKey: '',
     description: '',
     ownerKey: '',
