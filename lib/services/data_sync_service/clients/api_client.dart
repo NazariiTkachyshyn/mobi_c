@@ -209,7 +209,7 @@ class DataSyncApiClient {
   }
   //^----------UnitClassificator----------------
 
-  Future<List<UnitClassifier>> getAllUnitClassificator() async {
+  Future<List<ApiUnitClassifier>> getAllUnitClassificator() async {
     final uri = Uri.http(ApiConstants.odataHost,
         '${ApiConstants.odataPath}/Catalog_КлассификаторЕдиницИзмерения', {
       "\$format": 'json',
@@ -222,7 +222,7 @@ class DataSyncApiClient {
       if (nomRes.statusCode == 200) {
         final json = jsonDecode(nomRes.body);
         return (json['value'] as List)
-            .map((e) => UnitClassifier.fromJson(e))
+            .map((e) => ApiUnitClassifier.fromJson(e))
             .toList();
       } else {
         throw Exception(

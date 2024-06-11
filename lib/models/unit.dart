@@ -37,19 +37,19 @@ class ApiUnit extends Equatable {
       [refKey, owner, ratio, classifierKey, description];
 }
 
-class UnitClassifier extends Equatable {
+class ApiUnitClassifier extends Equatable {
   final String refKey;
   final String description;
   final String fullDescription;
 
-  factory UnitClassifier.fromJson(Map<String, dynamic> json) =>
-      UnitClassifier(
+  factory ApiUnitClassifier.fromJson(Map<String, dynamic> json) =>
+      ApiUnitClassifier(
         refKey: json['Ref_Key'] ?? '',
         description: json['Description'] ?? '',
         fullDescription: json['НаименованиеПолное'] ?? '',
       );
 
-  const UnitClassifier(
+  const ApiUnitClassifier(
       {required this.refKey,
       required this.description,
       required this.fullDescription});
@@ -63,7 +63,7 @@ class UnitClassifier extends Equatable {
   }
 
   static const empty =
-      UnitClassifier(refKey: '', description: '', fullDescription: '');
+      ApiUnitClassifier(refKey: '', description: '', fullDescription: '');
   @override
   List<Object?> get props => [refKey, description, fullDescription];
 }

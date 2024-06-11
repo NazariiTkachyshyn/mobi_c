@@ -1,8 +1,9 @@
 import 'package:mobi_c/models/models.dart';
+import 'package:mobi_c/models/unit.dart';
 import 'package:objectbox/objectbox.dart';
 
 @Entity()
-class ObUnit {
+class Unit {
   @Id()
   int id;
   final String refKey;
@@ -11,18 +12,38 @@ class ObUnit {
   final String classifierKey;
   final String description;
 
-  ObUnit(
+  Unit(
       {required this.refKey,
-        required this.owner,
-        required this.ratio,
-        required this.classifierKey,
-        required this.description,
-        this.id = 0});
+      required this.owner,
+      required this.ratio,
+      required this.classifierKey,
+      required this.description,
+      this.id = 0});
 
-  factory ObUnit.fromApi(ApiUnit unit) => ObUnit(
+  factory Unit.fromApi(ApiUnit unit) => Unit(
       refKey: unit.refKey,
       owner: unit.owner,
       ratio: unit.ratio,
       classifierKey: unit.classifierKey,
       description: unit.description);
+}
+
+@Entity()
+class UnitClassifier {
+  final int id;
+  final String refKey;
+  final String description;
+  final String fullDescription;
+
+  const UnitClassifier(
+      {this.id = 0,
+      required this.refKey,
+      required this.description,
+      required this.fullDescription});
+
+  factory UnitClassifier.fromApi(ApiUnitClassifier unitClassifiers) =>
+      UnitClassifier(
+          refKey: unitClassifiers.refKey,
+          description: unitClassifiers.description,
+          fullDescription: unitClassifiers.fullDescription);
 }

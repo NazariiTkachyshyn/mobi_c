@@ -153,15 +153,15 @@ ModelDefinition getObjectBoxModel() {
       version: 1);
 
   final bindings = <Type, EntityDefinition>{
-    ObNom: EntityDefinition<ObNom>(
+    Nom: EntityDefinition<Nom>(
         model: _entities[0],
-        toOneRelations: (ObNom object) => [],
-        toManyRelations: (ObNom object) => {},
-        getId: (ObNom object) => object.id,
-        setId: (ObNom object, int id) {
+        toOneRelations: (Nom object) => [],
+        toManyRelations: (Nom object) => {},
+        getId: (Nom object) => object.id,
+        setId: (Nom object, int id) {
           object.id = id;
         },
-        objectToFB: (ObNom object, fb.Builder fbb) {
+        objectToFB: (Nom object, fb.Builder fbb) {
           final refOffset =
               object.ref == null ? null : fbb.writeString(object.ref!);
           final descriptionOffset = object.description == null
@@ -201,7 +201,7 @@ ModelDefinition getObjectBoxModel() {
           final buffer = fb.BufferContext(fbData);
           final rootOffset = buffer.derefObject(0);
 
-          final object = ObNom(
+          final object = Nom(
               ref: const fb.StringReader(asciiOptimization: true)
                   .vTableGetNullable(buffer, rootOffset, 6),
               isFolder: const fb.BoolReader()
@@ -228,41 +228,41 @@ ModelDefinition getObjectBoxModel() {
   return ModelDefinition(model, bindings);
 }
 
-/// [ObNom] entity fields to define ObjectBox queries.
+/// [Nom] entity fields to define ObjectBox queries.
 class ObNom_ {
-  /// see [ObNom.id]
-  static final id = QueryIntegerProperty<ObNom>(_entities[0].properties[0]);
+  /// see [Nom.id]
+  static final id = QueryIntegerProperty<Nom>(_entities[0].properties[0]);
 
-  /// see [ObNom.ref]
-  static final ref = QueryStringProperty<ObNom>(_entities[0].properties[1]);
+  /// see [Nom.ref]
+  static final ref = QueryStringProperty<Nom>(_entities[0].properties[1]);
 
-  /// see [ObNom.description]
+  /// see [Nom.description]
   static final description =
-      QueryStringProperty<ObNom>(_entities[0].properties[2]);
+      QueryStringProperty<Nom>(_entities[0].properties[2]);
 
-  /// see [ObNom.article]
-  static final article = QueryStringProperty<ObNom>(_entities[0].properties[3]);
+  /// see [Nom.article]
+  static final article = QueryStringProperty<Nom>(_entities[0].properties[3]);
 
-  /// see [ObNom.parentKey]
+  /// see [Nom.parentKey]
   static final parentKey =
-      QueryStringProperty<ObNom>(_entities[0].properties[4]);
+      QueryStringProperty<Nom>(_entities[0].properties[4]);
 
-  /// see [ObNom.imageKey]
+  /// see [Nom.imageKey]
   static final imageKey =
-      QueryStringProperty<ObNom>(_entities[0].properties[5]);
+      QueryStringProperty<Nom>(_entities[0].properties[5]);
 
-  /// see [ObNom.unitKey]
-  static final unitKey = QueryStringProperty<ObNom>(_entities[0].properties[6]);
+  /// see [Nom.unitKey]
+  static final unitKey = QueryStringProperty<Nom>(_entities[0].properties[6]);
 
-  /// see [ObNom.descriptionLower]
+  /// see [Nom.descriptionLower]
   static final descriptionLower =
-      QueryStringProperty<ObNom>(_entities[0].properties[7]);
+      QueryStringProperty<Nom>(_entities[0].properties[7]);
 
-  /// see [ObNom.articleLower]
+  /// see [Nom.articleLower]
   static final articleLower =
-      QueryStringProperty<ObNom>(_entities[0].properties[8]);
+      QueryStringProperty<Nom>(_entities[0].properties[8]);
 
-  /// see [ObNom.isFolder]
+  /// see [Nom.isFolder]
   static final isFolder =
-      QueryBooleanProperty<ObNom>(_entities[0].properties[9]);
+      QueryBooleanProperty<Nom>(_entities[0].properties[9]);
 }

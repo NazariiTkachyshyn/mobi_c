@@ -1,5 +1,6 @@
 import 'package:mobi_c/models/models.dart';
 import 'package:mobi_c/objectbox.g.dart';
+import 'package:mobi_c/services/data_bases/object_box/models/models.dart';
 
 class DataSyncDbClient {
   final Store _store;
@@ -143,17 +144,18 @@ class DataSyncDbClient {
   }
 
   //^----------UnitClassificator----------------
-  List<UnitClassificator> getAllUnitClassificator() {
+  List<UnitClassifier> getAllUnitClassificator() {
     try {
-      return _store.box<UnitClassificator>().getAll();
+      return _store.box<UnitClassifier>().getAll();
     } catch (e) {
       throw Exception(e);
     }
   }
 
-  void setUnitClassificator(List<UnitClassificator> unitClassificators, Box box) async {
+  void setUnitClassificator(
+      List<UnitClassifier> unitClassifiers, Box box) async {
     try {
-      _store.box<UnitClassificator>().putMany(unitClassificators);
+      _store.box<UnitClassifier>().putMany(unitClassifiers);
     } catch (e) {
       throw Exception(e);
     }

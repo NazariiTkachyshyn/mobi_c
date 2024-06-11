@@ -2,7 +2,7 @@ import 'package:mobi_c/models/models.dart';
 import 'package:objectbox/objectbox.dart';
 
 @Entity()
-class ObNom {
+class Nom {
   @Id()
   int id;
   String? ref;
@@ -15,7 +15,7 @@ class ObNom {
   String? imageKey;
   String? unitKey;
 
-  ObNom(
+  Nom(
       {required this.ref,
       required this.isFolder,
       required this.article,
@@ -26,7 +26,7 @@ class ObNom {
       required this.unitKey,
       this.id = 0});
 
-  factory ObNom.fromApi(ApiNom nom) => ObNom(
+  factory Nom.fromApi(ApiNom nom) => Nom(
       ref: nom.ref,
       isFolder: nom.isFolder,
       article: nom.article,

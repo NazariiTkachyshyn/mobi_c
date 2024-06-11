@@ -1,7 +1,7 @@
 import 'package:mobi_c/objectbox.g.dart';
 
 @Entity()
-class ApiOrderNom {
+class OrderNom {
   @Id()
   final int id;
   final int orderId;
@@ -15,7 +15,7 @@ class ApiOrderNom {
   final int ratio;
   final String unitName;
 
-  const ApiOrderNom({this.id = 0,
+  const OrderNom({this.id = 0,
     required this.orderId,
     required this.ref,
     required this.description,

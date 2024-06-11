@@ -40,7 +40,7 @@ class Updater {
     dbService.setNewRows(data.map((e) => e.toJson()).toList(), tableUnit);
 
   }
-    Future<void> updateUnitClassificator(Set<UnitClassifier> data) async {
+    Future<void> updateUnitClassificator(Set<ApiUnitClassifier> data) async {
     dbService.setNewRows(data.map((e) => e.toJson()).toList(), tableUnitClassificator);
   }
 }

@@ -2,7 +2,7 @@ import 'package:mobi_c/models/models.dart';
 import 'package:objectbox/objectbox.dart';
 
 @Entity()
-class ObPrice {
+class Price {
   @Id()
   int id;
   final double price;
@@ -11,7 +11,7 @@ class ObPrice {
   final String currencyKey;
   final String nomKey;
 
-  ObPrice(
+  Price(
       {required this.price,
         required this.priceType,
         required this.packKey,
@@ -19,7 +19,7 @@ class ObPrice {
         required this.nomKey,
         this.id = 0});
 
-  factory ObPrice.fromApi(ApiPrice price) => ObPrice(
+  factory Price.fromApi(ApiPrice price) => Price(
       price: price.price,
       priceType: price.priceType,
       packKey: price.packKey,

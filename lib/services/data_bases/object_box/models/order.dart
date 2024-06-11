@@ -1,9 +1,8 @@
 import 'package:mobi_c/models/models.dart';
-import 'package:mobi_c/models/order.dart';
 import 'package:objectbox/objectbox.dart';
 
 @Entity()
-class ObOrder {
+class Order {
   @Id()
   int id;
   final DateTime? date;
@@ -16,7 +15,7 @@ class ObOrder {
   final String comment;
   final List<ApiOrderNom> goods;
 
-  ObOrder(
+  Order(
       {required this.date,
         required this.shipmentDate,
         required this.counterpartyKey,

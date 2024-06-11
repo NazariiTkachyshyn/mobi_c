@@ -97,11 +97,11 @@ class DataSyncDbClient {
   }
 
   //^----------UnitClassificator----------------
-  Future<List<UnitClassifier>> getAllUnitClassificator() async {
+  Future<List<ApiUnitClassifier>> getAllUnitClassificator() async {
     try {
       final units = await _sqlite.query(tableUnitClassificator);
 
-      return units.map((e) => UnitClassifier.fromJson(e)).toList();
+      return units.map((e) => ApiUnitClassifier.fromJson(e)).toList();
     } catch (e) {
       throw Exception(e);
     }

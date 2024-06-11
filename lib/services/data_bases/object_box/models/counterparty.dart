@@ -2,7 +2,7 @@ import 'package:mobi_c/models/models.dart';
 import 'package:objectbox/objectbox.dart';
 
 @Entity()
-class ObCounterparty {
+class Counterparty {
   @Id()
   int id;
   final String refKey;
@@ -13,7 +13,7 @@ class ObCounterparty {
   final String fullDescription;
   final String lowerCaseFullDescription;
 
-  ObCounterparty(
+  Counterparty(
       {required this.refKey,
         required this.description,
         required this.lowerCaseDescription,
@@ -23,7 +23,7 @@ class ObCounterparty {
         required this.lowerCaseFullDescription,
         this.id = 0});
 
-  factory ObCounterparty.fromApi(ApiCounterparty counterparty) => ObCounterparty(
+  factory Counterparty.fromApi(ApiCounterparty counterparty) => Counterparty(
       refKey: counterparty.refKey,
       description: counterparty.description,
       lowerCaseDescription: counterparty.description.toLowerCase(),
