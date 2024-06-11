@@ -3,13 +3,14 @@ import 'package:equatable/equatable.dart';
 import 'package:mobi_c/common/constants/key_const.dart';
 import 'package:mobi_c/feature/create_order/create_order_repo/create_order_repo.dart';
 import 'package:mobi_c/models/order.dart';
+import 'package:mobi_c/services/data_bases/object_box/models/models.dart';
 
 import '../../../models/models.dart';
 
 part 'create_order_state.dart';
 
 class CreateOrderCubit extends Cubit<CreateOrderState> {
-  CreateOrderCubit(this._createOrderRepo) : super(const CreateOrderState());
+  CreateOrderCubit(this._createOrderRepo) : super( CreateOrderState());
 
   final CreateOrderRepo _createOrderRepo;
 
@@ -17,7 +18,7 @@ class CreateOrderCubit extends Cubit<CreateOrderState> {
     emit(state.copyWith(orderId: DateTime.now().millisecondsSinceEpoch));
   }
 
-  Future<void> selectCounterparty(ApiCounterparty counterparty) async {
+  Future<void> selectCounterparty(Counterparty counterparty) async {
     emit(state.copyWith(order: state.order.copyWith(contractKey: '')));
     await getContracts(counterparty.refKey);
     await getDiscount(state.contracts.first.refKey);

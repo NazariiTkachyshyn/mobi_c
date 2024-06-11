@@ -1,25 +1,29 @@
 import 'package:get_it/get_it.dart';
-import 'package:mobi_c/models/counterparty.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:mobi_c/objectbox.g.dart';
+import 'package:mobi_c/services/data_bases/object_box/models/counterparty.dart';
 
 class SelectCounterpartyClient {
-  final sqlite = GetIt.I.get<Database>();
+  final _store = GetIt.I.get<Store>();
 
-  Future<List<ApiCounterparty>> getAll() async {
+  List<Counterparty> getAll() {
     try {
-      final counterparty = await sqlite.query('counterparty');
-      return counterparty.map((e) => ApiCounterparty.fromJson(e)).toList();
+      return _store.box<Counterparty>().getAll();
     } catch (e) {
       throw Exception(e);
     }
   }
 
-  Future<List<ApiCounterparty>> getCounterpartys(String value) async {
+  Future<List<Counterparty>> getCounterpartys(String value) async {
     try {
-      final counterparty = await sqlite.query('counterparty',
-          where:
-              'НаименованиеПолное like "%$value%" or Description like "%$value%"');
-      return counterparty.map((e) => ApiCounterparty.fromJson(e)).toList();
+      final loverCaseValue = value.toLowerCase();
+      return _store
+          .box<Counterparty>()
+          .query(Counterparty_.lowerCaseDescription
+              .contains(loverCaseValue)
+              .and(Counterparty_.lowerCaseFullDescription
+                  .equals(loverCaseValue)))
+          .build()
+          .findAsync();
     } catch (e) {
       throw Exception(e);
     }

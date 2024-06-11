@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:mobi_c/feature/select_counterparty/select_counterparty_repo/select_counterparty_repo.dart';
-import 'package:mobi_c/models/models.dart';
+import 'package:mobi_c/services/data_bases/object_box/models/models.dart';
 
 part 'select_counterparty_state.dart';
 
@@ -11,10 +11,9 @@ class SelectCounterpartyCubit extends Cubit<SelectCounterpartyState> {
 
   final SelectCounterpartyRepo _selectCounterpartyRepo;
 
-  Future<void> getAll() async {
+  void getAll() {
     try {
-      await Future.delayed(const Duration(milliseconds: 500));
-      final counterparty = await _selectCounterpartyRepo.getAll();
+      final counterparty = _selectCounterpartyRepo.getAll();
       emit(state.copyWith(
           allCounterparty: counterparty,
           status: SelectCounterpartyStatus.success));

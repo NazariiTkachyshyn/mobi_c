@@ -1,6 +1,7 @@
 import 'package:animations/animations.dart';
 import 'package:mobi_c/feature/create_order/cubit/create_order_cubit.dart';
 import 'package:mobi_c/models/counterparty.dart';
+import 'package:mobi_c/services/data_bases/object_box/models/models.dart';
 import 'package:mobi_c/ui/components/widgets/text_field_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -54,7 +55,7 @@ class _CounterpartyViewState extends State<CounterpartyView> {
                 lableText: 'Клієнт',
                 onTap: () {
                   Navigator.pushNamed(context, 'selectCounterparty',
-                      arguments: ((ApiCounterparty counterparty) {
+                      arguments: ((Counterparty counterparty) {
                         context
                             .read<CreateOrderCubit>()
                             .selectCounterparty(counterparty);
@@ -71,7 +72,7 @@ class _CounterpartyViewState extends State<CounterpartyView> {
                         : state.contracts
                             .firstWhere(
                                 (e) => e.refKey == state.order.contractKey)
-                            .description ,
+                            .description,
                 lableText: 'Угода',
                 onTap: () {
                   selectContractDialog(context);

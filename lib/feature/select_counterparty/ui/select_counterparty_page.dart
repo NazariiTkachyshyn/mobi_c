@@ -5,6 +5,7 @@ import 'package:mobi_c/models/counterparty.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobi_c/services/data_bases/object_box/models/models.dart';
 
 class SelectCounterpartyPage extends StatelessWidget {
   const SelectCounterpartyPage({super.key});
@@ -12,7 +13,7 @@ class SelectCounterpartyPage extends StatelessWidget {
   @override
   Widget build(context) {
     final onTup = ModalRoute.of(context)!.settings.arguments as Function(
-        ApiCounterparty counterparty);
+        Counterparty counterparty);
     return BlocProvider(
         create: (context) => SelectCounterpartyCubit(SelectCounterpartyRepoImpl(
             selectCounterpartyClient: SelectCounterpartyClient())),
@@ -40,7 +41,7 @@ class SelectCounterpartyPage extends StatelessWidget {
 
 class _SearchByTextField extends StatelessWidget {
   const _SearchByTextField({required this.onTup});
-  final Function(ApiCounterparty counterparty) onTup;
+  final Function(Counterparty counterparty) onTup;
 
   @override
   Widget build(BuildContext context) {

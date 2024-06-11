@@ -14,7 +14,7 @@ extension CreateStorageStatusX on CreateOrderStatus {
 }
 
 final class CreateOrderState extends Equatable {
-  const CreateOrderState({
+   CreateOrderState({
     this.status = CreateOrderStatus.initial,
     this.orderId = 0,
     this.errorMessage = '',
@@ -24,14 +24,14 @@ final class CreateOrderState extends Equatable {
     this.selectedUnit = ApiUnit.empty,
     ApiDiscount? discount,
     ApiOrder? order,
-    ApiCounterparty? counterparty,
-  })  : counterparty = counterparty ?? ApiCounterparty.empty,
+    Counterparty? counterparty,
+  })  : counterparty = counterparty ?? Counterparty.empty,
         order = order ?? ApiOrder.empty,
         discount = discount ?? ApiDiscount.empty;
 
   final CreateOrderStatus status;
   final int orderId;
-  final ApiCounterparty counterparty;
+  final Counterparty counterparty;
   final ApiOrder order;
   final String errorMessage;
   final List<ApiOrderNom> noms;
@@ -53,7 +53,7 @@ final class CreateOrderState extends Equatable {
     int? orderId,
     ApiOrder? order,
     String? errorMessage,
-    ApiCounterparty? counterparty,
+    Counterparty? counterparty,
     List<ApiOrderNom>? noms,
     List<ApiContract>? contracts,
     ApiDiscount? discount,
