@@ -1,6 +1,6 @@
 import 'package:mobi_c/common/constants/table_named.dart';
 import 'package:mobi_c/models/models.dart';
-import 'package:mobi_c/services/data_sync_service/clients/db_client.dart';
+import 'package:mobi_c/services/data_sync_service/clients/sql_client.dart';
 
 class Updater {
   final DataSyncDbClient dbService;
