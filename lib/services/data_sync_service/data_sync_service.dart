@@ -1,6 +1,8 @@
 import 'package:mobi_c/services/data_sync_service/clients/api_client.dart';
+import 'package:mobi_c/services/data_sync_service/clients/object_box_client.dart';
 import 'package:mobi_c/services/data_sync_service/clients/sql_client.dart';
 import 'package:get_it/get_it.dart';
+import 'package:objectbox/objectbox.dart';
 import 'package:sqflite/sqflite.dart';
 
 import 'validator.dart';
@@ -8,17 +10,17 @@ import 'updater.dart';
 
 class DataSyncService {
   final DataSyncApiClient _apiClient = DataSyncApiClient();
-  final DataSyncDbClient _dbClient =
-      DataSyncDbClient(sqlite: GetIt.I.get<Database>());
+  final DataSyncObjectBoxClient _dbClient =
+      DataSyncObjectBoxClient(store: GetIt.I.get<Store>());
   final Validator validator = Validator();
   final Updater updater =
-      Updater(dbService: DataSyncDbClient(sqlite: GetIt.I.get<Database>()));
+      Updater(dbService: DataSyncObjectBoxClient(store: GetIt.I.get<Store>()));
 
   DataSyncService();
 
   Future<int> syncNomData() async {
     try {
-      final dbData = await _dbClient.getAllNoms();
+      final dbData =  _dbClient.getAllNoms();
       final apiData = await _apiClient.getAllNom();
 
       final validationResult = validator.validate(apiData, dbData);

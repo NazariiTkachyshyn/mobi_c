@@ -42,7 +42,7 @@ class _CreateOrderPageState extends State<_CreateOrderPage>
     context.read<CreateOrderCubit>().getNoms();
 
     tabController = TabController(
-        length: 3, vsync: this, animationDuration: Duration(milliseconds: 100));
+        length: 3, vsync: this, animationDuration: const Duration(milliseconds: 100));
 
     tabController.addListener(() {
       if (!tabController.indexIsChanging) {
@@ -78,14 +78,7 @@ class _CreateOrderPageState extends State<_CreateOrderPage>
           actions: [
             IconButton(
                 onPressed: () async {
-                  final sqlite = GetIt.I.get<Database>();
-                  await sqlite.delete(tableUnit);
-                  await sqlite.delete(tableNoms);
-                  await sqlite.delete(tablePrices);
-                  await sqlite.delete(tableCounterparty);
-                  await sqlite.delete(tableContract);
-                  await sqlite.delete(tableDiscount);
-                  await sqlite.delete(tableUnitClassificator);
+    
 
                   DataSyncService().syncDiscountData();
                   DataSyncService().syncNomData();
@@ -95,8 +88,8 @@ class _CreateOrderPageState extends State<_CreateOrderPage>
                   DataSyncService().syncUnitData();
                   DataSyncService().syncUnitClassificatorData();
                 },
-                icon: Icon(Icons.sync)),
-            IconButton(onPressed: () {}, icon: Icon(Icons.more_vert_sharp)),
+                icon: const Icon(Icons.sync)),
+            IconButton(onPressed: () {}, icon: const Icon(Icons.more_vert_sharp)),
           ],
           bottom: TabBar(
             controller: tabController,

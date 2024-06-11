@@ -1,11 +1,10 @@
-import 'package:mobi_c/models/models.dart';
 import 'package:mobi_c/objectbox.g.dart';
 import 'package:mobi_c/services/data_bases/object_box/models/models.dart';
 
-class DataSyncDbClient {
+class DataSyncObjectBoxClient {
   final Store _store;
 
-  DataSyncDbClient({required Store store}) : _store = store;
+  DataSyncObjectBoxClient({required Store store}) : _store = store;
 
   //^----------NOMENKLATURA----------------
   List<Nom> getAllNoms() {
@@ -16,7 +15,7 @@ class DataSyncDbClient {
     }
   }
 
-  void setNom(List<Nom> noms, Box box) async {
+  void setNom(List<Nom> noms) async {
     try {
       _store.box<Nom>().putMany(noms);
     } catch (e) {
@@ -33,7 +32,7 @@ class DataSyncDbClient {
     }
   }
 
-  void setPrice(List<Price> prices, Box box) async {
+  void setPrice(List<Price> prices) async {
     try {
       _store.box<Price>().putMany(prices);
     } catch (e) {
@@ -50,7 +49,7 @@ class DataSyncDbClient {
     }
   }
 
-  void setStorage(List<Storage> storages, Box box) async {
+  void setStorage(List<Storage> storages) async {
     try {
       _store.box<Storage>().putMany(storages);
     } catch (e) {
@@ -67,7 +66,7 @@ class DataSyncDbClient {
     }
   }
 
-  void setBarcode(List<Barcode> barcodes, Box box) async {
+  void setBarcode(List<Barcode> barcodes) async {
     try {
       _store.box<Barcode>().putMany(barcodes);
     } catch (e) {
@@ -84,7 +83,7 @@ class DataSyncDbClient {
     }
   }
 
-  void setContract(List<Contract> contracts, Box box) async {
+  void setContract(List<Contract> contracts) async {
     try {
       _store.box<Contract>().putMany(contracts);
     } catch (e) {
@@ -101,7 +100,7 @@ class DataSyncDbClient {
     }
   }
 
-  void setCounterparty(List<Counterparty> counterpartys, Box box) async {
+  void setCounterparty(List<Counterparty> counterpartys) async {
     try {
       _store.box<Counterparty>().putMany(counterpartys);
     } catch (e) {
@@ -118,7 +117,7 @@ class DataSyncDbClient {
     }
   }
 
-  void setDiscount(List<Discount> discounts, Box box) async {
+  void setDiscount(List<Discount> discounts,) async {
     try {
       _store.box<Discount>().putMany(discounts);
     } catch (e) {
@@ -135,7 +134,7 @@ class DataSyncDbClient {
     }
   }
 
-  void setUnit(List<Unit> units, Box box) async {
+  void setUnit(List<Unit> units) async {
     try {
       _store.box<Unit>().putMany(units);
     } catch (e) {
@@ -153,7 +152,7 @@ class DataSyncDbClient {
   }
 
   void setUnitClassificator(
-      List<UnitClassifier> unitClassifiers, Box box) async {
+      List<UnitClassifier> unitClassifiers) async {
     try {
       _store.box<UnitClassifier>().putMany(unitClassifiers);
     } catch (e) {

@@ -30,12 +30,12 @@ class Unit {
 
 @Entity()
 class UnitClassifier {
-  final int id;
+   int id;
   final String refKey;
   final String description;
   final String fullDescription;
 
-  const UnitClassifier(
+   UnitClassifier(
       {this.id = 0,
       required this.refKey,
       required this.description,

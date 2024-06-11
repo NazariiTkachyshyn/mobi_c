@@ -8,11 +8,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'services/data_bases/object_box/object_box.dart';
-// late ObjectBox objectbox;
+late ObjectBox objectbox;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final objectbox = await ObjectBox.create();
+   objectbox = await ObjectBox.create();
 
   final store = objectbox.store;
 
