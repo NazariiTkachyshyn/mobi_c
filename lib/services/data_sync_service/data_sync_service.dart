@@ -1,5 +1,5 @@
 import 'package:mobi_c/services/data_sync_service/clients/api_client.dart';
-import 'package:mobi_c/services/data_sync_service/clients/db_client.dart';
+import 'package:mobi_c/services/data_sync_service/clients/sql_client.dart';
 import 'package:get_it/get_it.dart';
 import 'package:sqflite/sqflite.dart';
 
