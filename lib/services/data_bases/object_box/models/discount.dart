@@ -10,10 +10,12 @@ class Discount {
 
   Discount(
       {required this.discountRecipientKey,
-        required this.percentDiscounts,
-        this.id = 0});
+      required this.percentDiscounts,
+      this.id = 0});
 
   factory Discount.fromApi(ApiDiscount discount) => Discount(
       discountRecipientKey: discount.discountRecipientKey,
       percentDiscounts: discount.percentDiscounts);
+
+  static final empty = Discount(discountRecipientKey: '', percentDiscounts: 0);
 }

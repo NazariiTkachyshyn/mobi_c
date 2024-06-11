@@ -1,4 +1,5 @@
 import 'package:mobi_c/feature/create_order/create_order_client/cerate_order_client.dart';
+import 'package:mobi_c/services/data_bases/object_box/models/models.dart';
 
 import '../../../models/models.dart';
 
@@ -13,9 +14,9 @@ abstract interface class CreateOrderRepo {
 
   Future<void> createOrder(Map<String, dynamic> order);
 
-  Future<List<ApiContract>> getContracts(String ownerKey);
+  Future<List<Contract>> getContracts(String ownerKey);
 
-  Future<ApiDiscount> getDiscount(String discountRecipient);
+  Future<Discount> getDiscount(String discountRecipient);
 
   Future<List<ApiUnit>> getUnits(String nomKey);
 }
@@ -73,20 +74,19 @@ class CreateOrderRepoImpl implements CreateOrderRepo {
   }
 
   @override
-  Future<List<ApiContract>> getContracts(String ownerKey) async {
+  Future<List<Contract>> getContracts(String ownerKey) async {
     try {
-      // return await _createOrderClient.getContracts(ownerKey);
-      return [];
+      return await _createOrderClient.getContracts(ownerKey);
     } catch (e) {
       throw Exception(e);
     }
   }
 
   @override
-  Future<ApiDiscount> getDiscount(String discountRecipient) async {
+  Future<Discount> getDiscount(String discountRecipient) async {
     try {
-      // return await _createOrderClient.getDiscount(discountRecipient);
-      return ApiDiscount.empty;
+      return await _createOrderClient.getDiscount(discountRecipient) ??
+          Discount.empty;
     } catch (e) {
       throw Exception(e);
     }

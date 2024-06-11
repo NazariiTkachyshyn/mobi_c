@@ -1,4 +1,5 @@
 part of 'create_order_cubit.dart';
+
 enum CreateOrderStatus {
   initial,
   loading,
@@ -14,7 +15,7 @@ extension CreateStorageStatusX on CreateOrderStatus {
 }
 
 final class CreateOrderState extends Equatable {
-   CreateOrderState({
+  CreateOrderState({
     this.status = CreateOrderStatus.initial,
     this.orderId = 0,
     this.errorMessage = '',
@@ -22,12 +23,12 @@ final class CreateOrderState extends Equatable {
     this.contracts = const [],
     this.units = const [],
     this.selectedUnit = ApiUnit.empty,
-    ApiDiscount? discount,
+    Discount? discount,
     ApiOrder? order,
     Counterparty? counterparty,
   })  : counterparty = counterparty ?? Counterparty.empty,
         order = order ?? ApiOrder.empty,
-        discount = discount ?? ApiDiscount.empty;
+        discount = discount ?? Discount.empty;
 
   final CreateOrderStatus status;
   final int orderId;
@@ -35,43 +36,41 @@ final class CreateOrderState extends Equatable {
   final ApiOrder order;
   final String errorMessage;
   final List<ApiOrderNom> noms;
-  final List<ApiContract> contracts;
-  final ApiDiscount discount;
+  final List<Contract> contracts;
+  final Discount discount;
   final List<ApiUnit> units;
   final ApiUnit selectedUnit;
 
-  double get discountedSumm =>
-      noms.fold(0, (a, b) => a + b.calcDiscount(discount.percentDiscounts));
+  double get discountedSumm => noms.fold(
+      0, (a, b) => a + calcDiscount(b.price, discount.percentDiscounts));
 
   double get summ => noms.fold(0, (a, b) => a + b.price);
   int get totalQty => noms.fold(0, (a, b) => a + b.qty);
 
   double get discountInHrn => summ - discountedSumm;
 
-  CreateOrderState copyWith({
-    CreateOrderStatus? status,
-    int? orderId,
-    ApiOrder? order,
-    String? errorMessage,
-    Counterparty? counterparty,
-    List<ApiOrderNom>? noms,
-    List<ApiContract>? contracts,
-    ApiDiscount? discount,
-    List<ApiUnit>? units,
-    ApiUnit? selectedUnit
-  }) {
+  CreateOrderState copyWith(
+      {CreateOrderStatus? status,
+      int? orderId,
+      ApiOrder? order,
+      String? errorMessage,
+      Counterparty? counterparty,
+      List<ApiOrderNom>? noms,
+      List<Contract>? contracts,
+      Discount? discount,
+      List<ApiUnit>? units,
+      ApiUnit? selectedUnit}) {
     return CreateOrderState(
-      status: status ?? this.status,
-      order: order ?? this.order,
-      orderId: orderId ?? this.orderId,
-      errorMessage: errorMessage ?? this.errorMessage,
-      counterparty: counterparty ?? this.counterparty,
-      noms: noms ?? this.noms,
-      contracts: contracts ?? this.contracts,
-      discount: discount ?? this.discount,
-      units: units ?? this.units,
-      selectedUnit: selectedUnit ?? this.selectedUnit
-    );
+        status: status ?? this.status,
+        order: order ?? this.order,
+        orderId: orderId ?? this.orderId,
+        errorMessage: errorMessage ?? this.errorMessage,
+        counterparty: counterparty ?? this.counterparty,
+        noms: noms ?? this.noms,
+        contracts: contracts ?? this.contracts,
+        discount: discount ?? this.discount,
+        units: units ?? this.units,
+        selectedUnit: selectedUnit ?? this.selectedUnit);
   }
 
   @override
