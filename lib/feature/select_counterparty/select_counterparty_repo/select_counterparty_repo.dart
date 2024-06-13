@@ -4,7 +4,6 @@ import 'package:mobi_c/services/data_bases/object_box/models/models.dart';
 abstract interface class SelectCounterpartyRepo {
   Future<List<Counterparty>> getCounterpartys(String value);
 
-  List<Counterparty> getAll();
 }
 
 class SelectCounterpartyRepoImpl implements SelectCounterpartyRepo {
@@ -14,14 +13,7 @@ class SelectCounterpartyRepoImpl implements SelectCounterpartyRepo {
       {required SelectCounterpartyClient selectCounterpartyClient})
       : _selectCounterpartyClient = selectCounterpartyClient;
 
-  @override
-  List<Counterparty> getAll() {
-    try {
-      return _selectCounterpartyClient.getAll();
-    } catch (e) {
-      throw Exception(e);
-    }
-  }
+
 
   @override
   Future<List<Counterparty>> getCounterpartys(String value) async {

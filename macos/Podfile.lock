@@ -1,4 +1,6 @@
 PODS:
+  - flutter_image_compress_macos (1.0.0):
+    - FlutterMacOS
   - FlutterMacOS (1.0.0)
   - ObjectBox (1.9.2)
   - objectbox_flutter_libs (0.0.1):
@@ -12,6 +14,7 @@ PODS:
     - FlutterMacOS
 
 DEPENDENCIES:
+  - flutter_image_compress_macos (from `Flutter/ephemeral/.symlinks/plugins/flutter_image_compress_macos/macos`)
   - FlutterMacOS (from `Flutter/ephemeral`)
   - objectbox_flutter_libs (from `Flutter/ephemeral/.symlinks/plugins/objectbox_flutter_libs/macos`)
   - path_provider_foundation (from `Flutter/ephemeral/.symlinks/plugins/path_provider_foundation/darwin`)
@@ -22,6 +25,8 @@ SPEC REPOS:
     - ObjectBox
 
 EXTERNAL SOURCES:
+  flutter_image_compress_macos:
+    :path: Flutter/ephemeral/.symlinks/plugins/flutter_image_compress_macos/macos
   FlutterMacOS:
     :path: Flutter/ephemeral
   objectbox_flutter_libs:
@@ -32,6 +37,7 @@ EXTERNAL SOURCES:
     :path: Flutter/ephemeral/.symlinks/plugins/sqflite/darwin
 
 SPEC CHECKSUMS:
+  flutter_image_compress_macos: c26c3c13ea0f28ae6dea4e139b3292e7729f99f1
   FlutterMacOS: 8f6f14fa908a6fb3fba0cd85dbd81ec4b251fb24
   ObjectBox: 46757a559717ab49b1cc0612eaff82b705acf394
   objectbox_flutter_libs: 0b8632b8f181b902e09b5763437082926c790b68

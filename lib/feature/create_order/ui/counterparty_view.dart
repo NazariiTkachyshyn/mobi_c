@@ -1,6 +1,5 @@
 import 'package:animations/animations.dart';
 import 'package:mobi_c/feature/create_order/cubit/create_order_cubit.dart';
-import 'package:mobi_c/models/counterparty.dart';
 import 'package:mobi_c/services/data_bases/object_box/models/models.dart';
 import 'package:mobi_c/ui/components/widgets/text_field_button.dart';
 import 'package:flutter/material.dart';
@@ -31,37 +30,15 @@ class _CounterpartyViewState extends State<CounterpartyView> {
               SizedBox(
                   width: 130,
                   child: TextFielButton(
-                    text: DateFormat('dd.MM.yy')
-                        .format(state.order.date ?? DateTime.now()),
-                    lableText: 'Дата',
-                    onTap: () async {
-                      selectDate = await showDatePicker(
-                        initialDate: DateTime.now(),
-                        locale: const Locale('uk'),
-                        context: context,
-                        firstDate: DateTime(DateTime.now().year - 1),
-                        lastDate: DateTime(DateTime.now().year + 1),
-                      );
-                      if (context.mounted) {
-                        context
-                            .read<CreateOrderCubit>()
-                            .selectDatetime(selectDate);
-                      }
-                    },
-                  )),
+                      text: DateFormat('dd.MM.yy')
+                          .format(state.order.date ?? DateTime.now()),
+                      lableText: 'Дата',
+                      onTap: onSelectDate)),
               const Padding(padding: EdgeInsets.all(6)),
               TextFielButton(
                 text: state.counterparty.description,
                 lableText: 'Клієнт',
-                onTap: () {
-                  Navigator.pushNamed(context, 'selectCounterparty',
-                      arguments: ((Counterparty counterparty) {
-                        context
-                            .read<CreateOrderCubit>()
-                            .selectCounterparty(counterparty);
-                        Navigator.pop(context);
-                      } as Function));
-                },
+                onTap: onSelectCounterparty,
               ),
               const Padding(padding: EdgeInsets.all(4)),
               TextFielButton(
@@ -83,6 +60,27 @@ class _CounterpartyViewState extends State<CounterpartyView> {
         );
       },
     );
+  }
+
+  onSelectDate() async {
+    selectDate = await showDatePicker(
+      initialDate: DateTime.now(),
+      locale: const Locale('uk'),
+      context: context,
+      firstDate: DateTime(DateTime.now().year - 1),
+      lastDate: DateTime(DateTime.now().year + 1),
+    );
+    if (mounted) {
+      context.read<CreateOrderCubit>().selectDatetime(selectDate);
+    }
+  }
+
+  onSelectCounterparty() {
+    Navigator.pushNamed(context, 'selectCounterparty',
+        arguments: ((Counterparty counterparty) {
+          context.read<CreateOrderCubit>().selectCounterparty(counterparty);
+          Navigator.pop(context);
+        } as Function));
   }
 }
 

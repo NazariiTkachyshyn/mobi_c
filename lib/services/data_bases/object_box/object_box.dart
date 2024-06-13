@@ -10,7 +10,7 @@ class ObjectBox {
   static Future<ObjectBox> create() async {
     final docsDir = await getApplicationDocumentsDirectory();
     final store = await openStore(
-        directory: p.join(docsDir.path, "obx1"),
+        directory: p.join(docsDir.path, "obx2"),
         macosApplicationGroup: 'FGDTDLOBXDJ.demo');
     return ObjectBox._create(store);
   }

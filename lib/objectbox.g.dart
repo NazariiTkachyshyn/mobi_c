@@ -19,10 +19,10 @@ import 'services/data_bases/object_box/models/barcode.dart';
 import 'services/data_bases/object_box/models/contract.dart';
 import 'services/data_bases/object_box/models/counterparty.dart';
 import 'services/data_bases/object_box/models/discount.dart';
+import 'services/data_bases/object_box/models/image.dart';
 import 'services/data_bases/object_box/models/nom.dart';
 import 'services/data_bases/object_box/models/order.dart';
 import 'services/data_bases/object_box/models/order_nom.dart';
-import 'services/data_bases/object_box/models/price.dart';
 import 'services/data_bases/object_box/models/storage.dart';
 import 'services/data_bases/object_box/models/unit.dart';
 
@@ -32,7 +32,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
       id: const obx_int.IdUid(7, 6821580632399568294),
       name: 'Barcode',
-      lastPropertyId: const obx_int.IdUid(4, 5053841447082616597),
+      lastPropertyId: const obx_int.IdUid(14, 1809233476581576938),
       flags: 0,
       properties: <obx_int.ModelProperty>[
         obx_int.ModelProperty(
@@ -41,17 +41,17 @@ final _entities = <obx_int.ModelEntity>[
             type: 6,
             flags: 1),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(2, 8824468648259367788),
+            id: const obx_int.IdUid(12, 1990696702232168402),
             name: 'barcode',
             type: 9,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(3, 8462232184147420169),
+            id: const obx_int.IdUid(13, 1682473480614524853),
             name: 'nomKey',
             type: 9,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(4, 5053841447082616597),
+            id: const obx_int.IdUid(14, 1809233476581576938),
             name: 'packKey',
             type: 9,
             flags: 0)
@@ -95,7 +95,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
       id: const obx_int.IdUid(9, 2309089137925055370),
       name: 'Counterparty',
-      lastPropertyId: const obx_int.IdUid(8, 6386757541469649989),
+      lastPropertyId: const obx_int.IdUid(9, 2210602875974207460),
       flags: 0,
       properties: <obx_int.ModelProperty>[
         obx_int.ModelProperty(
@@ -114,11 +114,6 @@ final _entities = <obx_int.ModelEntity>[
             type: 9,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(4, 4304387586626791802),
-            name: 'lowerCaseDescription',
-            type: 9,
-            flags: 0),
-        obx_int.ModelProperty(
             id: const obx_int.IdUid(5, 667149908785928907),
             name: 'mainCounterpartyKey',
             type: 9,
@@ -134,8 +129,8 @@ final _entities = <obx_int.ModelEntity>[
             type: 9,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(8, 6386757541469649989),
-            name: 'lowerCaseFullDescription',
+            id: const obx_int.IdUid(9, 2210602875974207460),
+            name: 'searchField',
             type: 9,
             flags: 0)
       ],
@@ -168,7 +163,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
       id: const obx_int.IdUid(11, 8016740595910224062),
       name: 'Nom',
-      lastPropertyId: const obx_int.IdUid(10, 1327578084122474837),
+      lastPropertyId: const obx_int.IdUid(16, 881219079678762446),
       flags: 0,
       properties: <obx_int.ModelProperty>[
         obx_int.ModelProperty(
@@ -192,18 +187,8 @@ final _entities = <obx_int.ModelEntity>[
             type: 9,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(5, 4862467709166494276),
-            name: 'descriptionLower',
-            type: 9,
-            flags: 0),
-        obx_int.ModelProperty(
             id: const obx_int.IdUid(6, 6609207972890525885),
             name: 'article',
-            type: 9,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(7, 8431555864168868768),
-            name: 'articleLower',
             type: 9,
             flags: 0),
         obx_int.ModelProperty(
@@ -219,6 +204,36 @@ final _entities = <obx_int.ModelEntity>[
         obx_int.ModelProperty(
             id: const obx_int.IdUid(10, 1327578084122474837),
             name: 'unitKey',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(11, 1798535355971274718),
+            name: 'price',
+            type: 8,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(12, 730386063696500011),
+            name: 'remaining',
+            type: 6,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(13, 7630933827547852281),
+            name: 'priceTypeKey',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(14, 3294002797276553041),
+            name: 'currencyKey',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(15, 4288587461382911241),
+            name: 'searchField',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(16, 881219079678762446),
+            name: 'storageKey',
             type: 9,
             flags: 0)
       ],
@@ -273,45 +288,6 @@ final _entities = <obx_int.ModelEntity>[
         obx_int.ModelProperty(
             id: const obx_int.IdUid(9, 346684155654264008),
             name: 'comment',
-            type: 9,
-            flags: 0)
-      ],
-      relations: <obx_int.ModelRelation>[],
-      backlinks: <obx_int.ModelBacklink>[]),
-  obx_int.ModelEntity(
-      id: const obx_int.IdUid(13, 1217038652377431431),
-      name: 'Price',
-      lastPropertyId: const obx_int.IdUid(6, 3962265352312746297),
-      flags: 0,
-      properties: <obx_int.ModelProperty>[
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(1, 4337508449862676661),
-            name: 'id',
-            type: 6,
-            flags: 1),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(2, 975051357175049114),
-            name: 'price',
-            type: 8,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(3, 1650245559270042706),
-            name: 'priceType',
-            type: 9,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(4, 2358969300004287676),
-            name: 'packKey',
-            type: 9,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(5, 3216659066081984141),
-            name: 'currencyKey',
-            type: 9,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(6, 3962265352312746297),
-            name: 'nomKey',
             type: 9,
             flags: 0)
       ],
@@ -381,35 +357,6 @@ final _entities = <obx_int.ModelEntity>[
       relations: <obx_int.ModelRelation>[],
       backlinks: <obx_int.ModelBacklink>[]),
   obx_int.ModelEntity(
-      id: const obx_int.IdUid(16, 7933627278554947172),
-      name: 'UnitClassifier',
-      lastPropertyId: const obx_int.IdUid(4, 2348204198556011897),
-      flags: 0,
-      properties: <obx_int.ModelProperty>[
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(1, 1152292800537912981),
-            name: 'id',
-            type: 6,
-            flags: 1),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(2, 2585091099771123027),
-            name: 'refKey',
-            type: 9,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(3, 8516864328663527199),
-            name: 'description',
-            type: 9,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(4, 2348204198556011897),
-            name: 'fullDescription',
-            type: 9,
-            flags: 0)
-      ],
-      relations: <obx_int.ModelRelation>[],
-      backlinks: <obx_int.ModelBacklink>[]),
-  obx_int.ModelEntity(
       id: const obx_int.IdUid(17, 3218758876014392499),
       name: 'OrderNom',
       lastPropertyId: const obx_int.IdUid(11, 6038624159887157668),
@@ -472,6 +419,30 @@ final _entities = <obx_int.ModelEntity>[
             flags: 0)
       ],
       relations: <obx_int.ModelRelation>[],
+      backlinks: <obx_int.ModelBacklink>[]),
+  obx_int.ModelEntity(
+      id: const obx_int.IdUid(18, 3919612804243317385),
+      name: 'ImageOb',
+      lastPropertyId: const obx_int.IdUid(3, 1118082272262847296),
+      flags: 0,
+      properties: <obx_int.ModelProperty>[
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(1, 8724553767681995192),
+            name: 'id',
+            type: 6,
+            flags: 1),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(2, 6902572014918580122),
+            name: 'ref',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(3, 1118082272262847296),
+            name: 'imageBase64',
+            type: 9,
+            flags: 0)
+      ],
+      relations: <obx_int.ModelRelation>[],
       backlinks: <obx_int.ModelBacklink>[])
 ];
 
@@ -510,7 +481,7 @@ Future<obx.Store> openStore(
 obx_int.ModelDefinition getObjectBoxModel() {
   final model = obx_int.ModelInfo(
       entities: _entities,
-      lastEntityId: const obx_int.IdUid(17, 3218758876014392499),
+      lastEntityId: const obx_int.IdUid(18, 3919612804243317385),
       lastIndexId: const obx_int.IdUid(3, 7103564559432852772),
       lastRelationId: const obx_int.IdUid(1, 722765356975776349),
       lastSequenceId: const obx_int.IdUid(0, 0),
@@ -520,7 +491,9 @@ obx_int.ModelDefinition getObjectBoxModel() {
         6985453350114521232,
         2401690754765832120,
         2530145175776008345,
-        7267715397295541197
+        7267715397295541197,
+        7933627278554947172,
+        1217038652377431431
       ],
       retiredIndexUids: const [3024279412695165456, 9020169584786767910],
       retiredPropertyUids: const [
@@ -566,7 +539,31 @@ obx_int.ModelDefinition getObjectBoxModel() {
         8036011953633676593,
         2583911243502809439,
         4650133491600558510,
-        7161420217736022023
+        7161420217736022023,
+        4304387586626791802,
+        6386757541469649989,
+        1152292800537912981,
+        2585091099771123027,
+        8516864328663527199,
+        2348204198556011897,
+        4337508449862676661,
+        975051357175049114,
+        1650245559270042706,
+        2358969300004287676,
+        3216659066081984141,
+        3962265352312746297,
+        4862467709166494276,
+        8431555864168868768,
+        8824468648259367788,
+        8462232184147420169,
+        5053841447082616597,
+        1734096080795679284,
+        7882558406005725934,
+        7170213063163557133,
+        7906024082909248668,
+        3707222008438228901,
+        8634112332784935050,
+        1341748683991012141
       ],
       retiredRelationUids: const [722765356975776349],
       modelVersion: 5,
@@ -586,11 +583,11 @@ obx_int.ModelDefinition getObjectBoxModel() {
           final barcodeOffset = fbb.writeString(object.barcode);
           final nomKeyOffset = fbb.writeString(object.nomKey);
           final packKeyOffset = fbb.writeString(object.packKey);
-          fbb.startTable(5);
+          fbb.startTable(15);
           fbb.addInt64(0, object.id);
-          fbb.addOffset(1, barcodeOffset);
-          fbb.addOffset(2, nomKeyOffset);
-          fbb.addOffset(3, packKeyOffset);
+          fbb.addOffset(11, barcodeOffset);
+          fbb.addOffset(12, nomKeyOffset);
+          fbb.addOffset(13, packKeyOffset);
           fbb.finish(fbb.endTable());
           return object.id;
         },
@@ -598,11 +595,11 @@ obx_int.ModelDefinition getObjectBoxModel() {
           final buffer = fb.BufferContext(fbData);
           final rootOffset = buffer.derefObject(0);
           final barcodeParam = const fb.StringReader(asciiOptimization: true)
-              .vTableGet(buffer, rootOffset, 6, '');
+              .vTableGet(buffer, rootOffset, 26, '');
           final nomKeyParam = const fb.StringReader(asciiOptimization: true)
-              .vTableGet(buffer, rootOffset, 8, '');
+              .vTableGet(buffer, rootOffset, 28, '');
           final packKeyParam = const fb.StringReader(asciiOptimization: true)
-              .vTableGet(buffer, rootOffset, 10, '');
+              .vTableGet(buffer, rootOffset, 30, '');
           final idParam =
               const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
           final object = Barcode(
@@ -670,23 +667,19 @@ obx_int.ModelDefinition getObjectBoxModel() {
         objectToFB: (Counterparty object, fb.Builder fbb) {
           final refKeyOffset = fbb.writeString(object.refKey);
           final descriptionOffset = fbb.writeString(object.description);
-          final lowerCaseDescriptionOffset =
-              fbb.writeString(object.lowerCaseDescription);
           final mainCounterpartyKeyOffset =
               fbb.writeString(object.mainCounterpartyKey);
           final partnerKeyOffset = fbb.writeString(object.partnerKey);
           final fullDescriptionOffset = fbb.writeString(object.fullDescription);
-          final lowerCaseFullDescriptionOffset =
-              fbb.writeString(object.lowerCaseFullDescription);
-          fbb.startTable(9);
+          final searchFieldOffset = fbb.writeString(object.searchField);
+          fbb.startTable(10);
           fbb.addInt64(0, object.id);
           fbb.addOffset(1, refKeyOffset);
           fbb.addOffset(2, descriptionOffset);
-          fbb.addOffset(3, lowerCaseDescriptionOffset);
           fbb.addOffset(4, mainCounterpartyKeyOffset);
           fbb.addOffset(5, partnerKeyOffset);
           fbb.addOffset(6, fullDescriptionOffset);
-          fbb.addOffset(7, lowerCaseFullDescriptionOffset);
+          fbb.addOffset(8, searchFieldOffset);
           fbb.finish(fbb.endTable());
           return object.id;
         },
@@ -698,9 +691,6 @@ obx_int.ModelDefinition getObjectBoxModel() {
           final descriptionParam =
               const fb.StringReader(asciiOptimization: true)
                   .vTableGet(buffer, rootOffset, 8, '');
-          final lowerCaseDescriptionParam =
-              const fb.StringReader(asciiOptimization: true)
-                  .vTableGet(buffer, rootOffset, 10, '');
           final mainCounterpartyKeyParam =
               const fb.StringReader(asciiOptimization: true)
                   .vTableGet(buffer, rootOffset, 12, '');
@@ -709,19 +699,18 @@ obx_int.ModelDefinition getObjectBoxModel() {
           final fullDescriptionParam =
               const fb.StringReader(asciiOptimization: true)
                   .vTableGet(buffer, rootOffset, 16, '');
-          final lowerCaseFullDescriptionParam =
+          final searchFieldParam =
               const fb.StringReader(asciiOptimization: true)
-                  .vTableGet(buffer, rootOffset, 18, '');
+                  .vTableGet(buffer, rootOffset, 20, '');
           final idParam =
               const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
           final object = Counterparty(
               refKey: refKeyParam,
               description: descriptionParam,
-              lowerCaseDescription: lowerCaseDescriptionParam,
               mainCounterpartyKey: mainCounterpartyKeyParam,
               partnerKey: partnerKeyParam,
               fullDescription: fullDescriptionParam,
-              lowerCaseFullDescription: lowerCaseFullDescriptionParam,
+              searchField: searchFieldParam,
               id: idParam);
 
           return object;
@@ -770,38 +759,31 @@ obx_int.ModelDefinition getObjectBoxModel() {
           object.id = id;
         },
         objectToFB: (Nom object, fb.Builder fbb) {
-          final refOffset =
-              object.ref == null ? null : fbb.writeString(object.ref!);
-          final descriptionOffset = object.description == null
-              ? null
-              : fbb.writeString(object.description!);
-          final descriptionLowerOffset = object.descriptionLower == null
-              ? null
-              : fbb.writeString(object.descriptionLower!);
-          final articleOffset =
-              object.article == null ? null : fbb.writeString(object.article!);
-          final articleLowerOffset = object.articleLower == null
-              ? null
-              : fbb.writeString(object.articleLower!);
-          final parentKeyOffset = object.parentKey == null
-              ? null
-              : fbb.writeString(object.parentKey!);
-          final imageKeyOffset = object.imageKey == null
-              ? null
-              : fbb.writeString(object.imageKey!);
-          final unitKeyOffset =
-              object.unitKey == null ? null : fbb.writeString(object.unitKey!);
-          fbb.startTable(11);
+          final refOffset = fbb.writeString(object.ref);
+          final descriptionOffset = fbb.writeString(object.description);
+          final articleOffset = fbb.writeString(object.article);
+          final parentKeyOffset = fbb.writeString(object.parentKey);
+          final imageKeyOffset = fbb.writeString(object.imageKey);
+          final unitKeyOffset = fbb.writeString(object.unitKey);
+          final priceTypeKeyOffset = fbb.writeString(object.priceTypeKey);
+          final currencyKeyOffset = fbb.writeString(object.currencyKey);
+          final searchFieldOffset = fbb.writeString(object.searchField);
+          final storageKeyOffset = fbb.writeString(object.storageKey);
+          fbb.startTable(17);
           fbb.addInt64(0, object.id);
           fbb.addOffset(1, refOffset);
           fbb.addBool(2, object.isFolder);
           fbb.addOffset(3, descriptionOffset);
-          fbb.addOffset(4, descriptionLowerOffset);
           fbb.addOffset(5, articleOffset);
-          fbb.addOffset(6, articleLowerOffset);
           fbb.addOffset(7, parentKeyOffset);
           fbb.addOffset(8, imageKeyOffset);
           fbb.addOffset(9, unitKeyOffset);
+          fbb.addFloat64(10, object.price);
+          fbb.addInt64(11, object.remaining);
+          fbb.addOffset(12, priceTypeKeyOffset);
+          fbb.addOffset(13, currencyKeyOffset);
+          fbb.addOffset(14, searchFieldOffset);
+          fbb.addOffset(15, storageKeyOffset);
           fbb.finish(fbb.endTable());
           return object.id;
         },
@@ -809,38 +791,52 @@ obx_int.ModelDefinition getObjectBoxModel() {
           final buffer = fb.BufferContext(fbData);
           final rootOffset = buffer.derefObject(0);
           final refParam = const fb.StringReader(asciiOptimization: true)
-              .vTableGetNullable(buffer, rootOffset, 6);
+              .vTableGet(buffer, rootOffset, 6, '');
           final isFolderParam =
-              const fb.BoolReader().vTableGetNullable(buffer, rootOffset, 8);
-          final articleParam = const fb.StringReader(asciiOptimization: true)
-              .vTableGetNullable(buffer, rootOffset, 14);
-          final articleLowerParam =
-              const fb.StringReader(asciiOptimization: true)
-                  .vTableGetNullable(buffer, rootOffset, 16);
+              const fb.BoolReader().vTableGet(buffer, rootOffset, 8, false);
           final descriptionParam =
               const fb.StringReader(asciiOptimization: true)
-                  .vTableGetNullable(buffer, rootOffset, 10);
-          final descriptionLowerParam =
-              const fb.StringReader(asciiOptimization: true)
-                  .vTableGetNullable(buffer, rootOffset, 12);
+                  .vTableGet(buffer, rootOffset, 10, '');
+          final articleParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 14, '');
           final parentKeyParam = const fb.StringReader(asciiOptimization: true)
-              .vTableGetNullable(buffer, rootOffset, 18);
+              .vTableGet(buffer, rootOffset, 18, '');
           final unitKeyParam = const fb.StringReader(asciiOptimization: true)
-              .vTableGetNullable(buffer, rootOffset, 22);
+              .vTableGet(buffer, rootOffset, 22, '');
+          final imageKeyParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 20, '');
+          final priceParam =
+              const fb.Float64Reader().vTableGet(buffer, rootOffset, 24, 0);
+          final remainingParam =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 26, 0);
+          final priceTypeKeyParam =
+              const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 28, '');
+          final currencyKeyParam =
+              const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 30, '');
+          final searchFieldParam =
+              const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 32, '');
+          final storageKeyParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 34, '');
           final idParam =
               const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
           final object = Nom(
               ref: refParam,
               isFolder: isFolderParam,
-              article: articleParam,
-              articleLower: articleLowerParam,
               description: descriptionParam,
-              descriptionLower: descriptionLowerParam,
+              article: articleParam,
               parentKey: parentKeyParam,
               unitKey: unitKeyParam,
-              id: idParam)
-            ..imageKey = const fb.StringReader(asciiOptimization: true)
-                .vTableGetNullable(buffer, rootOffset, 20);
+              imageKey: imageKeyParam,
+              price: priceParam,
+              remaining: remainingParam,
+              priceTypeKey: priceTypeKeyParam,
+              currencyKey: currencyKeyParam,
+              searchField: searchFieldParam,
+              storageKey: storageKeyParam,
+              id: idParam);
 
           return object;
         }),
@@ -915,57 +911,8 @@ obx_int.ModelDefinition getObjectBoxModel() {
 
           return object;
         }),
-    Price: obx_int.EntityDefinition<Price>(
-        model: _entities[6],
-        toOneRelations: (Price object) => [],
-        toManyRelations: (Price object) => {},
-        getId: (Price object) => object.id,
-        setId: (Price object, int id) {
-          object.id = id;
-        },
-        objectToFB: (Price object, fb.Builder fbb) {
-          final priceTypeOffset = fbb.writeString(object.priceType);
-          final packKeyOffset = fbb.writeString(object.packKey);
-          final currencyKeyOffset = fbb.writeString(object.currencyKey);
-          final nomKeyOffset = fbb.writeString(object.nomKey);
-          fbb.startTable(7);
-          fbb.addInt64(0, object.id);
-          fbb.addFloat64(1, object.price);
-          fbb.addOffset(2, priceTypeOffset);
-          fbb.addOffset(3, packKeyOffset);
-          fbb.addOffset(4, currencyKeyOffset);
-          fbb.addOffset(5, nomKeyOffset);
-          fbb.finish(fbb.endTable());
-          return object.id;
-        },
-        objectFromFB: (obx.Store store, ByteData fbData) {
-          final buffer = fb.BufferContext(fbData);
-          final rootOffset = buffer.derefObject(0);
-          final priceParam =
-              const fb.Float64Reader().vTableGet(buffer, rootOffset, 6, 0);
-          final priceTypeParam = const fb.StringReader(asciiOptimization: true)
-              .vTableGet(buffer, rootOffset, 8, '');
-          final packKeyParam = const fb.StringReader(asciiOptimization: true)
-              .vTableGet(buffer, rootOffset, 10, '');
-          final currencyKeyParam =
-              const fb.StringReader(asciiOptimization: true)
-                  .vTableGet(buffer, rootOffset, 12, '');
-          final nomKeyParam = const fb.StringReader(asciiOptimization: true)
-              .vTableGet(buffer, rootOffset, 14, '');
-          final idParam =
-              const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
-          final object = Price(
-              price: priceParam,
-              priceType: priceTypeParam,
-              packKey: packKeyParam,
-              currencyKey: currencyKeyParam,
-              nomKey: nomKeyParam,
-              id: idParam);
-
-          return object;
-        }),
     Storage: obx_int.EntityDefinition<Storage>(
-        model: _entities[7],
+        model: _entities[6],
         toOneRelations: (Storage object) => [],
         toManyRelations: (Storage object) => {},
         getId: (Storage object) => object.id,
@@ -998,7 +945,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
           return object;
         }),
     Unit: obx_int.EntityDefinition<Unit>(
-        model: _entities[8],
+        model: _entities[7],
         toOneRelations: (Unit object) => [],
         toManyRelations: (Unit object) => {},
         getId: (Unit object) => object.id,
@@ -1047,49 +994,8 @@ obx_int.ModelDefinition getObjectBoxModel() {
 
           return object;
         }),
-    UnitClassifier: obx_int.EntityDefinition<UnitClassifier>(
-        model: _entities[9],
-        toOneRelations: (UnitClassifier object) => [],
-        toManyRelations: (UnitClassifier object) => {},
-        getId: (UnitClassifier object) => object.id,
-        setId: (UnitClassifier object, int id) {
-          object.id = id;
-        },
-        objectToFB: (UnitClassifier object, fb.Builder fbb) {
-          final refKeyOffset = fbb.writeString(object.refKey);
-          final descriptionOffset = fbb.writeString(object.description);
-          final fullDescriptionOffset = fbb.writeString(object.fullDescription);
-          fbb.startTable(5);
-          fbb.addInt64(0, object.id);
-          fbb.addOffset(1, refKeyOffset);
-          fbb.addOffset(2, descriptionOffset);
-          fbb.addOffset(3, fullDescriptionOffset);
-          fbb.finish(fbb.endTable());
-          return object.id;
-        },
-        objectFromFB: (obx.Store store, ByteData fbData) {
-          final buffer = fb.BufferContext(fbData);
-          final rootOffset = buffer.derefObject(0);
-          final idParam =
-              const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
-          final refKeyParam = const fb.StringReader(asciiOptimization: true)
-              .vTableGet(buffer, rootOffset, 6, '');
-          final descriptionParam =
-              const fb.StringReader(asciiOptimization: true)
-                  .vTableGet(buffer, rootOffset, 8, '');
-          final fullDescriptionParam =
-              const fb.StringReader(asciiOptimization: true)
-                  .vTableGet(buffer, rootOffset, 10, '');
-          final object = UnitClassifier(
-              id: idParam,
-              refKey: refKeyParam,
-              description: descriptionParam,
-              fullDescription: fullDescriptionParam);
-
-          return object;
-        }),
     OrderNom: obx_int.EntityDefinition<OrderNom>(
-        model: _entities[10],
+        model: _entities[8],
         toOneRelations: (OrderNom object) => [],
         toManyRelations: (OrderNom object) => {},
         getId: (OrderNom object) => object.id,
@@ -1158,6 +1064,39 @@ obx_int.ModelDefinition getObjectBoxModel() {
               unitName: unitNameParam);
 
           return object;
+        }),
+    ImageOb: obx_int.EntityDefinition<ImageOb>(
+        model: _entities[9],
+        toOneRelations: (ImageOb object) => [],
+        toManyRelations: (ImageOb object) => {},
+        getId: (ImageOb object) => object.id,
+        setId: (ImageOb object, int id) {
+          object.id = id;
+        },
+        objectToFB: (ImageOb object, fb.Builder fbb) {
+          final refOffset = fbb.writeString(object.ref);
+          final imageBase64Offset = fbb.writeString(object.imageBase64);
+          fbb.startTable(4);
+          fbb.addInt64(0, object.id);
+          fbb.addOffset(1, refOffset);
+          fbb.addOffset(2, imageBase64Offset);
+          fbb.finish(fbb.endTable());
+          return object.id;
+        },
+        objectFromFB: (obx.Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
+          final refParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 6, '');
+          final imageBase64Param =
+              const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 8, '');
+          final idParam =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
+          final object = ImageOb(
+              ref: refParam, imageBase64: imageBase64Param, id: idParam);
+
+          return object;
         })
   };
 
@@ -1220,25 +1159,21 @@ class Counterparty_ {
   static final description =
       obx.QueryStringProperty<Counterparty>(_entities[2].properties[2]);
 
-  /// see [Counterparty.lowerCaseDescription]
-  static final lowerCaseDescription =
-      obx.QueryStringProperty<Counterparty>(_entities[2].properties[3]);
-
   /// see [Counterparty.mainCounterpartyKey]
   static final mainCounterpartyKey =
-      obx.QueryStringProperty<Counterparty>(_entities[2].properties[4]);
+      obx.QueryStringProperty<Counterparty>(_entities[2].properties[3]);
 
   /// see [Counterparty.partnerKey]
   static final partnerKey =
-      obx.QueryStringProperty<Counterparty>(_entities[2].properties[5]);
+      obx.QueryStringProperty<Counterparty>(_entities[2].properties[4]);
 
   /// see [Counterparty.fullDescription]
   static final fullDescription =
-      obx.QueryStringProperty<Counterparty>(_entities[2].properties[6]);
+      obx.QueryStringProperty<Counterparty>(_entities[2].properties[5]);
 
-  /// see [Counterparty.lowerCaseFullDescription]
-  static final lowerCaseFullDescription =
-      obx.QueryStringProperty<Counterparty>(_entities[2].properties[7]);
+  /// see [Counterparty.searchField]
+  static final searchField =
+      obx.QueryStringProperty<Counterparty>(_entities[2].properties[6]);
 }
 
 /// [Discount] entity fields to define ObjectBox queries.
@@ -1272,29 +1207,44 @@ class Nom_ {
   static final description =
       obx.QueryStringProperty<Nom>(_entities[4].properties[3]);
 
-  /// see [Nom.descriptionLower]
-  static final descriptionLower =
-      obx.QueryStringProperty<Nom>(_entities[4].properties[4]);
-
   /// see [Nom.article]
   static final article =
-      obx.QueryStringProperty<Nom>(_entities[4].properties[5]);
-
-  /// see [Nom.articleLower]
-  static final articleLower =
-      obx.QueryStringProperty<Nom>(_entities[4].properties[6]);
+      obx.QueryStringProperty<Nom>(_entities[4].properties[4]);
 
   /// see [Nom.parentKey]
   static final parentKey =
-      obx.QueryStringProperty<Nom>(_entities[4].properties[7]);
+      obx.QueryStringProperty<Nom>(_entities[4].properties[5]);
 
   /// see [Nom.imageKey]
   static final imageKey =
-      obx.QueryStringProperty<Nom>(_entities[4].properties[8]);
+      obx.QueryStringProperty<Nom>(_entities[4].properties[6]);
 
   /// see [Nom.unitKey]
   static final unitKey =
-      obx.QueryStringProperty<Nom>(_entities[4].properties[9]);
+      obx.QueryStringProperty<Nom>(_entities[4].properties[7]);
+
+  /// see [Nom.price]
+  static final price = obx.QueryDoubleProperty<Nom>(_entities[4].properties[8]);
+
+  /// see [Nom.remaining]
+  static final remaining =
+      obx.QueryIntegerProperty<Nom>(_entities[4].properties[9]);
+
+  /// see [Nom.priceTypeKey]
+  static final priceTypeKey =
+      obx.QueryStringProperty<Nom>(_entities[4].properties[10]);
+
+  /// see [Nom.currencyKey]
+  static final currencyKey =
+      obx.QueryStringProperty<Nom>(_entities[4].properties[11]);
+
+  /// see [Nom.searchField]
+  static final searchField =
+      obx.QueryStringProperty<Nom>(_entities[4].properties[12]);
+
+  /// see [Nom.storageKey]
+  static final storageKey =
+      obx.QueryStringProperty<Nom>(_entities[4].properties[13]);
 }
 
 /// [Order] entity fields to define ObjectBox queries.
@@ -1334,135 +1284,105 @@ class Order_ {
       obx.QueryStringProperty<Order>(_entities[5].properties[8]);
 }
 
-/// [Price] entity fields to define ObjectBox queries.
-class Price_ {
-  /// see [Price.id]
-  static final id = obx.QueryIntegerProperty<Price>(_entities[6].properties[0]);
-
-  /// see [Price.price]
-  static final price =
-      obx.QueryDoubleProperty<Price>(_entities[6].properties[1]);
-
-  /// see [Price.priceType]
-  static final priceType =
-      obx.QueryStringProperty<Price>(_entities[6].properties[2]);
-
-  /// see [Price.packKey]
-  static final packKey =
-      obx.QueryStringProperty<Price>(_entities[6].properties[3]);
-
-  /// see [Price.currencyKey]
-  static final currencyKey =
-      obx.QueryStringProperty<Price>(_entities[6].properties[4]);
-
-  /// see [Price.nomKey]
-  static final nomKey =
-      obx.QueryStringProperty<Price>(_entities[6].properties[5]);
-}
-
 /// [Storage] entity fields to define ObjectBox queries.
 class Storage_ {
   /// see [Storage.id]
   static final id =
-      obx.QueryIntegerProperty<Storage>(_entities[7].properties[0]);
+      obx.QueryIntegerProperty<Storage>(_entities[6].properties[0]);
 
   /// see [Storage.refKey]
   static final refKey =
-      obx.QueryStringProperty<Storage>(_entities[7].properties[1]);
+      obx.QueryStringProperty<Storage>(_entities[6].properties[1]);
 
   /// see [Storage.description]
   static final description =
-      obx.QueryStringProperty<Storage>(_entities[7].properties[2]);
+      obx.QueryStringProperty<Storage>(_entities[6].properties[2]);
 }
 
 /// [Unit] entity fields to define ObjectBox queries.
 class Unit_ {
   /// see [Unit.id]
-  static final id = obx.QueryIntegerProperty<Unit>(_entities[8].properties[0]);
+  static final id = obx.QueryIntegerProperty<Unit>(_entities[7].properties[0]);
 
   /// see [Unit.refKey]
   static final refKey =
-      obx.QueryStringProperty<Unit>(_entities[8].properties[1]);
+      obx.QueryStringProperty<Unit>(_entities[7].properties[1]);
 
   /// see [Unit.owner]
   static final owner =
-      obx.QueryStringProperty<Unit>(_entities[8].properties[2]);
+      obx.QueryStringProperty<Unit>(_entities[7].properties[2]);
 
   /// see [Unit.ratio]
   static final ratio =
-      obx.QueryIntegerProperty<Unit>(_entities[8].properties[3]);
+      obx.QueryIntegerProperty<Unit>(_entities[7].properties[3]);
 
   /// see [Unit.classifierKey]
   static final classifierKey =
-      obx.QueryStringProperty<Unit>(_entities[8].properties[4]);
+      obx.QueryStringProperty<Unit>(_entities[7].properties[4]);
 
   /// see [Unit.description]
   static final description =
-      obx.QueryStringProperty<Unit>(_entities[8].properties[5]);
-}
-
-/// [UnitClassifier] entity fields to define ObjectBox queries.
-class UnitClassifier_ {
-  /// see [UnitClassifier.id]
-  static final id =
-      obx.QueryIntegerProperty<UnitClassifier>(_entities[9].properties[0]);
-
-  /// see [UnitClassifier.refKey]
-  static final refKey =
-      obx.QueryStringProperty<UnitClassifier>(_entities[9].properties[1]);
-
-  /// see [UnitClassifier.description]
-  static final description =
-      obx.QueryStringProperty<UnitClassifier>(_entities[9].properties[2]);
-
-  /// see [UnitClassifier.fullDescription]
-  static final fullDescription =
-      obx.QueryStringProperty<UnitClassifier>(_entities[9].properties[3]);
+      obx.QueryStringProperty<Unit>(_entities[7].properties[5]);
 }
 
 /// [OrderNom] entity fields to define ObjectBox queries.
 class OrderNom_ {
   /// see [OrderNom.id]
   static final id =
-      obx.QueryIntegerProperty<OrderNom>(_entities[10].properties[0]);
+      obx.QueryIntegerProperty<OrderNom>(_entities[8].properties[0]);
 
   /// see [OrderNom.orderId]
   static final orderId =
-      obx.QueryIntegerProperty<OrderNom>(_entities[10].properties[1]);
+      obx.QueryIntegerProperty<OrderNom>(_entities[8].properties[1]);
 
   /// see [OrderNom.ref]
   static final ref =
-      obx.QueryStringProperty<OrderNom>(_entities[10].properties[2]);
+      obx.QueryStringProperty<OrderNom>(_entities[8].properties[2]);
 
   /// see [OrderNom.description]
   static final description =
-      obx.QueryStringProperty<OrderNom>(_entities[10].properties[3]);
+      obx.QueryStringProperty<OrderNom>(_entities[8].properties[3]);
 
   /// see [OrderNom.article]
   static final article =
-      obx.QueryStringProperty<OrderNom>(_entities[10].properties[4]);
+      obx.QueryStringProperty<OrderNom>(_entities[8].properties[4]);
 
   /// see [OrderNom.imageKey]
   static final imageKey =
-      obx.QueryStringProperty<OrderNom>(_entities[10].properties[5]);
+      obx.QueryStringProperty<OrderNom>(_entities[8].properties[5]);
 
   /// see [OrderNom.unitKey]
   static final unitKey =
-      obx.QueryStringProperty<OrderNom>(_entities[10].properties[6]);
+      obx.QueryStringProperty<OrderNom>(_entities[8].properties[6]);
 
   /// see [OrderNom.qty]
   static final qty =
-      obx.QueryIntegerProperty<OrderNom>(_entities[10].properties[7]);
+      obx.QueryIntegerProperty<OrderNom>(_entities[8].properties[7]);
 
   /// see [OrderNom.price]
   static final price =
-      obx.QueryDoubleProperty<OrderNom>(_entities[10].properties[8]);
+      obx.QueryDoubleProperty<OrderNom>(_entities[8].properties[8]);
 
   /// see [OrderNom.ratio]
   static final ratio =
-      obx.QueryIntegerProperty<OrderNom>(_entities[10].properties[9]);
+      obx.QueryIntegerProperty<OrderNom>(_entities[8].properties[9]);
 
   /// see [OrderNom.unitName]
   static final unitName =
-      obx.QueryStringProperty<OrderNom>(_entities[10].properties[10]);
+      obx.QueryStringProperty<OrderNom>(_entities[8].properties[10]);
+}
+
+/// [ImageOb] entity fields to define ObjectBox queries.
+class ImageOb_ {
+  /// see [ImageOb.id]
+  static final id =
+      obx.QueryIntegerProperty<ImageOb>(_entities[9].properties[0]);
+
+  /// see [ImageOb.ref]
+  static final ref =
+      obx.QueryStringProperty<ImageOb>(_entities[9].properties[1]);
+
+  /// see [ImageOb.imageBase64]
+  static final imageBase64 =
+      obx.QueryStringProperty<ImageOb>(_entities[9].properties[2]);
 }

@@ -1,5 +1,7 @@
 import 'package:mobi_c/objectbox.g.dart';
+import 'package:mobi_c/services/data_bases/object_box/models/image.dart';
 import 'package:mobi_c/services/data_bases/object_box/models/models.dart';
+import 'package:mobi_c/services/data_sync_service/models/models.dart';
 
 class DataSyncObjectBoxClient {
   final Store _store;
@@ -7,9 +9,10 @@ class DataSyncObjectBoxClient {
   DataSyncObjectBoxClient({required Store store}) : _store = store;
 
   //^----------NOMENKLATURA----------------
-  List<Nom> getAllNoms() {
+  Future<List<SyncNom>> getAllNoms() async {
     try {
-      return _store.box<Nom>().getAll();
+      final res = await _store.box<Nom>().query().build().findAsync();
+      return res.map((e) => SyncNom.fromOb(e)).toList();
     } catch (e) {
       throw Exception(e);
     }
@@ -17,33 +20,17 @@ class DataSyncObjectBoxClient {
 
   void setNom(List<Nom> noms) async {
     try {
-      _store.box<Nom>().putMany(noms);
-    } catch (e) {
-      throw Exception(e);
-    }
-  }
-
-  //^----------PRICES----------------
-  List<Price> getAllPrices() {
-    try {
-      return _store.box<Price>().getAll();
-    } catch (e) {
-      throw Exception(e);
-    }
-  }
-
-  void setPrice(List<Price> prices) async {
-    try {
-      _store.box<Price>().putMany(prices);
+      await _store.box<Nom>().putManyAsync(noms);
     } catch (e) {
       throw Exception(e);
     }
   }
 
   // //^----------STORAGES----------------
-  List<Storage> getAllStorages() {
+  Future<List<SyncStorage>> getAllStorages() async {
     try {
-      return _store.box<Storage>().getAll();
+      final res = await _store.box<Storage>().query().build().findAsync();
+      return res.map((e) => SyncStorage.fromOb(e)).toList();
     } catch (e) {
       throw Exception(e);
     }
@@ -51,33 +38,26 @@ class DataSyncObjectBoxClient {
 
   void setStorage(List<Storage> storages) async {
     try {
-      _store.box<Storage>().putMany(storages);
+      await _store.box<Storage>().putManyAsync(storages);
     } catch (e) {
       throw Exception(e);
     }
   }
 
-  // //^----------BARCODES----------------
-  List<Barcode> getAllBarcodes() {
-    try {
-      return _store.box<Barcode>().getAll();
-    } catch (e) {
-      throw Exception(e);
-    }
-  }
 
   void setBarcode(List<Barcode> barcodes) async {
     try {
-      _store.box<Barcode>().putMany(barcodes);
+      await _store.box<Barcode>().putManyAsync(barcodes);
     } catch (e) {
       throw Exception(e);
     }
   }
 
   //^----------CONTRACT----------------
-  List<Contract> getAllContract() {
+  Future<List<SyncContract>> getAllContract() async {
     try {
-      return _store.box<Contract>().getAll();
+      final res = await _store.box<Contract>().query().build().findAsync();
+      return res.map((e) => SyncContract.fromOb(e)).toList();
     } catch (e) {
       throw Exception(e);
     }
@@ -85,16 +65,17 @@ class DataSyncObjectBoxClient {
 
   void setContract(List<Contract> contracts) async {
     try {
-      _store.box<Contract>().putMany(contracts);
+      await _store.box<Contract>().putManyAsync(contracts);
     } catch (e) {
       throw Exception(e);
     }
   }
 
   //^----------Counterparty----------------
-  List<Counterparty> getAllCounterparty() {
+  Future<List<SyncCounterparty>> getAllCounterparty() async {
     try {
-      return _store.box<Counterparty>().getAll();
+      final res = await _store.box<Counterparty>().query().build().findAsync();
+      return res.map((e) => SyncCounterparty.fromOb(e)).toList();
     } catch (e) {
       throw Exception(e);
     }
@@ -102,33 +83,37 @@ class DataSyncObjectBoxClient {
 
   void setCounterparty(List<Counterparty> counterpartys) async {
     try {
-      _store.box<Counterparty>().putMany(counterpartys);
+      await _store.box<Counterparty>().putManyAsync(counterpartys);
     } catch (e) {
       throw Exception(e);
     }
   }
 
   //^----------DISCOUNT----------------
-  List<Discount> getAllDiscount() {
+  Future<List<SyncDiscount>> getAllDiscount() async {
     try {
-      return _store.box<Discount>().getAll();
+      final res = await _store.box<Discount>().query().build().findAsync();
+      return res.map((e) => SyncDiscount.fromOb(e)).toList();
     } catch (e) {
       throw Exception(e);
     }
   }
 
-  void setDiscount(List<Discount> discounts,) async {
+  void setDiscount(
+    List<Discount> discounts,
+  ) async {
     try {
-      _store.box<Discount>().putMany(discounts);
+      await _store.box<Discount>().putManyAsync(discounts);
     } catch (e) {
       throw Exception(e);
     }
   }
 
   //^----------Unit----------------
-  List<Unit> getAllUnit() {
+  Future<List<SyncUnit>> getAllUnit() async {
     try {
-      return _store.box<Unit>().getAll();
+      final res = await _store.box<Unit>().query().build().findAsync();
+      return res.map((e) => SyncUnit.fromOb(e)).toList();
     } catch (e) {
       throw Exception(e);
     }
@@ -136,27 +121,31 @@ class DataSyncObjectBoxClient {
 
   void setUnit(List<Unit> units) async {
     try {
-      _store.box<Unit>().putMany(units);
+      await _store.box<Unit>().putManyAsync(units);
     } catch (e) {
       throw Exception(e);
     }
   }
 
-  //^----------UnitClassificator----------------
-  List<UnitClassifier> getAllUnitClassificator() {
+
+  // // //^----------BARCODES----------------
+  // Future<List<SyncBarcode>> getAllBarcodes() async {
+  //   try {
+  //     final res = await _store.box<Barcode>().query().build().findAsync();
+  //     return res.map((e) => SyncBarcode.fromOb(e)).toList();
+  //   } catch (e) {
+  //     throw Exception(e);
+  //   }
+  // }
+
+//^-----------Image-----------------------------
+
+  Future setImages(List<ImageOb> image) async {
     try {
-      return _store.box<UnitClassifier>().getAll();
+      await _store.box<ImageOb>().putManyAsync(image);
     } catch (e) {
       throw Exception(e);
     }
   }
 
-  void setUnitClassificator(
-      List<UnitClassifier> unitClassifiers) async {
-    try {
-      _store.box<UnitClassifier>().putMany(unitClassifiers);
-    } catch (e) {
-      throw Exception(e);
-    }
-  }
 }

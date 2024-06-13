@@ -4,14 +4,14 @@ import 'package:objectbox/objectbox.dart';
 class Order {
   @Id()
   int id;
-  final DateTime? date;
-  final DateTime? shipmentDate;
-  final String counterpartyKey;
-  final String partnerKey;
-  final String storageKey;
-  final String organization;
-  final String contractKey;
-  final String comment;
+   DateTime? date;
+   DateTime? shipmentDate;
+   String counterpartyKey;
+   String partnerKey;
+   String storageKey;
+   String organization;
+   String contractKey;
+   String comment;
 
   Order(
       {required this.date,

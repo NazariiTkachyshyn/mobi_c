@@ -1,4 +1,3 @@
-import 'package:get_it/get_it.dart';
 import 'package:mobi_c/feature/create_order/create_order_client/cerate_order_client.dart';
 import 'package:mobi_c/feature/create_order/create_order_repo/create_order_repo.dart';
 import 'package:mobi_c/feature/create_order/cubit/create_order_cubit.dart';
@@ -7,11 +6,8 @@ import 'package:mobi_c/feature/create_order/ui/counterparty_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobi_c/feature/create_order/ui/product_view.dart';
-import 'package:mobi_c/models/counterparty.dart';
+import 'package:mobi_c/services/data_bases/object_box/models/models.dart';
 import 'package:mobi_c/services/data_sync_service/data_sync_service.dart';
-import 'package:sqflite/sqflite.dart';
-
-import '../../../common/constants/table_named.dart';
 
 class CreateOrderPage extends StatelessWidget {
   const CreateOrderPage({super.key});
@@ -42,20 +38,22 @@ class _CreateOrderPageState extends State<_CreateOrderPage>
     context.read<CreateOrderCubit>().getNoms();
 
     tabController = TabController(
-        length: 3, vsync: this, animationDuration: const Duration(milliseconds: 100));
+        length: 3,
+        vsync: this,
+        animationDuration: const Duration(milliseconds: 100));
 
-    tabController.addListener(() {
-      if (!tabController.indexIsChanging) {
-        final state = context.read<CreateOrderCubit>().state;
-        if (tabController.index != 0 &&
-            state.counterparty == ApiCounterparty.empty) {
-          tabController.index = 0;
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Клієнта не вибрано.')),
-          );
-        }
-      }
-    });
+    // tabController.addListener(() {
+    //   if (!tabController.indexIsChanging) {
+    //     final state = context.read<CreateOrderCubit>().state;
+    //     if (tabController.index != 0 &&
+    //         state.counterparty == Counterparty.empty) {
+    //       tabController.index = 0;
+    //       ScaffoldMessenger.of(context).showSnackBar(
+    //         const SnackBar(content: Text('Клієнта не вибрано.')),
+    //       );
+    //     }
+    //   }
+    // });
     super.initState();
   }
 
@@ -78,30 +76,29 @@ class _CreateOrderPageState extends State<_CreateOrderPage>
           actions: [
             IconButton(
                 onPressed: () async {
-    
-
+                  
+                  DataSyncService().downloadImage();
                   DataSyncService().syncDiscountData();
                   DataSyncService().syncNomData();
-                  DataSyncService().syncPriceData();
                   DataSyncService().syncCounterpartyData();
                   DataSyncService().syncContractData();
                   DataSyncService().syncUnitData();
-                  DataSyncService().syncUnitClassificatorData();
                 },
                 icon: const Icon(Icons.sync)),
-            IconButton(onPressed: () {}, icon: const Icon(Icons.more_vert_sharp)),
+            IconButton(
+                onPressed: () {}, icon: const Icon(Icons.more_vert_sharp)),
           ],
           bottom: TabBar(
             controller: tabController,
             onTap: (value) {
               final state = context.read<CreateOrderCubit>().state;
 
-              if (value != 0 && state.counterparty == ApiCounterparty.empty) {
-                tabController.index = 0;
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Клієнта не вибрано.')),
-                );
-              }
+              // if (value != 0 && state.counterparty == Counterparty.empty) {
+              //   tabController.index = 0;
+              //   ScaffoldMessenger.of(context).showSnackBar(
+              //     const SnackBar(content: Text('Клієнта не вибрано.')),
+              //   );
+              // }
             },
             tabs: const <Widget>[
               Tab(

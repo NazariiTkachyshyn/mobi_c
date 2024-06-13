@@ -3,15 +3,13 @@ import 'package:equatable/equatable.dart';
 import 'package:mobi_c/common/constants/key_const.dart';
 import 'package:mobi_c/common/func.dart';
 import 'package:mobi_c/feature/create_order/create_order_repo/create_order_repo.dart';
-import 'package:mobi_c/models/order.dart';
+import 'package:mobi_c/services/data_sync_service/models/order.dart';
 import 'package:mobi_c/services/data_bases/object_box/models/models.dart';
-
-import '../../../models/models.dart';
 
 part 'create_order_state.dart';
 
 class CreateOrderCubit extends Cubit<CreateOrderState> {
-  CreateOrderCubit(this._createOrderRepo) : super( CreateOrderState());
+  CreateOrderCubit(this._createOrderRepo) : super(CreateOrderState());
 
   final CreateOrderRepo _createOrderRepo;
 
@@ -21,14 +19,14 @@ class CreateOrderCubit extends Cubit<CreateOrderState> {
 
   Future<void> selectCounterparty(Counterparty counterparty) async {
     emit(state.copyWith(order: state.order.copyWith(contractKey: '')));
-    await getContracts(counterparty.refKey);
-    await getDiscount(state.contracts.first.refKey);
+
     emit(state.copyWith(
         counterparty: counterparty,
         order: state.order.copyWith(
-            contractKey: state.contracts.first.refKey,
             counterpartyKey: counterparty.refKey,
             partnerKey: counterparty.refKey)));
+    await getContracts(counterparty.refKey);
+    await getDiscount(state.contracts.first.refKey);
   }
 
   void selectDatetime(DateTime? date) {
@@ -38,10 +36,23 @@ class CreateOrderCubit extends Cubit<CreateOrderState> {
 
   Future<void> getContracts(String ownerKey) async {
     try {
-      emit(state.copyWith(status: CreateOrderStatus.loading));
       final contracts = await _createOrderRepo.getContracts(ownerKey);
       emit(state.copyWith(
-          contracts: contracts, status: CreateOrderStatus.success));
+          order: state.order.copyWith(
+            contractKey: contracts.first.refKey,),
+          contracts: contracts,
+          status: CreateOrderStatus.success));
+    } catch (e) {
+      emit(state.copyWith(
+          status: CreateOrderStatus.failure, errorMessage: e.toString()));
+    }
+  }
+
+  Future<void> getDiscount(String discountRecipient) async {
+    try {
+      final discount = await _createOrderRepo.getDiscount(discountRecipient);
+      emit(state.copyWith(
+          discount: discount, status: CreateOrderStatus.success));
     } catch (e) {
       emit(state.copyWith(
           status: CreateOrderStatus.failure, errorMessage: e.toString()));
@@ -52,21 +63,8 @@ class CreateOrderCubit extends Cubit<CreateOrderState> {
     emit(state.copyWith(order: state.order.copyWith(contractKey: contractKey)));
   }
 
-  Future<void> getDiscount(String discountRecipient) async {
-    try {
-      emit(state.copyWith(status: CreateOrderStatus.loading));
-      final discount = await _createOrderRepo.getDiscount(discountRecipient);
-      emit(state.copyWith(
-          discount: discount, status: CreateOrderStatus.success));
-    } catch (e) {
-      emit(state.copyWith(
-          status: CreateOrderStatus.failure, errorMessage: e.toString()));
-    }
-  }
-
   Future<void> getNoms() async {
     try {
-      emit(state.copyWith(status: CreateOrderStatus.loading));
       final noms = await _createOrderRepo.getNoms(state.orderId);
       emit(state.copyWith(noms: noms, status: CreateOrderStatus.success));
     } catch (e) {
@@ -75,23 +73,19 @@ class CreateOrderCubit extends Cubit<CreateOrderState> {
     }
   }
 
-  Future<void> insertNom(ApiNom nom, String qty) async {
+  Future<void> insertNom(Nom nom, String qty, Unit unit) async {
     try {
-      final unit = state.selectedUnit;
-      await _createOrderRepo.insertNom(
-        ApiOrderNom(
-            id: 0,
-            orderId: state.orderId,
-            ref: nom.ref,
-            description: nom.description,
-            article: nom.article,
-            imageKey: nom.imageKey,
-            unitKey: unit.refKey,
-            qty: int.parse(qty),
-            price: nom.price,
-            ratio: unit.ratio,
-            unitName: unit.description),
-      );
+      await _createOrderRepo.insertNom(OrderNom(
+          orderId: state.orderId,
+          ref: nom.ref,
+          description: nom.description,
+          article: nom.article,
+          imageKey: nom.imageKey,
+          unitKey: unit.refKey,
+          qty: int.parse(qty),
+          price: nom.price,
+          ratio: unit.ratio,
+          unitName: unit.description));
       await getNoms();
     } catch (e) {
       emit(state.copyWith(
@@ -109,9 +103,20 @@ class CreateOrderCubit extends Cubit<CreateOrderState> {
     }
   }
 
-  Future<void> updateNom(ApiOrderNom nom, String qty, ) async {
+  Future<void> updateNom(OrderNom nom, String qty, Unit unit) async {
     try {
-      await _createOrderRepo.updateNom(nom.id, int.parse(qty), state.selectedUnit);
+      await _createOrderRepo.updateNom(OrderNom(
+          id: nom.id,
+          orderId: state.orderId,
+          ref: nom.ref,
+          description: nom.description,
+          article: nom.article,
+          imageKey: nom.imageKey,
+          unitKey: nom.unitKey,
+          qty: int.parse(qty),
+          price: nom.price,
+          ratio: unit.ratio,
+          unitName: unit.description));
       await getNoms();
     } catch (e) {
       emit(state.copyWith(
@@ -145,9 +150,11 @@ class CreateOrderCubit extends Cubit<CreateOrderState> {
     try {
       emit(state.copyWith(status: CreateOrderStatus.loading));
       final units = await _createOrderRepo.getUnits(nomKey);
-       final selectedUnit = units
-        .firstWhere((e) => e.classifierKey == nomUnit);
-      emit(state.copyWith(units: units, selectedUnit: selectedUnit, status: CreateOrderStatus.success));
+      final selectedUnit = units.firstWhere((e) => e.classifierKey == nomUnit);
+      emit(state.copyWith(
+          units: units,
+          selectedUnit: selectedUnit,
+          status: CreateOrderStatus.success));
     } catch (e) {
       emit(state.copyWith(
           status: CreateOrderStatus.failure, errorMessage: e.toString()));
@@ -155,8 +162,13 @@ class CreateOrderCubit extends Cubit<CreateOrderState> {
   }
 
   selectUnit(String unitClassificatorKey) {
-    final selectedUnit = state.units
-        .firstWhere((e) => e.classifierKey == unitClassificatorKey);
+    final selectedUnit =
+        state.units.firstWhere((e) => e.classifierKey == unitClassificatorKey);
     emit(state.copyWith(selectedUnit: selectedUnit));
+  }
+
+  changePickup() {
+    emit(state.copyWith(
+        order: state.order.copyWith(pickup: !state.order.pickup)));
   }
 }

@@ -22,29 +22,30 @@ final class CreateOrderState extends Equatable {
     this.noms = const [],
     this.contracts = const [],
     this.units = const [],
-    this.selectedUnit = ApiUnit.empty,
+    Unit? selectedUnit,
     Discount? discount,
     ApiOrder? order,
     Counterparty? counterparty,
   })  : counterparty = counterparty ?? Counterparty.empty,
         order = order ?? ApiOrder.empty,
-        discount = discount ?? Discount.empty;
+        discount = discount ?? Discount.empty,
+        selectedUnit = selectedUnit ?? Unit.empty;
 
   final CreateOrderStatus status;
   final int orderId;
   final Counterparty counterparty;
   final ApiOrder order;
   final String errorMessage;
-  final List<ApiOrderNom> noms;
+  final List<OrderNom> noms;
   final List<Contract> contracts;
   final Discount discount;
-  final List<ApiUnit> units;
-  final ApiUnit selectedUnit;
+  final List<Unit> units;
+  final Unit selectedUnit;
 
   double get discountedSumm => noms.fold(
-      0, (a, b) => a + calcDiscount(b.price, discount.percentDiscounts));
+      0, (a, b) => a + (calcDiscount(b.price, discount.percentDiscounts)*b.qty));
 
-  double get summ => noms.fold(0, (a, b) => a + b.price);
+  double get summ => noms.fold(0, (a, b) => a + b.price*b.qty*b.ratio);
   int get totalQty => noms.fold(0, (a, b) => a + b.qty);
 
   double get discountInHrn => summ - discountedSumm;
@@ -55,11 +56,11 @@ final class CreateOrderState extends Equatable {
       ApiOrder? order,
       String? errorMessage,
       Counterparty? counterparty,
-      List<ApiOrderNom>? noms,
+      List<OrderNom>? noms,
       List<Contract>? contracts,
       Discount? discount,
-      List<ApiUnit>? units,
-      ApiUnit? selectedUnit}) {
+      List<Unit>? units,
+      Unit? selectedUnit}) {
     return CreateOrderState(
         status: status ?? this.status,
         order: order ?? this.order,

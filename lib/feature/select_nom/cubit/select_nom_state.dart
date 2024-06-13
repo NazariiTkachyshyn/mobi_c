@@ -17,35 +17,35 @@ extension SelectNomStatusX on SelectNomStatus {
 final class SelectNomState extends Equatable {
   const SelectNomState({
     this.status = SelectNomStatus.initial,
-    this.noms = const [],
     this.searchNoms = const [],
     this.folders = const [],
+    this.images = const [],
     this.errorMassage = '',
   });
 
   final SelectNomStatus status;
-  final List<ApiNom> noms;
-  final List<ApiNom> searchNoms;
-  final List<ApiNom> folders;
+  final List<Nom> searchNoms;
+  final List<Nom> folders;
+  final List<ImageOb> images;
 
   final String errorMassage;
 
   SelectNomState copyWith({
     SelectNomStatus? status,
-    List<ApiNom>? noms,
-    List<ApiNom>? searchNoms,
-    List<ApiNom>? folders,
+    List<Nom>? searchNoms,
+    List<Nom>? folders,
     String? errorMassage,
+    List<ImageOb>? images
   }) {
     return SelectNomState(
       status: status ?? this.status,
-      noms: noms ?? this.noms,
       searchNoms: searchNoms ?? this.searchNoms,
       folders: folders ?? this.folders,
       errorMassage: errorMassage ?? this.errorMassage,
+      images: images ?? this.images
     );
   }
 
   @override
-  List<Object?> get props => [status, errorMassage, noms, searchNoms, folders];
+  List<Object?> get props => [status, errorMassage, searchNoms, folders, images];
 }

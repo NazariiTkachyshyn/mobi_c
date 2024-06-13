@@ -1,8 +1,6 @@
 import 'package:mobi_c/feature/create_order/cubit/create_order_cubit.dart';
-import 'package:mobi_c/ui/components/widgets/text_field_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 
 class AtherView extends StatefulWidget {
   const AtherView({super.key});
@@ -30,56 +28,16 @@ class _AtherViewState extends State<AtherView> {
               decoration: const InputDecoration(labelText: 'Коментар'),
             ),
             const Padding(padding: EdgeInsets.all(6)),
-            // Row(
-            //   children: [
-            //     SizedBox(
-            //         width: 130,
-            //         child: TextFielButton(
-            //           text: DateFormat('dd.MM.yy')
-            //               .format(state.order.date ?? DateTime.now()),
-            //           lableText: 'Доставка дата',
-            //           onTap: () async {
-            //             selectDate = await showDatePicker(
-            //               initialDate: DateTime.now(),
-            //               locale: const Locale('uk'),
-            //               context: context,
-            //               firstDate: DateTime(DateTime.now().year - 1),
-            //               lastDate: DateTime(DateTime.now().year + 1),
-            //             );
-            //             if (context.mounted) {
-            //               context
-            //                   .read<CreateOrderCubit>()
-            //                   .selectDatetime(selectDate);
-            //             }
-            //           },
-            //         )),
-            //     const SizedBox(
-            //       width: 5,
-            //     ),
-            //     SizedBox(
-            //         width: 130,
-            //         child: TextFielButton(
-            //           text: TimeOfDay.now().format(context),
-            //           lableText: 'Доставка час',
-            //           onTap: () async {
-            //             var a = await showTimePicker(
-            //                 context: context, initialTime: TimeOfDay.now());
-            //             if (context.mounted) {
-            //               context
-            //                   .read<CreateOrderCubit>()
-            //                   .selectDatetime(selectDate);
-            //             }
-            //           },
-            //         )),
-            //   ],
-            // ),
-            // ignore: prefer_const_constructors
-            SizedBox(
+            const SizedBox(
               height: 6,
             ),
             Row(children: [
               Text('Самовивіз', style: theme.textTheme.titleMedium),
-              Checkbox(value: true, onChanged: (value) {})
+              Checkbox(
+                  value: state.order.pickup,
+                  onChanged: (value) {
+                    context.read<CreateOrderCubit>().changePickup();
+                  })
             ]),
             Text(
               'Сума ${state.discountedSumm.toStringAsFixed(2)} грн',
@@ -100,8 +58,9 @@ class _AtherViewState extends State<AtherView> {
             ElevatedButton(
                 onPressed: () {
                   context.read<CreateOrderCubit>().createOrder();
+                  Navigator.popAndPushNamed(context, 'createOrderPage');
                 },
-                child: const Text('Створити'))
+                child: const Text('Створити')),
           ]),
         );
       },

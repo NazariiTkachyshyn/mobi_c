@@ -1,10 +1,20 @@
+import 'dart:convert';
+import 'dart:io';
+import 'dart:math';
+
+import 'package:animations/animations.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:mobi_c/common/func.dart';
+import 'package:mobi_c/feature/input_qty_unit/client/client.dart';
+import 'package:mobi_c/feature/input_qty_unit/cubit/input_qty_unit_cubit.dart';
+import 'package:mobi_c/feature/input_qty_unit/ui/count_input_dialog.dart';
 import 'package:mobi_c/feature/select_nom/cubit/select_nom_cubit.dart';
 import 'package:mobi_c/feature/select_nom/select_nom_client/select_nom_client.dart';
 import 'package:mobi_c/feature/select_nom/select_nom_repo/select_nom_repo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobi_c/models/models.dart';
+import 'package:mobi_c/services/data_bases/object_box/models/models.dart';
+import 'package:path_provider/path_provider.dart';
 
 import '../../../common/common.dart';
 
@@ -20,10 +30,12 @@ class SelectNomPage extends StatefulWidget {
 class _SelectNomPageState extends State<SelectNomPage> {
   @override
   Widget build(context) {
-    return BlocProvider(
-        create: (context) => SelectNomCubit(
-            SelectNomRepoImpl(selectNomClient: SelectNomClient())),
-        child: const SelectNomView());
+    return MultiBlocProvider(providers: [
+      BlocProvider(
+          create: (context) => SelectNomCubit(
+              SelectNomRepoImpl(selectNomClient: SelectNomClient()))),
+      BlocProvider(create: (context) => InputQtyUnitCubit(InputQtyUnitClient()))
+    ], child: const SelectNomView());
   }
 }
 
@@ -39,6 +51,8 @@ class _SelectNomViewState extends State<SelectNomView> {
   @override
   void initState() {
     context.read<SelectNomCubit>().getFolders();
+    context.read<SelectNomCubit>().getImage('');
+
     super.initState();
   }
 
@@ -46,9 +60,11 @@ class _SelectNomViewState extends State<SelectNomView> {
   Widget build(context) {
     final arguments =
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-    final onSelect = arguments['onTap'] as Function(ApiNom nom);
+    final onSelect =
+        arguments['onTap'] as Function(Nom nom, String qty, Unit unit);
     final discount = arguments['discount'];
     return Scaffold(
+        resizeToAvoidBottomInset: true,
         appBar: AppBar(
           leading: IconButton(
               onPressed: () {
@@ -69,40 +85,42 @@ class _SelectNomViewState extends State<SelectNomView> {
             ],
           ),
         ),
-        body: searchType.isFolder
-            ? Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: BlocConsumer<SelectNomCubit, SelectNomState>(
-                  listener: (context, state) {},
-                  builder: (context, state) {
-                    List<TreeNom> treeData = buildTree(state.folders
-                        .map((e) => TreeNom.toTreeNom(e))
-                        .toList());
+        body: Stack(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: BlocConsumer<SelectNomCubit, SelectNomState>(
+                listener: (context, state) {},
+                builder: (context, state) {
+                  List<TreeNom> treeData = buildTree(
+                      state.folders.map((e) => TreeNom.toTreeNom(e)).toList());
 
-                    return ListView(
-                      children: treeData
-                          .map((item) => buildNode(item, context))
-                          .toList(),
-                    );
-                  },
-                ),
-              )
-            : _SearchByTextField(
-                onSelect: onSelect,
-                parentKey: parentKey,
-                discount: discount,
-              ));
+                  return ListView(
+                    children: treeData
+                        .map((item) => buildNode(item, context))
+                        .toList(),
+                  );
+                },
+              ),
+            ),
+            searchType.isTextField
+                ? _SearchByTextField(
+                    onSelect: onSelect,
+                    parentKey: parentKey,
+                    discount: discount,
+                  )
+                : const SizedBox()
+          ],
+        ));
   }
 
   Widget buildNode(TreeNom node, BuildContext context) {
     if (node.children.isEmpty) {
       return ListTile(
+        leading: const Icon(Icons.folder),
         title: Text(node.description),
         onTap: () {
-          print(node.ref);
-          if (node.ref.isEmpty) {
-            context.read<SelectNomCubit>().getAllNoms();
-          }
+          if (node.ref.isEmpty) {}
 
           parentKey = node.ref;
           searchType =
@@ -113,10 +131,15 @@ class _SelectNomViewState extends State<SelectNomView> {
       );
     } else {
       return ExpansionTile(
-        onExpansionChanged: (value) {},
+        shape: const OutlineInputBorder(borderSide: BorderSide.none),
+        leading: const Icon(Icons.folder_copy),
         title: Text(node.description),
-        children:
-            node.children.map((child) => buildNode(child, context)).toList(),
+        children: node.children
+            .map((child) => Padding(
+                  padding: const EdgeInsets.only(left: 18),
+                  child: buildNode(child, context),
+                ))
+            .toList(),
       );
     }
   }
@@ -127,7 +150,7 @@ class _SearchByTextField extends StatefulWidget {
       {required this.onSelect,
       required this.parentKey,
       required this.discount});
-  final Function(ApiNom nom) onSelect;
+  final Function(Nom nom, String qty, Unit init) onSelect;
   final String parentKey;
   final double discount;
 
@@ -142,53 +165,168 @@ class _SearchByTextFieldState extends State<_SearchByTextField> {
     super.initState();
   }
 
+  ActionPane actionPane(Nom nom) {
+    return ActionPane(motion: const DrawerMotion(), children: [
+      SlidableAction(
+        borderRadius: const BorderRadius.all(Radius.circular(8)),
+        flex: 2,
+        onPressed: (value) {
+          showModal(
+              context: context,
+              builder: (_) => BlocProvider.value(
+                    value: context.read<InputQtyUnitCubit>(),
+                    child: InputQtyUnitDialog(
+                      nom: nom,
+                      onPressedContiniue: (qty, unit) {
+                        widget.onSelect(nom, qty, unit);
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ));
+        },
+        backgroundColor: Colors.green,
+        foregroundColor: Colors.white,
+        icon: Icons.add,
+        label: 'Додати',
+      )
+    ]);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: BlocConsumer<SelectNomCubit, SelectNomState>(
-        listener: (context, state) {},
-        builder: (context, state) {
-          final noms = state.searchNoms;
-          return Column(
-            children: [
-              TextField(
-                onChanged: (value) {
-                  context.read<SelectNomCubit>().getNomsInFolder(value);
-                },
-                decoration:
-                    const InputDecoration(labelText: 'Назва або артикул'),
-              ),
-              const Padding(padding: EdgeInsets.all(4)),
-              Expanded(
-                  child: ListView.builder(
-                itemCount: noms.length,
-                itemBuilder: (context, index) {
-                  final nom = noms[index];
-                  return Container(
-                    margin: const EdgeInsets.symmetric(vertical: 2),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(color: Colors.black12),
-                        borderRadius: BorderRadius.circular(8)),
-                    child: ListTile(
-                      onTap: () {
-                        widget.onSelect(nom);
-                      },
-                      title: Text(nom.description),
-                      subtitle: Text(nom.article),
-                      trailing: Text(
-                          nom.calcDiscount(widget.discount).toStringAsFixed(2)),
-                    ),
-                  );
-                },
-              ))
-            ],
-          );
-        },
+    final theme = Theme.of(context);
+    Future<File> _getLocalFile(String filename) async {
+      final docDir = await getApplicationDocumentsDirectory();
+      final imageDir = Directory(docDir.path+"/images");
+      File f = File('${imageDir.path}/$filename');
+      final files = imageDir.listSync(recursive: true, followLinks: false);
+      print(files.length);
+
+      return f;
+    }
+
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: BlocConsumer<SelectNomCubit, SelectNomState>(
+          listener: (context, state) {},
+          builder: (context, state) {
+            final noms = state.searchNoms;
+            return Column(
+              children: [
+                TextField(
+                  onChanged: (value) {
+                    if (widget.parentKey.isEmpty) {
+                      context.read<SelectNomCubit>().getByDescription(value);
+                      return;
+                    }
+                    context
+                        .read<SelectNomCubit>()
+                        .searchNomsInFolder(value, widget.parentKey);
+                  },
+                  decoration:
+                      const InputDecoration(labelText: 'Назва або артикул'),
+                ),
+                const Padding(padding: EdgeInsets.all(4)),
+                Expanded(
+                    child: ListView.builder(
+                  itemCount: noms.length,
+                  itemBuilder: (context, index) {
+                    final nom = noms[index];
+                    return Container(
+                      margin: const EdgeInsets.symmetric(vertical: 2),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(color: Colors.black12),
+                          borderRadius: BorderRadius.circular(8)),
+                      child: Slidable(
+                        endActionPane: actionPane(nom),
+                        startActionPane: actionPane(nom),
+                        child: ListTile(
+                          visualDensity: const VisualDensity(vertical: 3),
+                          leading: ConstrainedBox(
+                              constraints: const BoxConstraints(
+                                minWidth: 44,
+                                minHeight: 44,
+                                maxWidth: 64,
+                                maxHeight: 64,
+                              ),
+                              child: FutureBuilder(
+                                  future: _getLocalFile(nom.ref),
+                                  builder: (BuildContext context,
+                                      AsyncSnapshot<File> snapshot) {
+                                    try {
+                                      return Image.file(
+                                        snapshot.data!,
+                                        errorBuilder:
+                                            (context, error, stackTrace) =>
+                                                Icon(
+                                          Icons.image_search_rounded,
+                                          color: Colors.grey,
+                                          size: 50,
+                                        ),
+                                      );
+                                    } catch (e) {
+                                      return Icon(
+                                          Icons.image_not_supported_rounded);
+                                    }
+                                  })
+                              // Image.file(file)
+                              ),
+                          onTap: () {
+                            qtyInputDialog(context, nom, widget.onSelect);
+                          },
+                          title: Text(
+                            nom.article,
+                            style: theme.textTheme.titleMedium,
+                          ),
+                          subtitle: Text(nom.description),
+                          trailing: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Text(
+                                  '${calcDiscount(nom.price, widget.discount).toStringAsFixed(2)} грн.',
+                                  style: theme.textTheme.labelLarge!
+                                      .copyWith(color: Colors.black)),
+                              Text('${nom.price.toStringAsFixed(2)} грн.',
+                                  style: theme.textTheme.labelLarge!
+                                      .copyWith(color: Colors.grey)),
+                              Text(
+                                nom.remaining.toString(),
+                                style: theme.textTheme.labelLarge!
+                                    .copyWith(color: Colors.blue),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ))
+              ],
+            );
+          },
+        ),
       ),
     );
   }
+}
+
+qtyInputDialog(BuildContext context, Nom nom,
+    Function(Nom nom, String qty, Unit init) onSelect) {
+  showModal(
+      context: context,
+      builder: (_) => BlocProvider.value(
+            value: context.read<InputQtyUnitCubit>(),
+            child: InputQtyUnitDialog(
+              nom: nom,
+              onPressedContiniue: (qty, unit) {
+                onSelect(nom, qty, unit);
+                Navigator.pop(context);
+                Navigator.pop(context);
+              },
+            ),
+          ));
 }
 
 List<TreeNom> buildTree(List<TreeNom> noms) {
@@ -221,17 +359,6 @@ List<TreeNom> buildTree(List<TreeNom> noms) {
       map[nom.parentKey]?.addChild(nom);
     }
   }
-  roots.add(TreeNom(
-      id: 0,
-      ref: '',
-      isFolder: true,
-      description: '',
-      article: '',
-      parentKey: '',
-      unitKey: 'uniKey',
-      imageKey: '',
-      children: [],
-      price: 0));
 
   return roots;
 }
@@ -264,7 +391,7 @@ class TreeNom {
     children.add(child);
   }
 
-  factory TreeNom.toTreeNom(ApiNom nom) => TreeNom(
+  factory TreeNom.toTreeNom(Nom nom) => TreeNom(
       id: 0,
       ref: nom.ref,
       isFolder: nom.isFolder,
@@ -274,5 +401,5 @@ class TreeNom {
       unitKey: nom.unitKey,
       imageKey: nom.imageKey,
       children: [],
-      price: nom.price);
+      price: 0);
 }

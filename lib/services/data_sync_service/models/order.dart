@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 import 'package:mobi_c/common/constants/key_const.dart';
-import 'package:mobi_c/models/models.dart';
 
 class ApiOrder extends Equatable {
   final DateTime? date;
@@ -11,18 +10,19 @@ class ApiOrder extends Equatable {
   final String organization;
   final String contractKey;
   final String comment;
-  final List<ApiOrderNom> goods;
+  final bool pickup;
 
-  const ApiOrder(
-      {required this.date,
-      required this.shipmentDate,
-      required this.counterpartyKey,
-      required this.partnerKey,
-      this.storageKey = KeyConst.storageKey,
-      required this.contractKey,
-      this.organization = "49b22f0e-2258-11e1-b864-002354e1ef1c",
-      required this.comment,
-      required this.goods});
+  const ApiOrder({
+    required this.date,
+    required this.shipmentDate,
+    required this.counterpartyKey,
+    required this.partnerKey,
+    this.storageKey = KeyConst.storageKey,
+    required this.contractKey,
+    this.organization = "49b22f0e-2258-11e1-b864-002354e1ef1c",
+    required this.comment,
+    required this.pickup
+  });
 
   ApiOrder copyWith({
     DateTime? date,
@@ -34,7 +34,7 @@ class ApiOrder extends Equatable {
     String? storageKey,
     String? organization,
     String? comment,
-    List<ApiOrderNom>? goods,
+    bool?  pickup
   }) {
     return ApiOrder(
         date: date ?? this.date,
@@ -44,8 +44,9 @@ class ApiOrder extends Equatable {
         storageKey: storageKey ?? this.storageKey,
         organization: organization ?? this.organization,
         comment: comment ?? this.comment,
-        goods: goods ?? this.goods,
-        contractKey: contractKey ?? this.contractKey);
+        contractKey: contractKey ?? this.contractKey,
+        pickup: pickup ?? this.pickup
+        );
   }
 
   Map<String, dynamic> toJson(List<Map<String, dynamic>> products) {
@@ -63,6 +64,7 @@ class ApiOrder extends Equatable {
       'ХозяйственнаяОперация': "РеализацияКлиенту",
       'ДокументОснование_Type': "StandardODATA.Undefined",
       "КратностьВзаиморасчетов": "1",
+      "Самовивіз": pickup,
       'Согласован': false,
       "СкладГруппа": KeyConst.storageKey,
       "СкладГруппа_Type": "StandardODATA.Catalog_Склады",
@@ -81,7 +83,7 @@ class ApiOrder extends Equatable {
       storageKey: '',
       organization: '',
       comment: '',
-      goods: [],
+      pickup: false,
       contractKey: "");
 
   @override
@@ -93,8 +95,8 @@ class ApiOrder extends Equatable {
         storageKey,
         organization,
         comment,
-        goods,
-        contractKey
+        contractKey,
+        pickup
       ];
 }
 

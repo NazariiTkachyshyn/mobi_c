@@ -1,9 +1,8 @@
-import 'package:mobi_c/models/models.dart';
+import 'package:mobi_c/services/data_sync_service/models/models.dart';
 import 'package:mobi_c/services/data_bases/object_box/models/contract.dart';
 import 'package:mobi_c/services/data_bases/object_box/models/counterparty.dart';
 import 'package:mobi_c/services/data_bases/object_box/models/discount.dart';
 import 'package:mobi_c/services/data_bases/object_box/models/nom.dart';
-import 'package:mobi_c/services/data_bases/object_box/models/price.dart';
 import 'package:mobi_c/services/data_bases/object_box/models/unit.dart';
 import 'package:mobi_c/services/data_sync_service/clients/object_box_client.dart';
 
@@ -12,17 +11,13 @@ class Updater {
 
   Updater({required this.dbService});
 
-  Future<void> updateNoms(Set<ApiNom> data) async {
+  Future<void> updateNoms(Set<SyncNom> data) async {
     dbService.setNom(
       data.map((e) => Nom.fromApi(e)).toList(),
     );
   }
 
-  Future<void> updatePrices(Set<ApiPrice> data) async {
-    dbService.setPrice(
-      data.map((e) => Price.fromApi(e)).toList(),
-    );
-  }
+
 
   // Future<void> updateStoragesOb(Set<Storage> storages) async {
   //   dbService.setNewStorages(storages);
@@ -32,33 +27,28 @@ class Updater {
   //   dbService.setNewBarcodes(barcodes);
   // }
 
-  Future<void> updateCounterparty(Set<ApiCounterparty> data) async {
+  Future<void> updateCounterparty(Set<SyncCounterparty> data) async {
     dbService.setCounterparty(
       data.map((e) => Counterparty.fromApi(e)).toList(),
     );
   }
 
-  Future<void> updateContract(Set<ApiContract> data) async {
+  Future<void> updateContract(Set<SyncContract> data) async {
     dbService.setContract(
       data.map((e) => Contract.fromApi(e)).toList(),
     );
   }
 
-  Future<void> updateDiscount(Set<ApiDiscount> data) async {
+  Future<void> updateDiscount(Set<SyncDiscount> data) async {
     dbService.setDiscount(
       data.map((e) => Discount.fromApi(e)).toList(),
     );
   }
 
-  Future<void> updateUnit(Set<ApiUnit> data) async {
+  Future<void> updateUnit(Set<SyncUnit> data) async {
     dbService.setUnit(
       data.map((e) => Unit.fromApi(e)).toList(),
     );
   }
 
-  Future<void> updateUnitClassificator(Set<ApiUnitClassifier> data) async {
-    dbService.setUnitClassificator(
-      data.map((e) => UnitClassifier.fromApi(e)).toList(),
-    );
-  }
 }

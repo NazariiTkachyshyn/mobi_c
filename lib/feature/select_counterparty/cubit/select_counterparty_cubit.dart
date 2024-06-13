@@ -11,24 +11,11 @@ class SelectCounterpartyCubit extends Cubit<SelectCounterpartyState> {
 
   final SelectCounterpartyRepo _selectCounterpartyRepo;
 
-  void getAll() {
-    try {
-      final counterparty = _selectCounterpartyRepo.getAll();
-      emit(state.copyWith(
-          allCounterparty: counterparty,
-          status: SelectCounterpartyStatus.success));
-    } catch (e) {
-      emit(state.copyWith(status: SelectCounterpartyStatus.failure));
-    }
-  }
 
-  searchCounterparty(String value) {
-    final counterparty = state.allCounterparty
-        .where(
-            (e) => (e.description.toLowerCase()).contains(value.toLowerCase()))
-        .toList();
 
+  searchCounterparty(String value) async{
+  final counterpartys = await _selectCounterpartyRepo.getCounterpartys(value);
     emit(state.copyWith(
-        counterparty: counterparty, status: SelectCounterpartyStatus.success));
+        counterpartys: counterpartys, status: SelectCounterpartyStatus.success));
   }
 }

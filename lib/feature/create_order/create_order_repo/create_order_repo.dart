@@ -1,14 +1,13 @@
 import 'package:mobi_c/feature/create_order/create_order_client/cerate_order_client.dart';
 import 'package:mobi_c/services/data_bases/object_box/models/models.dart';
 
-import '../../../models/models.dart';
 
 abstract interface class CreateOrderRepo {
-  Future<List<ApiOrderNom>> getNoms(int orderId);
+  Future<List<OrderNom>> getNoms(int orderId);
 
-  Future<void> insertNom(ApiOrderNom nom);
+  Future<void> insertNom(OrderNom nom);
 
-  Future<void> updateNom(int id, int qty, ApiUnit unit);
+  Future<void> updateNom(OrderNom nom);
 
   Future<void> deleteNom(int id);
 
@@ -18,7 +17,7 @@ abstract interface class CreateOrderRepo {
 
   Future<Discount> getDiscount(String discountRecipient);
 
-  Future<List<ApiUnit>> getUnits(String nomKey);
+  Future<List<Unit>> getUnits(String nomKey);
 }
 
 class CreateOrderRepoImpl implements CreateOrderRepo {
@@ -28,19 +27,18 @@ class CreateOrderRepoImpl implements CreateOrderRepo {
       : _createOrderClient = createOrderClient;
 
   @override
-  Future<List<ApiOrderNom>> getNoms(int orderId) async {
+  Future<List<OrderNom>> getNoms(int orderId) async {
     try {
-      // return await _createOrderClient.getNoms(orderId);
-      return [];
+      return await _createOrderClient.getNoms(orderId);
     } catch (e) {
       throw Exception(e);
     }
   }
 
   @override
-  Future<void> insertNom(ApiOrderNom nom) async {
+  Future<void> insertNom(OrderNom nom) async {
     try {
-      // await _createOrderClient.insertNom(nom);
+      await _createOrderClient.insertNom(nom);
     } catch (e) {
       throw Exception(e);
     }
@@ -49,16 +47,16 @@ class CreateOrderRepoImpl implements CreateOrderRepo {
   @override
   Future<void> deleteNom(int id) async {
     try {
-      // await _createOrderClient.deleteNom(id);
+      await _createOrderClient.deleteNom(id);
     } catch (e) {
       throw Exception(e);
     }
   }
 
   @override
-  Future<void> updateNom(int id, int qty, ApiUnit unit) async {
+  Future<void> updateNom(OrderNom nom) async {
     try {
-      // await _createOrderClient.updateNom(id, qty, unit);
+      await _createOrderClient.updateNom(nom);
     } catch (e) {
       throw Exception(e);
     }
@@ -67,7 +65,7 @@ class CreateOrderRepoImpl implements CreateOrderRepo {
   @override
   Future<void> createOrder(Map<String, dynamic> order) async {
     try {
-      // await _createOrderClient.createOrder(order);
+      await _createOrderClient.createOrder(order);
     } catch (e) {
       throw Exception(e);
     }
@@ -93,10 +91,9 @@ class CreateOrderRepoImpl implements CreateOrderRepo {
   }
 
   @override
-  Future<List<ApiUnit>> getUnits(String nomKey) async {
+  Future<List<Unit>> getUnits(String nomKey) async {
     try {
-      // return await _createOrderClient.getUnits(nomKey);
-      return [];
+      return await _createOrderClient.getUnits(nomKey);
     } catch (e) {
       throw Exception(e);
     }

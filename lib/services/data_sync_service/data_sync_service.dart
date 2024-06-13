@@ -1,9 +1,14 @@
+import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
+
+import 'package:mobi_c/services/data_bases/object_box/models/image.dart';
 import 'package:mobi_c/services/data_sync_service/clients/api_client.dart';
 import 'package:mobi_c/services/data_sync_service/clients/object_box_client.dart';
-import 'package:mobi_c/services/data_sync_service/clients/sql_client.dart';
 import 'package:get_it/get_it.dart';
+import 'package:mobi_c/services/data_sync_service/image_formater/image_formater.dart';
 import 'package:objectbox/objectbox.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:path_provider/path_provider.dart';
 
 import 'validator.dart';
 import 'updater.dart';
@@ -20,7 +25,7 @@ class DataSyncService {
 
   Future<int> syncNomData() async {
     try {
-      final dbData =  _dbClient.getAllNoms();
+      final dbData = await _dbClient.getAllNoms();
       final apiData = await _apiClient.getAllNom();
 
       final validationResult = validator.validate(apiData, dbData);
@@ -32,28 +37,6 @@ class DataSyncService {
         return 1;
       } else {
         print('Nom is already up to date.');
-        return 0;
-      }
-    } catch (e) {
-      print('Error during data sync: $e');
-      return 2;
-    }
-  }
-
-  Future<int> syncPriceData() async {
-    try {
-      final dbData = await _dbClient.getAllPrices();
-      final apiData = await _apiClient.getAllPrices();
-
-      final validationResult = validator.validate(apiData, dbData);
-
-      if (validationResult.needsUpdate) {
-        await updater
-            .updatePrices(validationResult.updatedData)
-            .whenComplete(() => print('Price updated'));
-        return 1;
-      } else {
-        print('Price is already up to date.');
         return 0;
       }
     } catch (e) {
@@ -194,25 +177,30 @@ class DataSyncService {
     }
   }
 
-  Future<int> syncUnitClassificatorData() async {
+  Future<void> downloadImage() async {
     try {
-      final dbData = await _dbClient.getAllUnitClassificator();
-      final apiData = await _apiClient.getAllUnitClassificator();
+      final directory = await getApplicationDocumentsDirectory();
+      final imageDir = Directory("${directory.path}/images");
 
-      final validationResult = validator.validate(apiData, dbData);
+      final files = imageDir.listSync(recursive: true, followLinks: false);
+      final imageCount = files.length;
+      // final imagesRes = await _apiClient.getAllImage();
 
-      if (validationResult.needsUpdate) {
-        await updater
-            .updateUnitClassificator(validationResult.updatedData)
-            .whenComplete(() => print('UnitClassificator updated'));
-        return 1;
-      } else {
-        print('UnitClassificator is already up to date.');
-        return 0;
-      }
+      // for (var i in imagesRes) {
+      //   c(i['image'], i['ref']);
+      // }
     } catch (e) {
       print('Error during data sync: $e');
-      return 2;
     }
   }
+}
+
+Future<void> c(String base64Data, String fileName) async {
+  final bytes = await ImageFormater()
+      .compressBites(ImageFormater().base64ToBites(base64Data));
+  final directory = await getApplicationDocumentsDirectory();
+  final path = '${directory.path}/images/$fileName';
+  final file = File(path);
+  await file.writeAsBytes(bytes);
+  print('File saved at $path');
 }

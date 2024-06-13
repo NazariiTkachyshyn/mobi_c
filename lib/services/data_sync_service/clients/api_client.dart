@@ -2,8 +2,9 @@ import 'dart:convert';
 
 import 'package:mobi_c/common/constants/api_constants.dart';
 import 'package:http/http.dart' as http;
+import 'package:mobi_c/common/constants/key_const.dart';
 
-import '../../../models/models.dart';
+import '../models/models.dart';
 
 class DataSyncApiClient {
   final headers = {
@@ -14,40 +15,16 @@ class DataSyncApiClient {
   };
 
   //^----------NOMENKLATURA----------------
-  Future<List<ApiNom>> getAllNom() async {
-    final uri = Uri.http(
-      ApiConstants.odataHost,
-      '${ApiConstants.odataPath}/Catalog_Номенклатура?\$format=json&\$select=Ref_Key,Description,Артикул,БазоваяЕдиницаИзмерения_Key,Parent_Key,IsFolder&\$filter=DeletionMark eq false',
-    );
+  Future<List<SyncNom>> getAllNom() async {
+    final uri = Uri.http(ApiConstants.odataHost,
+        "${ApiConstants.odataPath}/InformationRegister_МобільнийКлієнтЗалишки?\$format=json&\$filter=Storage_Key eq '${KeyConst.storageKey}'");
 
     try {
       final nomRes = await http.get(uri, headers: headers);
 
       if (nomRes.statusCode == 200) {
         final json = jsonDecode(nomRes.body);
-        return (json['value'] as List).map((e) => ApiNom.fromJson(e)).toList();
-      } else {
-        throw Exception(
-            "${nomRes.reasonPhrase ?? ''} ${nomRes.statusCode} ${utf8.decode(nomRes.bodyBytes)}");
-      }
-    } catch (e) {
-      throw Exception(e);
-    }
-  }
-  //^----------PRICES----------------
-
-  Future<List<ApiPrice>> getAllPrices() async {
-    final uri = Uri.http(
-        ApiConstants.odataHost,
-        "${ApiConstants.odataPath}/InformationRegister_ЦеныНоменклатуры_RecordType/SliceLast?\$filter=ТипЦен_Key eq guid'940e4d76-9712-11e4-249e-8e887ee7bcbd'",
-        {"\$format": 'json'});
-
-    try {
-      final nomRes = await http.get(uri, headers: headers);
-
-      if (nomRes.statusCode == 200) {
-        final json = jsonDecode(nomRes.body);
-        return (json['value'] as List).map((e) => ApiPrice.fromJson(e)).toList();
+        return (json['value'] as List).map((e) => SyncNom.fromJson(e)).toList();
       } else {
         throw Exception(
             "${nomRes.reasonPhrase ?? ''} ${nomRes.statusCode} ${utf8.decode(nomRes.bodyBytes)}");
@@ -59,7 +36,7 @@ class DataSyncApiClient {
 
   //^----------STORAGES----------------
 
-  Future<List<ApiStorage>> getAllStorages() async {
+  Future<List<SyncStorage>> getAllStorages() async {
     final uri = Uri.http(
         ApiConstants.odataHost, '${ApiConstants.odataPath}/Catalog_Склады', {
       "\$format": 'json',
@@ -71,7 +48,9 @@ class DataSyncApiClient {
 
       if (nomRes.statusCode == 200) {
         final json = jsonDecode(nomRes.body);
-        return (json['value'] as List).map((e) => ApiStorage.fromJson(e)).toList();
+        return (json['value'] as List)
+            .map((e) => SyncStorage.fromJson(e))
+            .toList();
       } else {
         throw Exception(
             "${nomRes.reasonPhrase ?? ''} ${nomRes.statusCode} ${utf8.decode(nomRes.bodyBytes)}");
@@ -82,7 +61,7 @@ class DataSyncApiClient {
   }
   //^----------BARCODES----------------
 
-  Future<List<ApiBarcode>> getAllBarcodes() async {
+  Future<List<SyncBarcode>> getAllBarcodes() async {
     final uri = Uri.http(ApiConstants.odataHost,
         '${ApiConstants.odataPath}/InformationRegister_ШтрихкодыНоменклатуры', {
       "\$format": 'json',
@@ -94,7 +73,9 @@ class DataSyncApiClient {
 
       if (nomRes.statusCode == 200) {
         final json = jsonDecode(nomRes.body);
-        return (json['value'] as List).map((e) => ApiBarcode.fromJson(e)).toList();
+        return (json['value'] as List)
+            .map((e) => SyncBarcode.fromJson(e))
+            .toList();
       } else {
         throw Exception(
             "${nomRes.reasonPhrase ?? ''} ${nomRes.statusCode} ${utf8.decode(nomRes.bodyBytes)}");
@@ -106,7 +87,7 @@ class DataSyncApiClient {
 
   //^----------CONTRAKT----------------
 
-  Future<List<ApiContract>> getAllContract() async {
+  Future<List<SyncContract>> getAllContract() async {
     final uri = Uri.http(ApiConstants.odataHost,
         '${ApiConstants.odataPath}/Catalog_ДоговорыКонтрагентов', {
       "\$format": 'json',
@@ -119,7 +100,7 @@ class DataSyncApiClient {
       if (nomRes.statusCode == 200) {
         final json = jsonDecode(nomRes.body);
         return (json['value'] as List)
-            .map((e) => ApiContract.fromJson(e))
+            .map((e) => SyncContract.fromJson(e))
             .toList();
       } else {
         throw Exception(
@@ -131,7 +112,7 @@ class DataSyncApiClient {
   }
   //^----------KONTRAGENT----------------
 
-  Future<List<ApiCounterparty>> getAllCounterparty() async {
+  Future<List<SyncCounterparty>> getAllCounterparty() async {
     final uri = Uri.http(ApiConstants.odataHost,
         '${ApiConstants.odataPath}/Catalog_Контрагенты', {
       "\$format": 'json',
@@ -145,7 +126,7 @@ class DataSyncApiClient {
       if (nomRes.statusCode == 200) {
         final json = jsonDecode(nomRes.body);
         return (json['value'] as List)
-            .map((e) => ApiCounterparty.fromJson(e))
+            .map((e) => SyncCounterparty.fromJson(e))
             .toList();
       } else {
         throw Exception(
@@ -158,7 +139,7 @@ class DataSyncApiClient {
 
   //^----------DISCOUNT----------------
 
-  Future<List<ApiDiscount>> getAllDiscount() async {
+  Future<List<SyncDiscount>> getAllDiscount() async {
     final uri = Uri.http(
         ApiConstants.odataHost,
         '${ApiConstants.odataPath}/InformationRegister_СкидкиНаценкиНоменклатуры_RecordType',
@@ -173,7 +154,7 @@ class DataSyncApiClient {
       if (nomRes.statusCode == 200) {
         final json = jsonDecode(nomRes.body);
         return (json['value'] as List)
-            .map((e) => ApiDiscount.fromJson(e))
+            .map((e) => SyncDiscount.fromJson(e))
             .toList();
       } else {
         throw Exception(
@@ -186,34 +167,12 @@ class DataSyncApiClient {
 
   //^----------Unit----------------
 
-  Future<List<ApiUnit>> getAllUnit() async {
+  Future<List<SyncUnit>> getAllUnit() async {
     final uri = Uri.http(ApiConstants.odataHost,
         '${ApiConstants.odataPath}/Catalog_ЕдиницыИзмерения', {
       "\$format": 'json',
-      "\$select": "Ref_Key,Owner,Коэффициент,ЕдиницаПоКлассификатору_Key",
-    });
-
-    try {
-      final nomRes = await http.get(uri, headers: headers);
-
-      if (nomRes.statusCode == 200) {
-        final json = jsonDecode(nomRes.body);
-        return (json['value'] as List).map((e) => ApiUnit.fromJson(e)).toList();
-      } else {
-        throw Exception(
-            "${nomRes.reasonPhrase ?? ''} ${nomRes.statusCode} ${utf8.decode(nomRes.bodyBytes)}");
-      }
-    } catch (e) {
-      throw Exception(e);
-    }
-  }
-  //^----------UnitClassificator----------------
-
-  Future<List<ApiUnitClassifier>> getAllUnitClassificator() async {
-    final uri = Uri.http(ApiConstants.odataHost,
-        '${ApiConstants.odataPath}/Catalog_КлассификаторЕдиницИзмерения', {
-      "\$format": 'json',
-      "\$select": "Ref_Key,Description,НаименованиеПолное",
+      "\$select":
+          "Ref_Key,Owner,Коэффициент,ЕдиницаПоКлассификатору_Key,Description",
     });
 
     try {
@@ -222,7 +181,30 @@ class DataSyncApiClient {
       if (nomRes.statusCode == 200) {
         final json = jsonDecode(nomRes.body);
         return (json['value'] as List)
-            .map((e) => ApiUnitClassifier.fromJson(e))
+            .map((e) => SyncUnit.fromJson(e))
+            .toList();
+      } else {
+        throw Exception(
+            "${nomRes.reasonPhrase ?? ''} ${nomRes.statusCode} ${utf8.decode(nomRes.bodyBytes)}");
+      }
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+  //^----------Images----------------
+
+  Future<List<Map>> getAllImage(int skip, int count) async {
+    final uri = Uri.http(ApiConstants.odataHost,
+        '${ApiConstants.odataPath}/Catalog_ХранилищеДополнительнойИнформации?\$format=json&\$select=Хранилище_Base64Data,Объект&\$top=$count&\$skip=$skip');
+
+    try {
+      final nomRes = await http.get(uri, headers: headers);
+
+      if (nomRes.statusCode == 200) {
+        final json = jsonDecode(nomRes.body);
+        return (json['value'] as List)
+            .map(
+                (e) => {'ref': e['Объект'], "image": e['Хранилище_Base64Data']})
             .toList();
       } else {
         throw Exception(

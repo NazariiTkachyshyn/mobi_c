@@ -1,28 +1,28 @@
 import 'package:equatable/equatable.dart';
+import 'package:mobi_c/services/data_bases/object_box/models/discount.dart';
 
-class ApiDiscount extends Equatable {
+class SyncDiscount extends Equatable {
   final String discountRecipientKey;
   final double percentDiscounts;
 
-  const ApiDiscount({
+  const SyncDiscount({
     required this.discountRecipientKey,
     required this.percentDiscounts,
   });
 
-  factory ApiDiscount.fromJson(Map<String, dynamic> json) => ApiDiscount(
+  factory SyncDiscount.fromJson(Map<String, dynamic> json) => SyncDiscount(
         discountRecipientKey: json['ПолучательСкидки'] ?? '',
         percentDiscounts:
             ((json['ПроцентСкидкиНаценки'] ?? 0) as num).toDouble(),
       );
 
-  Map<String, dynamic> toJson() {
-    return {
-      'ПолучательСкидки': discountRecipientKey,
-      'ПроцентСкидкиНаценки': percentDiscounts,
-    };
-  }
+      factory SyncDiscount.fromOb(Discount discount) => SyncDiscount(
+        discountRecipientKey: discount.discountRecipientKey,
+        percentDiscounts: discount.percentDiscounts,
+      );
 
-  static const empty = ApiDiscount(
+
+  static const empty = SyncDiscount(
     discountRecipientKey: '',
     percentDiscounts: 0,
   );

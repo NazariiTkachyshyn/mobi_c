@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:get_it/get_it.dart';
-import 'package:mobi_c/models/models.dart';
 import 'package:mobi_c/objectbox.g.dart';
 import 'package:mobi_c/services/data_bases/object_box/models/models.dart';
 
@@ -35,44 +34,33 @@ class CreateOrderClient {
     }
   }
 
-  Future<List<ApiOrderNom>> getNoms(int orderId) async {
+  Future<List<OrderNom>> getNoms(int orderId) async {
     try {
-      return [];
-      // final noms =
-      //     await sqlite.query('orderProduct', where: 'orderId = $orderId');
-      // return noms.map((e) => ApiOrderNom.fromJson(e)).toList();
+      return await _store
+          .box<OrderNom>()
+          .query(OrderNom_.orderId.equals(orderId))
+          .build()
+          .findAsync();
     } catch (e) {
       throw Exception(e);
     }
   }
 
-  Future<void> insertNom(ApiOrderNom nom) async {
+  Future<void> insertNom(OrderNom nom) async {
     try {
-      // await sqlite.insert('orderProduct', {
-      //   "ref": nom.ref,
-      //   "orderId": nom.orderId,
-      //   "description": nom.description,
-      //   "article": nom.article,
-      //   "imageKey": nom.imageKey,
-      //   "unitKey": nom.unitKey,
-      //   "unitName": nom.unitName,
-      //   "ratio": nom.ratio,
-      //   "price": nom.price,
-      //   "qty": nom.qty
-      // });
+      await _store.box<OrderNom>().putAsync(nom);
     } catch (e) {
       throw Exception(e);
     }
   }
 
-  Future<List<ApiUnit>> getUnits(String nomKey) async {
+  Future<List<Unit>> getUnits(String nomKey) async {
     try {
-      // final res = await sqlite.rawQuery(
-      //     'select u.*, uc.$fieldDescription from $tableUnit u left join $tableUnitClassificator uc on u.$fieldClasificatorkey = uc.$fieldRefKey  where $fieldOwner = "$nomKey"');
-      // print(1);
-      // return res.map((e) => ApiUnit.fromJson(e)).toList();
-            return [];
-
+      return await _store
+          .box<Unit>()
+          .query(Unit_.owner.equals(nomKey))
+          .build()
+          .findAsync();
     } catch (e) {
       throw Exception(e);
     }
@@ -80,24 +68,16 @@ class CreateOrderClient {
 
   Future<void> deleteNom(int id) async {
     try {
-      // await sqlite.delete('orderProduct', where: 'id = $id');
+      final res = await _store.box<OrderNom>().removeAsync(id);
+      print(res);
     } catch (e) {
       throw Exception(e);
     }
   }
 
-  Future<void> updateNom(int id, int qty, ApiUnit unit) async {
+  Future<void> updateNom(OrderNom nom) async {
     try {
-      // await sqlite.update(
-      //     'orderProduct',
-      //     {
-      //       "qty": qty,
-      //       "unitKey": unit.refKey,
-      //       "unitName": unit.description,
-      //       "ratio": unit.ratio,
-      //     },
-      //     where: 'id = ?',
-      //     whereArgs: [id]);
+      await _store.box<OrderNom>().putAsync(nom);
     } catch (e) {
       throw Exception(e);
     }
@@ -111,8 +91,6 @@ class CreateOrderClient {
       final res = await http.post(
           Uri.http(ApiConstants.odataHost,
               "${ApiConstants.odataPath}/Document_ЗаказПокупателя?\$format=json"),
-
-          // Uri.parse("${baseUrl}Document_ЗаказКлиента?\$format=json"),
           headers: {
             'Authorization': basicAuth,
             "Accept": "application/json",
@@ -122,6 +100,7 @@ class CreateOrderClient {
           body: body);
 
       if (res.statusCode == 201) {
+        print(res.statusCode);
       } else {
         print(res.body);
         throw Exception(res.body);

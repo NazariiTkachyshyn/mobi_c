@@ -16,6 +16,11 @@ class ApiConstants {
   static const odataPass = 'DT20Group';
   static final basicAuth =
       'Basic ${base64Encode(utf8.encode('$odataUser:$odataPass'))}';
+
+  static const postgresHost = '192.168.2.134';
+  static const postgresUser = 'postgres';
+  static const postgresPass = 'DT20Group';
+  static const postgresDb = 'virok_mob';
 }
 
 

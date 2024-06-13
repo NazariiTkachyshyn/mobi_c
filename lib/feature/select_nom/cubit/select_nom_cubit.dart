@@ -1,7 +1,8 @@
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:mobi_c/feature/select_nom/select_nom_repo/select_nom_repo.dart';
-import 'package:mobi_c/models/models.dart';
+import 'package:mobi_c/services/data_bases/object_box/models/models.dart';
 
 part 'select_nom_state.dart';
 
@@ -20,25 +21,27 @@ class SelectNomCubit extends Cubit<SelectNomState> {
     }
   }
 
-  Future<void> getAllNoms() async {
+  Future<void> searchNomsInFolder(String value, String parentKey) async {
     try {
-      final noms = await _selectNomRepo.getAllNoms();
-      emit(state.copyWith(noms: noms, status: SelectNomStatus.success));
+      final res = await _selectNomRepo.searchNomsInFolder(value, parentKey);
+      final noms = res.length < 31 ? res : res.getRange(0, 30).toList();
+      emit(state.copyWith(
+          searchNoms: noms.reversed.toList(), status: SelectNomStatus.success));
     } catch (e) {
       emit(state.copyWith(status: SelectNomStatus.failure));
     }
   }
 
-  Future<void> getNomsInFolder(String value) async {
-    final noms = state.noms
-        .where((e) =>
-            (e.article.toLowerCase()).contains(value.toLowerCase()) ||
-            (e.description.toLowerCase()).contains(value.toLowerCase()))
-        .toList();
+  Future<void> getByDescription(String value) async {
     try {
-      emit(state.copyWith(searchNoms: noms, status: SelectNomStatus.success));
+      final res = await _selectNomRepo.getByDescription(value);
+      final noms = res.length < 31 ? res : res.getRange(0, 30).toList();
+
+      emit(state.copyWith(
+          searchNoms: noms.reversed.toList(), status: SelectNomStatus.success));
     } catch (e) {
       emit(state.copyWith(status: SelectNomStatus.failure));
+      rethrow;
     }
   }
 
@@ -47,6 +50,16 @@ class SelectNomCubit extends Cubit<SelectNomState> {
       if (parentkey.isEmpty) return;
       final noms = await _selectNomRepo.getNomsByParentKey(parentkey);
       emit(state.copyWith(searchNoms: noms, status: SelectNomStatus.success));
+    } catch (e) {
+      emit(state.copyWith(status: SelectNomStatus.failure));
+      rethrow;
+    }
+  }
+
+  Future<void> getImage(String ref) async {
+    try {
+      final images = await _selectNomRepo.getImage(ref);
+      emit(state.copyWith(images: images, status: SelectNomStatus.success));
     } catch (e) {
       emit(state.copyWith(status: SelectNomStatus.failure));
       rethrow;

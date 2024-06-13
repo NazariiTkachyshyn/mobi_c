@@ -1,16 +1,16 @@
-import 'package:mobi_c/models/models.dart';
-import 'package:mobi_c/models/unit.dart';
+import 'package:mobi_c/services/data_sync_service/models/models.dart';
+import 'package:mobi_c/services/data_sync_service/models/unit.dart';
 import 'package:objectbox/objectbox.dart';
 
 @Entity()
 class Unit {
   @Id()
   int id;
-  final String refKey;
-  final String owner;
-  final int ratio;
-  final String classifierKey;
-  final String description;
+  String refKey;
+  String owner;
+  int ratio;
+  String classifierKey;
+  String description;
 
   Unit(
       {required this.refKey,
@@ -20,30 +20,14 @@ class Unit {
       required this.description,
       this.id = 0});
 
-  factory Unit.fromApi(ApiUnit unit) => Unit(
+  factory Unit.fromApi(SyncUnit unit) => Unit(
       refKey: unit.refKey,
       owner: unit.owner,
       ratio: unit.ratio,
       classifierKey: unit.classifierKey,
       description: unit.description);
+
+  static final empty =
+      Unit(refKey: '', owner: '', ratio: 1, classifierKey: '', description: '');
 }
 
-@Entity()
-class UnitClassifier {
-   int id;
-  final String refKey;
-  final String description;
-  final String fullDescription;
-
-   UnitClassifier(
-      {this.id = 0,
-      required this.refKey,
-      required this.description,
-      required this.fullDescription});
-
-  factory UnitClassifier.fromApi(ApiUnitClassifier unitClassifiers) =>
-      UnitClassifier(
-          refKey: unitClassifiers.refKey,
-          description: unitClassifiers.description,
-          fullDescription: unitClassifiers.fullDescription);
-}

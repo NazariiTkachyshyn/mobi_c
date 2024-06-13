@@ -31,13 +31,13 @@ final class SelectCounterpartyState extends Equatable {
   SelectCounterpartyState copyWith({
     SelectCounterpartyStatus? status,
     List<Counterparty>? allCounterparty,
-    List<Counterparty>? counterparty,
+    List<Counterparty>? counterpartys,
     String? errorMassage,
   }) {
     return SelectCounterpartyState(
       status: status ?? this.status,
       allCounterparty: allCounterparty ?? this.allCounterparty,
-      counterparty: counterparty ?? this.counterparty,
+      counterparty: counterpartys ?? this.counterparty,
       errorMassage: errorMassage ?? this.errorMassage,
     );
   }
