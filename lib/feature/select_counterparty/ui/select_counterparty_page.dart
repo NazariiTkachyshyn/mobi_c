@@ -36,7 +36,7 @@ class _SearchByTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final onTup = ModalRoute.of(context)!.settings.arguments as Function(
+    final onSelect = ModalRoute.of(context)!.settings.arguments as Function(
         Counterparty counterparty);
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -65,7 +65,7 @@ class _SearchByTextField extends StatelessWidget {
                         borderRadius: BorderRadius.circular(8)),
                     child: ListTile(
                       onTap: () {
-                        onTup(counterparty);
+                        onSelect(counterparty);
                       },
                       title: Text(counterparty.description),
                       subtitle: Text(counterparty.fullDescription),

@@ -21,14 +21,7 @@ class SelectNomCubit extends Cubit<SelectNomState> {
 
   Future<void> searchNomsInFolder(String value, String parentKey) async {
     try {
-      if (parentKey.isNotEmpty) {
-        final noms = await _selectNomRepo.searchNomsInFolder(value, parentKey);
-        emit(state.copyWith(
-            searchNoms: noms.reversed.toList(),
-            status: SelectNomStatus.success));
-        return;
-      }
-      final noms = await _selectNomRepo.getByDescription(value);
+      final noms = await _selectNomRepo.searchNomsInFolder(value, parentKey);
       emit(state.copyWith(
           searchNoms: noms.reversed.toList(), status: SelectNomStatus.success));
     } catch (e) {
@@ -36,12 +29,12 @@ class SelectNomCubit extends Cubit<SelectNomState> {
     }
   }
 
-
-
   Future<void> getNomsByParentKey(String parentkey) async {
     try {
-      if (parentkey.isEmpty) return;
-      final noms = await _selectNomRepo.getNomsByParentKey(parentkey);
+      final newNom =
+          await _selectNomRepo.getNomsByParentKey(parentkey, state.offset);
+      List<Nom> noms = List.of(state.searchNoms);
+      noms.addAll(newNom.reversed);
       emit(state.copyWith(searchNoms: noms, status: SelectNomStatus.success));
     } catch (e) {
       emit(state.copyWith(status: SelectNomStatus.failure));
@@ -50,7 +43,6 @@ class SelectNomCubit extends Cubit<SelectNomState> {
   }
 
   buildTree(List<Nom> folders) {
-    final noms = folders.map((e) => TreeNom.fromNom(e)).toList();
     final Map<String, TreeNom> map = {};
     final List<TreeNom> roots = [
       TreeNom(
@@ -66,20 +58,26 @@ class SelectNomCubit extends Cubit<SelectNomState> {
           price: 0)
     ];
 
-    for (var nom in noms) {
-      map[nom.ref] = nom;
-    }
+    //ref папок нижнього рівня
+    final List<String> specialRefs = [
+      'd1a81622-d0a2-11e1-9a25-c24921fc8a30',
+      '08f6f5d4-24c0-11e1-b235-3e32ff0a5e79',
+      '35e3c75c-24bf-11e1-b235-3e32ff0a5e79'
+    ];
 
-    for (var nom in noms) {
-      if (nom.isFolder &&
-          (nom.ref == 'd1a81622-d0a2-11e1-9a25-c24921fc8a30' ||
-              nom.ref == '08f6f5d4-24c0-11e1-b235-3e32ff0a5e79' ||
-              nom.ref == '35e3c75c-24bf-11e1-b235-3e32ff0a5e79')) {
+    for (var e in folders) {
+      final nom = TreeNom.fromNom(e);
+      map[nom.ref] = nom;
+
+      if (nom.isFolder && specialRefs.contains(nom.ref)) {
         roots.add(nom);
       } else {
         map[nom.parentKey]?.addChild(nom);
       }
     }
+
     emit(state.copyWith(treeNom: roots));
   }
+
+  clearNom() => emit(state.copyWith(searchNoms: []));
 }

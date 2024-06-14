@@ -19,39 +19,36 @@ class SelectNomClient {
     }
   }
 
-  Future<List<Nom>> getByParendKey(String parentKey) async {
+  Future<List<Nom>> getByParentKey(String parentKey, int offset) async {
     try {
-      return await _store
+      final isEqParentKey = parentKey.isNotEmpty
+          ? Nom_.parentKey.equals(parentKey)
+          : Nom_.parentKey.notEquals('');
+      final query = _store
           .box<Nom>()
-          .query(Nom_.parentKey
-              .equals(parentKey)
+          .query(isEqParentKey
               .and(Nom_.isFolder.equals(false))
               .and(Nom_.storageKey.equals(KeyConst.storageKey)))
           .order(Nom_.description)
           .build()
-          .findAsync();
-    } catch (e) {
-      throw Exception(e);
-    }
-  }
+        ..limit = 30
+        ..offset = offset;
 
-  Future<List<Nom>> getByDescription(String description) async {
-    try {
-      final query = _store
-          .box<Nom>()
-          .query(Nom_.searchField
-              .contains(description.toLowerCase())
-              .and(Nom_.isFolder.equals(false))
-              .and(Nom_.storageKey.equals(KeyConst.storageKey)))
-          .build()
-        ..limit = 50;
       return await query.findAsync();
     } catch (e) {
       throw Exception(e);
     }
   }
 
-  Future<List<Nom>> searchNomInFolder(String value, String parentKey) async {
+
+
+  Future<List<Nom>> searchNomInFolder(
+    String value,
+    String parentKey,
+  ) async {
+    final isEqParentKey = parentKey.isNotEmpty
+        ? Nom_.parentKey.equals(parentKey)
+        : Nom_.parentKey.notEquals('');
     try {
       final query = _store
           .box<Nom>()
@@ -59,7 +56,7 @@ class SelectNomClient {
               .contains(value.toLowerCase())
               .and(Nom_.isFolder.equals(false))
               .and(Nom_.storageKey.equals(KeyConst.storageKey))
-              .and(Nom_.parentKey.equals(parentKey)))
+              .and(isEqParentKey))
           .build()
         ..limit = 50;
       return await query.findAsync();

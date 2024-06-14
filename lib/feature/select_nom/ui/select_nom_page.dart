@@ -9,17 +9,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobi_c/feature/select_nom/ui/list_nom_view.dart';
 import 'package:mobi_c/services/data_bases/object_box/models/models.dart';
 
-
 String parentKey = '';
 
-class SelectNomPage extends StatefulWidget {
+class SelectNomPage extends StatelessWidget {
   const SelectNomPage({super.key});
 
-  @override
-  State<SelectNomPage> createState() => _SelectNomPageState();
-}
-
-class _SelectNomPageState extends State<SelectNomPage> {
   @override
   Widget build(context) {
     return MultiBlocProvider(providers: [
@@ -71,8 +65,7 @@ class _SelectNomViewState extends State<SelectNomView> {
           children: [
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: BlocConsumer<SelectNomCubit, SelectNomState>(
-                listener: (context, state) {},
+              child: BlocBuilder<SelectNomCubit, SelectNomState>(
                 builder: (context, state) {
                   return ListView(
                     children: state.treeNom
@@ -97,10 +90,11 @@ class _SelectNomViewState extends State<SelectNomView> {
     if (searchType.isFolder) {
       Navigator.pop(context);
     }
-    context.read<SelectNomCubit>().getFolders();
+    context.read<SelectNomCubit>().clearNom();
 
-    searchType = SearchType.folder;
-    setState(() {});
+    setState(() {
+      searchType = SearchType.folder;
+    });
   }
 
   Widget buildNode(TreeNom node, BuildContext context) {

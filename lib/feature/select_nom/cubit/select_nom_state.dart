@@ -29,26 +29,26 @@ final class SelectNomState extends Equatable {
   final List<TreeNom> treeNom;
   final String errorMassage;
 
-  SelectNomState copyWith({
-    SelectNomStatus? status,
-    List<Nom>? searchNoms,
-    String? errorMassage,
-    List<ImageOb>? images,
-    List<TreeNom>? treeNom
-  }) {
+  int get offset => searchNoms.length;
+
+  SelectNomState copyWith(
+      {SelectNomStatus? status,
+      List<Nom>? searchNoms,
+      String? errorMassage,
+      List<ImageOb>? images,
+      List<TreeNom>? treeNom}) {
     return SelectNomState(
-      status: status ?? this.status,
-      searchNoms: searchNoms ?? this.searchNoms,
-      errorMassage: errorMassage ?? this.errorMassage,
-      images: images ?? this.images,
-      treeNom: treeNom ?? this.treeNom
-    );
+        status: status ?? this.status,
+        searchNoms: searchNoms ?? this.searchNoms,
+        errorMassage: errorMassage ?? this.errorMassage,
+        images: images ?? this.images,
+        treeNom: treeNom ?? this.treeNom);
   }
 
   @override
-  List<Object?> get props => [status, errorMassage, searchNoms, images, treeNom];
+  List<Object?> get props =>
+      [status, errorMassage, searchNoms, images, treeNom];
 }
-
 
 class TreeNom {
   final int id;

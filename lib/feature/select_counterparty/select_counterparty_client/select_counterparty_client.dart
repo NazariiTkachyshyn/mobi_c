@@ -8,11 +8,13 @@ class SelectCounterpartyClient {
   Future<List<Counterparty>> getCounterpartys(String value) async {
     try {
       final loverCaseValue = value.toLowerCase();
-      return _store
+
+      final query = _store
           .box<Counterparty>()
           .query(Counterparty_.searchField.contains(loverCaseValue))
           .build()
-          .findAsync();
+        ..limit = 50;
+      return query.findAsync();
     } catch (e) {
       throw Exception(e);
     }

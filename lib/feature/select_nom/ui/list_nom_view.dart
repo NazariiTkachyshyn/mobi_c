@@ -21,10 +21,27 @@ class ListNomView extends StatefulWidget {
 }
 
 class _ListNomViewState extends State<ListNomView> {
+  final scrollController = ScrollController();
+  final textController = TextEditingController();
   @override
   void initState() {
     context.read<SelectNomCubit>().getNomsByParentKey(widget.parentKey);
+
+    scrollController.addListener(() {
+
+      if (scrollController.position.maxScrollExtent ==
+          scrollController.offset) {
+        context.read<SelectNomCubit>().getNomsByParentKey(widget.parentKey);
+      }
+    });
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    textController.dispose();
+    scrollController.dispose();
+    super.dispose();
   }
 
   @override
@@ -38,6 +55,7 @@ class _ListNomViewState extends State<ListNomView> {
             return Column(
               children: [
                 TextField(
+                  controller: textController,
                   onChanged: (value) => context
                       .read<SelectNomCubit>()
                       .searchNomsInFolder(value, widget.parentKey),
@@ -47,6 +65,7 @@ class _ListNomViewState extends State<ListNomView> {
                 const Padding(padding: EdgeInsets.all(4)),
                 Expanded(
                     child: ListView.builder(
+                  controller: scrollController,
                   itemCount: noms.length,
                   itemBuilder: (context, index) {
                     final nom = noms[index];
@@ -129,35 +148,34 @@ class ListViewItem extends StatelessWidget {
             border: Border.all(color: Colors.black12),
             borderRadius: BorderRadius.circular(8)),
         child: ListTile(
-          visualDensity: const VisualDensity(vertical: 3),
-          leading: ListTileImage(ref: nom.ref),
-          onTap: () => qtyInputDialog(
-              context: context,
-              nom: nom,
-              onSelect: onSelect,
-              onPop: () {
-                Navigator.pop(context);
-                Navigator.pop(context);
-              }),
-          title: Text(
-            nom.article,
-            style: textTheme.titleMedium,
-          ),
-          subtitle: Text(nom.description),
-          trailing: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Text(
-                  '${calcDiscount(nom.price, discount).toStringAsFixed(2)} грн.',
-                  style: textTheme.labelLarge!.copyWith(color: Colors.black)),
-              Text('${nom.price.toStringAsFixed(2)} грн.',
-                  style: textTheme.labelLarge!.copyWith(color: Colors.grey)),
-              Text(
-                nom.remaining.toString(),
-                style: textTheme.labelLarge!.copyWith(color: Colors.blue),
-              ),
-            ],
-          ),
-        ));
+            visualDensity: const VisualDensity(vertical: 3),
+            leading: ListTileImage(ref: nom.ref),
+            title: Text(
+              nom.article,
+              style: textTheme.titleMedium,
+            ),
+            subtitle: Text(nom.description),
+            trailing: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Text(
+                    '${calcDiscount(nom.price, discount).toStringAsFixed(2)} грн.',
+                    style: textTheme.labelLarge!.copyWith(color: Colors.black)),
+                Text('${nom.price.toStringAsFixed(2)} грн.',
+                    style: textTheme.labelLarge!.copyWith(color: Colors.grey)),
+                Text(
+                  nom.remaining.toString(),
+                  style: textTheme.labelLarge!.copyWith(color: Colors.blue),
+                ),
+              ],
+            ),
+            onTap: () => qtyInputDialog(
+                context: context,
+                nom: nom,
+                onSelect: onSelect,
+                onPop: () {
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+                })));
   }
 }

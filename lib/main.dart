@@ -34,8 +34,8 @@ void main() async {
   store.box<ImageOb>().query().build().remove();
 
   GetIt.instance.registerSingleton<Store>(store);
-  // GetIt.instance.registerSingleton<DocDir>(docDir);
-  // GetIt.instance.registerSingleton<ImageDir>(imageDir);
+  GetIt.instance.registerSingleton<DocDir>(docDir);
+  GetIt.instance.registerSingleton<ImageDir>(imageDir);
 
   runApp(const MainApp());
 }
@@ -47,7 +47,11 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      localizationsDelegates: const [GlobalMaterialLocalizations.delegate],
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
       supportedLocales: const [Locale('uk')],
       locale: const Locale('uk'),
       theme: AppTheme.light,
