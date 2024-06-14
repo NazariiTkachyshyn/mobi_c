@@ -18,34 +18,75 @@ final class SelectNomState extends Equatable {
   const SelectNomState({
     this.status = SelectNomStatus.initial,
     this.searchNoms = const [],
-    this.folders = const [],
     this.images = const [],
+    this.treeNom = const [],
     this.errorMassage = '',
   });
 
   final SelectNomStatus status;
   final List<Nom> searchNoms;
-  final List<Nom> folders;
   final List<ImageOb> images;
-
+  final List<TreeNom> treeNom;
   final String errorMassage;
 
   SelectNomState copyWith({
     SelectNomStatus? status,
     List<Nom>? searchNoms,
-    List<Nom>? folders,
     String? errorMassage,
-    List<ImageOb>? images
+    List<ImageOb>? images,
+    List<TreeNom>? treeNom
   }) {
     return SelectNomState(
       status: status ?? this.status,
       searchNoms: searchNoms ?? this.searchNoms,
-      folders: folders ?? this.folders,
       errorMassage: errorMassage ?? this.errorMassage,
-      images: images ?? this.images
+      images: images ?? this.images,
+      treeNom: treeNom ?? this.treeNom
     );
   }
 
   @override
-  List<Object?> get props => [status, errorMassage, searchNoms, folders, images];
+  List<Object?> get props => [status, errorMassage, searchNoms, images, treeNom];
+}
+
+
+class TreeNom {
+  final int id;
+  final String ref;
+  final bool isFolder;
+  final String description;
+  final String article;
+  final String parentKey;
+  final String unitKey;
+  final String imageKey;
+  final double price;
+  List<TreeNom> children;
+
+  TreeNom(
+      {required this.id,
+      required this.ref,
+      required this.isFolder,
+      required this.description,
+      required this.article,
+      required this.parentKey,
+      required this.unitKey,
+      required this.imageKey,
+      required this.children,
+      required this.price});
+
+  void addChild(TreeNom child) {
+    children.add(child);
+  }
+
+  factory TreeNom.fromNom(Nom nom) => TreeNom(
+      id: 0,
+      ref: nom.ref,
+      isFolder: nom.isFolder,
+      description: nom.description,
+      article: nom.article,
+      parentKey: nom.parentKey,
+      unitKey: nom.unitKey,
+      imageKey: nom.imageKey,
+      children: [],
+      price: 0);
 }

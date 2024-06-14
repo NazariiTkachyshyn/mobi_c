@@ -1,4 +1,3 @@
-import 'package:mobi_c/services/data_bases/object_box/models/image.dart';
 import 'package:mobi_c/services/data_bases/object_box/models/models.dart';
 import '../select_nom_client/select_nom_client.dart';
 
@@ -11,7 +10,6 @@ abstract interface class SelectNomRepo {
 
   Future<List<Nom>> searchNomsInFolder(String value, String parentKey);
 
-  Future<List<ImageOb>> getImage(String ref);
 }
 
 class SelectNomRepoImpl implements SelectNomRepo {
@@ -60,13 +58,5 @@ class SelectNomRepoImpl implements SelectNomRepo {
     }
   }
 
-  @override
-  Future<List<ImageOb>> getImage(String ref) async {
-    try {
-      final images = await _selecNomClient.getImage(ref);
-      return images;
-    } catch (e) {
-      throw Exception(e);
-    }
-  }
+
 }

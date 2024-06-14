@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:get_it/get_it.dart';
 import 'package:mobi_c/feature/create_order/ui/create_order_page.dart';
 import 'package:mobi_c/feature/select_counterparty/ui/select_counterparty_page.dart';
@@ -7,13 +9,20 @@ import 'package:mobi_c/services/data_bases/object_box/models/models.dart';
 import 'package:mobi_c/ui/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:path_provider/path_provider.dart';
 
 import 'services/data_bases/object_box/object_box.dart';
+
+typedef DocDir = Directory;
+typedef ImageDir = Directory;
 
 late ObjectBox objectbox;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  final DocDir docDir = await getApplicationDocumentsDirectory();
+  final ImageDir imageDir = ImageDir("${docDir.path}/images");
+
   objectbox = await ObjectBox.create();
 
   final store = objectbox.store;
@@ -25,6 +34,8 @@ void main() async {
   store.box<ImageOb>().query().build().remove();
 
   GetIt.instance.registerSingleton<Store>(store);
+  // GetIt.instance.registerSingleton<DocDir>(docDir);
+  // GetIt.instance.registerSingleton<ImageDir>(imageDir);
 
   runApp(const MainApp());
 }

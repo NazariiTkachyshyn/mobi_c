@@ -77,7 +77,7 @@ class _CreateOrderPageState extends State<_CreateOrderPage>
             IconButton(
                 onPressed: () async {
                   
-                  DataSyncService().downloadImage();
+                  // DataSyncService().downloadImage();
                   DataSyncService().syncDiscountData();
                   DataSyncService().syncNomData();
                   DataSyncService().syncCounterpartyData();
