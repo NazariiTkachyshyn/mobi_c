@@ -1,6 +1,6 @@
+import 'package:mobi_c/clients/odata_api_clients/odata_api_client.dart';
 import 'package:mobi_c/feature/create_order/create_order_client/cerate_order_client.dart';
 import 'package:mobi_c/services/data_bases/object_box/models/models.dart';
-
 
 abstract interface class CreateOrderRepo {
   Future<List<OrderNom>> getNoms(int orderId);
@@ -22,9 +22,12 @@ abstract interface class CreateOrderRepo {
 
 class CreateOrderRepoImpl implements CreateOrderRepo {
   final CreateOrderClient _createOrderClient;
+  final OdataApiClient _odataApiClient;
 
-  CreateOrderRepoImpl({required CreateOrderClient createOrderClient})
-      : _createOrderClient = createOrderClient;
+  CreateOrderRepoImpl(
+      {required CreateOrderClient createOrderClient, required odataApiClient})
+      : _createOrderClient = createOrderClient,
+        _odataApiClient = odataApiClient;
 
   @override
   Future<List<OrderNom>> getNoms(int orderId) async {
@@ -63,15 +66,6 @@ class CreateOrderRepoImpl implements CreateOrderRepo {
   }
 
   @override
-  Future<void> createOrder(Map<String, dynamic> order) async {
-    try {
-      await _createOrderClient.createOrder(order);
-    } catch (e) {
-      throw Exception(e);
-    }
-  }
-
-  @override
   Future<List<Contract>> getContracts(String ownerKey) async {
     try {
       return await _createOrderClient.getContracts(ownerKey);
@@ -94,6 +88,15 @@ class CreateOrderRepoImpl implements CreateOrderRepo {
   Future<List<Unit>> getUnits(String nomKey) async {
     try {
       return await _createOrderClient.getUnits(nomKey);
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  @override
+  Future<void> createOrder(Map<String, dynamic> order) async {
+    try {
+      await _odataApiClient.createOrder(order);
     } catch (e) {
       throw Exception(e);
     }

@@ -1,3 +1,5 @@
+import 'package:get_it/get_it.dart';
+import 'package:mobi_c/clients/odata_api_clients/odata_api_client.dart';
 import 'package:mobi_c/feature/create_order/create_order_client/cerate_order_client.dart';
 import 'package:mobi_c/feature/create_order/create_order_repo/create_order_repo.dart';
 import 'package:mobi_c/feature/create_order/cubit/create_order_cubit.dart';
@@ -6,7 +8,6 @@ import 'package:mobi_c/feature/create_order/ui/counterparty_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobi_c/feature/create_order/ui/product_view.dart';
-import 'package:mobi_c/services/data_bases/object_box/models/models.dart';
 import 'package:mobi_c/services/data_sync_service/data_sync_service.dart';
 
 class CreateOrderPage extends StatelessWidget {
@@ -15,8 +16,9 @@ class CreateOrderPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        create: (context) => CreateOrderCubit(
-            CreateOrderRepoImpl(createOrderClient: CreateOrderClient())),
+        create: (context) => CreateOrderCubit(CreateOrderRepoImpl(
+            createOrderClient: CreateOrderClient(),
+            odataApiClient: GetIt.I.get<OdataApiClient>())),
         child: const _CreateOrderPage());
   }
 }
@@ -76,7 +78,6 @@ class _CreateOrderPageState extends State<_CreateOrderPage>
           actions: [
             IconButton(
                 onPressed: () async {
-                  
                   DataSyncService().downloadImage();
                   // DataSyncService().syncDiscountData();
                   // DataSyncService().syncNomData();
