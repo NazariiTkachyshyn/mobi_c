@@ -8,6 +8,7 @@ import 'package:mobi_c/feature/create_order/ui/counterparty_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobi_c/feature/create_order/ui/product_view.dart';
+import 'package:mobi_c/services/data_bases/object_box/models/models.dart';
 import 'package:mobi_c/services/data_sync_service/data_sync_service.dart';
 
 class CreateOrderPage extends StatelessWidget {
@@ -44,18 +45,18 @@ class _CreateOrderPageState extends State<_CreateOrderPage>
         vsync: this,
         animationDuration: const Duration(milliseconds: 100));
 
-    // tabController.addListener(() {
-    //   if (!tabController.indexIsChanging) {
-    //     final state = context.read<CreateOrderCubit>().state;
-    //     if (tabController.index != 0 &&
-    //         state.counterparty == Counterparty.empty) {
-    //       tabController.index = 0;
-    //       ScaffoldMessenger.of(context).showSnackBar(
-    //         const SnackBar(content: Text('Клієнта не вибрано.')),
-    //       );
-    //     }
-    //   }
-    // });
+    tabController.addListener(() {
+      if (!tabController.indexIsChanging) {
+        final state = context.read<CreateOrderCubit>().state;
+        if (tabController.index != 0 &&
+            state.counterparty == Counterparty.empty) {
+          tabController.index = 0;
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Клієнта не вибрано.')),
+          );
+        }
+      }
+    });
     super.initState();
   }
 
@@ -94,12 +95,12 @@ class _CreateOrderPageState extends State<_CreateOrderPage>
             onTap: (value) {
               final state = context.read<CreateOrderCubit>().state;
 
-              // if (value != 0 && state.counterparty == Counterparty.empty) {
-              //   tabController.index = 0;
-              //   ScaffoldMessenger.of(context).showSnackBar(
-              //     const SnackBar(content: Text('Клієнта не вибрано.')),
-              //   );
-              // }
+              if (value != 0 && state.counterparty == Counterparty.empty) {
+                tabController.index = 0;
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Клієнта не вибрано.')),
+                );
+              }
             },
             tabs: const <Widget>[
               Tab(

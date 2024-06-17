@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:mobi_c/common/constants/api_constants.dart';
 import 'package:http/http.dart' as http;
@@ -193,25 +195,18 @@ class DataSyncApiClient {
   }
   //^----------Images----------------
 
-  Future<List<Map>> getAllImage(int skip, int count) async {
-    final uri = Uri.http(ApiConstants.odataHost,
-        '${ApiConstants.odataPath}/Catalog_ХранилищеДополнительнойИнформации?\$format=json&\$select=Хранилище_Base64Data,Объект&\$top=$count&\$skip=$skip');
+  Future<Uint8List> getAllImage(String ref) async {
+    final uri = Uri.parse(
+        'http://192.168.2.187/$ref.jpg');
 
-    try {
       final nomRes = await http.get(uri, headers: headers);
 
       if (nomRes.statusCode == 200) {
-        final json = jsonDecode(nomRes.body);
-        return (json['value'] as List)
-            .map(
-                (e) => {'ref': e['Объект'], "image": e['Хранилище_Base64Data']})
-            .toList();
+
+        return nomRes.bodyBytes;
       } else {
-        throw Exception(
-            "${nomRes.reasonPhrase ?? ''} ${nomRes.statusCode} ${utf8.decode(nomRes.bodyBytes)}");
+       return Uint8List(0);
       }
-    } catch (e) {
-      throw Exception(e);
-    }
+   
   }
 }

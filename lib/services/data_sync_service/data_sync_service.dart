@@ -3,7 +3,9 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:ftpconnect/ftpconnect.dart';
+import 'package:mobi_c/objectbox.g.dart';
 import 'package:mobi_c/services/data_bases/object_box/models/image.dart';
+import 'package:mobi_c/services/data_bases/object_box/models/models.dart';
 import 'package:mobi_c/services/data_sync_service/clients/api_client.dart';
 import 'package:mobi_c/services/data_sync_service/clients/object_box_client.dart';
 import 'package:get_it/get_it.dart';
@@ -179,27 +181,42 @@ class DataSyncService {
   }
 
   Future<void> downloadImage() async {
-    try {
-      final directory = await getApplicationDocumentsDirectory();
-      final imageDir = Directory("${directory.path}/images");
+    final store = GetIt.I.get<Store>();
+    final query = store
+        .box<Nom>()
+        .query(
+            // Nom_.description.contains('VOREL')
+            )
+        .build();
+    final noms = await query.findAsync();
+    final directory = await getApplicationDocumentsDirectory();
 
-      final files = imageDir.listSync(recursive: true, followLinks: false);
-      final imageCount = files.length;
+    //   final imageDir = Directory("${directory.path}/images");
 
-      final ftpConn = FTPConnect('virftpap.ftp.tools',
-          user: 'virftpap_test', pass: 'TEST2024TEST',);
-      final a = await ftpConn.connect();
-     final d = await ftpConn.downloadDirectory('images', imageDir);
-      print(d);
+    //   final files = imageDir.listSync(recursive: true, followLinks: false);
+    //   final imageCount = files.length;
 
-      // final imagesRes = await _apiClient.getAllImage();
+    //   final ftpConn = FTPConnect('virftpap.ftp.tools',
+    //       user: 'virftpap_test', pass: 'TEST2024TEST',);
+    //   final a = await ftpConn.connect();
+    //  final d = await ftpConn.downloadDirectory('images', imageDir);
+    //   print(d);
+    // for (var i = 0; i < 1; i++) {
+    //   final imagesRes = await _apiClient.getAllImage();
+    // }
+    // print(3);
 
-      // for (var i in imagesRes) {
-      //   c(i['image'], i['ref']);
-      // }
-    } catch (e) {
-      print('Error during data sync: $e');
+    for (var nom in noms) {
+      final jpg = await _apiClient.getAllImage(nom.ref);
+      if (jpg.isEmpty) continue;
+      final path = '${directory.path}/${nom.ref}.jpg';
+      final file = File(path);
+      await file.writeAsBytes(jpg);
     }
+    print('----------------OK--------------------');
+    // for (var i in imagesRes) {
+    //   c(i['image'], i['ref']);
+    // }
   }
 }
 

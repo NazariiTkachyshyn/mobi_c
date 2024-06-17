@@ -1,6 +1,7 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobi_c/common/common.dart';
 import 'package:mobi_c/feature/input_qty_unit/cubit/input_qty_unit_cubit.dart';
 import 'package:mobi_c/services/data_bases/object_box/models/models.dart';
 import 'package:mobi_c/ui/components/widgets/text_field_button.dart';
@@ -61,6 +62,7 @@ class _InputQtyUnitDialogState extends State<InputQtyUnitDialog> {
               overflow: TextOverflow.ellipsis,
             ),
           ),
+          ListTileImage(ref: widget.nom.ref)
         ],
       ),
     );
