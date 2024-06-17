@@ -16,7 +16,7 @@ qtyInputDialog(
             value: context.read<InputQtyUnitCubit>(),
             child: InputQtyUnitDialog(
               nom: nom,
-              onPressedContiniue: (qty, unit) {
+              onPressedContinue: (qty, unit) {
                 onSelect(nom, qty, unit);
                 onPop();
               },

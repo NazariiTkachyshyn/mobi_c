@@ -77,12 +77,12 @@ class _CreateOrderPageState extends State<_CreateOrderPage>
             IconButton(
                 onPressed: () async {
                   
-                  // DataSyncService().downloadImage();
-                  DataSyncService().syncDiscountData();
-                  DataSyncService().syncNomData();
-                  DataSyncService().syncCounterpartyData();
-                  DataSyncService().syncContractData();
-                  DataSyncService().syncUnitData();
+                  DataSyncService().downloadImage();
+                  // DataSyncService().syncDiscountData();
+                  // DataSyncService().syncNomData();
+                  // DataSyncService().syncCounterpartyData();
+                  // DataSyncService().syncContractData();
+                  // DataSyncService().syncUnitData();
                 },
                 icon: const Icon(Icons.sync)),
             IconButton(

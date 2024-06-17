@@ -9,8 +9,6 @@ import 'package:mobi_c/services/data_bases/object_box/models/models.dart';
 import 'package:mobi_c/ui/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:path_provider/path_provider.dart';
-
 import 'services/data_bases/object_box/object_box.dart';
 
 typedef DocDir = Directory;
@@ -20,8 +18,8 @@ late ObjectBox objectbox;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final DocDir docDir = await getApplicationDocumentsDirectory();
-  final ImageDir imageDir = ImageDir("${docDir.path}/images");
+  // final DocDir docDir = await getApplicationDocumentsDirectory();
+  // final ImageDir imageDir = ImageDir("${docDir.path}/images");
 
   objectbox = await ObjectBox.create();
 
@@ -34,8 +32,8 @@ void main() async {
   store.box<ImageOb>().query().build().remove();
 
   GetIt.instance.registerSingleton<Store>(store);
-  GetIt.instance.registerSingleton<DocDir>(docDir);
-  GetIt.instance.registerSingleton<ImageDir>(imageDir);
+  // GetIt.instance.registerSingleton<DocDir>(docDir);
+  // GetIt.instance.registerSingleton<ImageDir>(imageDir);
 
   runApp(const MainApp());
 }

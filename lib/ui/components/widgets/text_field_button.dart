@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 
 class TextFielButton extends StatelessWidget {
-  const TextFielButton(
-      {super.key,
-      required this.text,
-      this.onTap,
-      required this.lableText,
-      this.prefixIcon,
-      this.suffixIcon});
+  const TextFielButton({
+    super.key,
+    this.text,
+    this.onTap,
+    this.prefixIcon,
+    this.suffixIcon,
+    required this.lableText,
+  });
 
-  final String text;
+  final String? text;
   final String lableText;
   final Widget? prefixIcon;
   final Widget? suffixIcon;
@@ -19,7 +20,7 @@ class TextFielButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = TextEditingController();
-    controller.text = text;
+    controller.text = text ?? '';
     final theme = Theme.of(context);
     return InkWell(
       onTap: onTap,

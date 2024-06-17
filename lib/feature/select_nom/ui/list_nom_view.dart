@@ -69,10 +69,10 @@ class _ListNomViewState extends State<ListNomView> {
                   itemCount: noms.length,
                   itemBuilder: (context, index) {
                     final nom = noms[index];
-                    return SlidableComponent(
+                    return _SlidableComponent(
                       nom: nom,
                       onSelect: widget.onSelect,
-                      child: ListViewItem(
+                      child: _ListViewItem(
                           nom: nom,
                           onSelect: widget.onSelect,
                           discount: widget.discount),
@@ -88,9 +88,9 @@ class _ListNomViewState extends State<ListNomView> {
   }
 }
 
-class SlidableComponent extends StatelessWidget {
-  const SlidableComponent(
-      {super.key,
+class _SlidableComponent extends StatelessWidget {
+  const _SlidableComponent(
+      {
       required this.nom,
       required this.onSelect,
       required this.child});
@@ -127,9 +127,9 @@ class SlidableComponent extends StatelessWidget {
   }
 }
 
-class ListViewItem extends StatelessWidget {
-  const ListViewItem(
-      {super.key,
+class _ListViewItem extends StatelessWidget {
+  const _ListViewItem(
+      {
       required this.nom,
       required this.onSelect,
       required this.discount});

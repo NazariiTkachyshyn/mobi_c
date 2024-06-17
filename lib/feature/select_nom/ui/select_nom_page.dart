@@ -9,7 +9,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobi_c/feature/select_nom/ui/list_nom_view.dart';
 import 'package:mobi_c/services/data_bases/object_box/models/models.dart';
 
-String parentKey = '';
 
 class SelectNomPage extends StatelessWidget {
   const SelectNomPage({super.key});
@@ -34,6 +33,8 @@ class SelectNomView extends StatefulWidget {
 
 class _SelectNomViewState extends State<SelectNomView> {
   SearchType searchType = SearchType.folder;
+  String parentKey = '';
+
   @override
   void initState() {
     context.read<SelectNomCubit>().getFolders();
@@ -47,7 +48,7 @@ class _SelectNomViewState extends State<SelectNomView> {
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     final onSelect =
         arguments['onTap'] as Function(Nom nom, String qty, Unit unit);
-    final discount = arguments['discount'];
+    final discount = arguments['discount'] as double;
     return Scaffold(
         resizeToAvoidBottomInset: true,
         appBar: AppBar(
@@ -75,26 +76,20 @@ class _SelectNomViewState extends State<SelectNomView> {
                 },
               ),
             ),
-            searchType.isTextField
-                ? ListNomView(
-                    onSelect: onSelect,
-                    parentKey: parentKey,
-                    discount: discount,
-                  )
-                : const SizedBox()
+            if (searchType.isTextField)
+              ListNomView(
+                onSelect: onSelect,
+                parentKey: parentKey,
+                discount: discount,
+              ),
           ],
         ));
   }
 
   void onPop() {
-    if (searchType.isFolder) {
-      Navigator.pop(context);
-    }
+    if (searchType.isFolder) Navigator.pop(context);
     context.read<SelectNomCubit>().clearNom();
-
-    setState(() {
-      searchType = SearchType.folder;
-    });
+    setState(() => searchType = SearchType.folder);
   }
 
   Widget buildNode(TreeNom node, BuildContext context) {

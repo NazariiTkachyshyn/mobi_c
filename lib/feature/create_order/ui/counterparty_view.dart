@@ -14,12 +14,11 @@ class CounterpartyView extends StatefulWidget {
 }
 
 class _CounterpartyViewState extends State<CounterpartyView> {
-  DateTime? selectDate = DateTime.now();
+  DateTime? _selectDate = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<CreateOrderCubit, CreateOrderState>(
-      listener: (context, state) {},
+    return BlocBuilder<CreateOrderCubit, CreateOrderState>(
       builder: (context, state) {
         return Padding(
           padding: const EdgeInsets.all(8.0),
@@ -33,17 +32,17 @@ class _CounterpartyViewState extends State<CounterpartyView> {
                       text: DateFormat('dd.MM.yy')
                           .format(state.order.date ?? DateTime.now()),
                       lableText: 'Дата',
-                      onTap: onSelectDate)),
+                      onTap: _onSelectDate)),
               const Padding(padding: EdgeInsets.all(6)),
               TextFielButton(
                 text: state.counterparty.description,
                 lableText: 'Клієнт',
-                onTap: onSelectCounterparty,
+                onTap: _onSelectCounterparty,
               ),
               const Padding(padding: EdgeInsets.all(4)),
               TextFielButton(
                 text: state.contracts.isEmpty
-                    ? "Відсутній"
+                    ? "Відсутня"
                     : state.order.contractKey.isEmpty
                         ? state.contracts.first.description
                         : state.contracts
@@ -52,7 +51,7 @@ class _CounterpartyViewState extends State<CounterpartyView> {
                             .description,
                 lableText: 'Угода',
                 onTap: () {
-                  selectContractDialog(context);
+                  _selectContractDialog(context);
                 },
               ),
             ],
@@ -62,8 +61,8 @@ class _CounterpartyViewState extends State<CounterpartyView> {
     );
   }
 
-  onSelectDate() async {
-    selectDate = await showDatePicker(
+  _onSelectDate() async {
+    _selectDate = await showDatePicker(
       initialDate: DateTime.now(),
       locale: const Locale('uk'),
       context: context,
@@ -71,11 +70,11 @@ class _CounterpartyViewState extends State<CounterpartyView> {
       lastDate: DateTime(DateTime.now().year + 1),
     );
     if (mounted) {
-      context.read<CreateOrderCubit>().selectDatetime(selectDate);
+      context.read<CreateOrderCubit>().selectDatetime(_selectDate);
     }
   }
 
-  onSelectCounterparty() {
+  _onSelectCounterparty() {
     Navigator.pushNamed(context, 'selectCounterparty',
         arguments: ((Counterparty counterparty) {
           context.read<CreateOrderCubit>().selectCounterparty(counterparty);
@@ -84,7 +83,8 @@ class _CounterpartyViewState extends State<CounterpartyView> {
   }
 }
 
-selectContractDialog(BuildContext context) {
+_selectContractDialog(BuildContext context) {
+  final theme = Theme.of(context);
   showModal(
       context: context,
       builder: (_) => BlocProvider.value(
@@ -92,27 +92,36 @@ selectContractDialog(BuildContext context) {
             child: AlertDialog(
               content: BlocBuilder<CreateOrderCubit, CreateOrderState>(
                 builder: (context, state) {
-                  return SizedBox(
-                    height: state.contracts.length * 50,
-                    width: 400,
-                    child: ListView.builder(
-                      itemCount: state.contracts.length,
-                      itemBuilder: (context, index) => ListTile(
-                        leading: Radio<String>(
-                            value: state.order.contractKey,
-                            groupValue: state.contracts[index].refKey,
-                            onChanged: (value) {
-                              context.read<CreateOrderCubit>().changeContract(
-                                  state.contracts[index].refKey);
-
-                              Navigator.pop(context);
-                            }),
-                        title: Text(state.contracts[index].description),
-                      ),
-                    ),
-                  );
+                  return state.contracts.isNotEmpty
+                      ? SizedBox(
+                          height: state.contracts.length * 50,
+                          width: 400,
+                          child: ListView.builder(
+                            itemCount: state.contracts.length,
+                            itemBuilder: (context, index) {
+                              final contract = state.contracts[index];
+                              return ListTile(
+                                leading: Radio<String>(
+                                    value: state.order.contractKey,
+                                    groupValue: state.contracts[index].refKey,
+                                    onChanged: (_) => _onSelectContract(
+                                        context, contract.refKey)),
+                                title: Text(state.contracts[index].description),
+                              );
+                            },
+                          ),
+                        )
+                      : Text(
+                          'Угода відсутня',
+                          style: theme.textTheme.titleMedium,
+                        );
                 },
               ),
             ),
           ));
+}
+
+void _onSelectContract(BuildContext context, String refKey) {
+  context.read<CreateOrderCubit>().changeContract(refKey);
+  Navigator.pop(context);
 }

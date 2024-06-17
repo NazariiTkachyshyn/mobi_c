@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:ftpconnect/ftpconnect.dart';
 import 'package:mobi_c/services/data_bases/object_box/models/image.dart';
 import 'package:mobi_c/services/data_sync_service/clients/api_client.dart';
 import 'package:mobi_c/services/data_sync_service/clients/object_box_client.dart';
@@ -184,6 +185,13 @@ class DataSyncService {
 
       final files = imageDir.listSync(recursive: true, followLinks: false);
       final imageCount = files.length;
+
+      final ftpConn = FTPConnect('virftpap.ftp.tools',
+          user: 'virftpap_test', pass: 'TEST2024TEST',);
+      final a = await ftpConn.connect();
+     final d = await ftpConn.downloadDirectory('images', imageDir);
+      print(d);
+
       // final imagesRes = await _apiClient.getAllImage();
 
       // for (var i in imagesRes) {
