@@ -1,12 +1,16 @@
 import 'dart:io';
 
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobi_c/clients/odata_api_clients/odata_api_client.dart';
 import 'package:mobi_c/feature/create_order/ui/create_order_page.dart';
+import 'package:mobi_c/feature/home_page/ui/home_page.dart';
 import 'package:mobi_c/feature/select_counterparty/ui/select_counterparty_page.dart';
 import 'package:mobi_c/feature/select_nom/ui/select_nom_page.dart';
+import 'package:mobi_c/feature/settings/cubit/settings_cubit.dart';
+import 'package:mobi_c/feature/settings/ui/settings_page.dart';
+import 'package:mobi_c/feature/settings/ui/views/views.dart';
 import 'package:mobi_c/objectbox.g.dart';
-import 'package:mobi_c/services/data_bases/object_box/models/models.dart';
 import 'package:mobi_c/ui/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -23,11 +27,7 @@ void main() async {
 
   final store = objectbox.store;
 
-  // store.box<Nom>().query().build().remove();
-  // store.box<Counterparty>().query().build().remove();
-  // store.box<Contract>().removeAll();
-  // store.box<Discount>().query().build().remove();
-  // store.box<ImageOb>().query().build().remove();
+
 
   final odataApiClient = OdataApiClient();
 
@@ -43,22 +43,28 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      localizationsDelegates: const [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: const [Locale('uk')],
-      locale: const Locale('uk'),
-      theme: AppTheme.light,
-      initialRoute: 'createOrderPage',
-      routes: {
-        'createOrderPage': (context) => const CreateOrderPage(),
-        'selectCounterparty': (context) => const SelectCounterpartyPage(),
-        'selectNom': (context) => const SelectNomPage()
-      },
+    return BlocProvider(
+      create: (context) => SettingsCubit(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        localizationsDelegates: const [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: const [Locale('uk')],
+        locale: const Locale('uk'),
+        theme: AppTheme.light,
+        initialRoute: '/',
+        routes: {
+          '/': (context) => const HomePage(),
+          'settings':(context) => const SettingsPage(),
+          'sync': (context) => const SyncPage(),
+          'createOrderPage': (context) => const CreateOrderPage(),
+          'selectCounterparty': (context) => const SelectCounterpartyPage(),
+          'selectNom': (context) => const SelectNomPage()
+        },
+      ),
     );
   }
 }

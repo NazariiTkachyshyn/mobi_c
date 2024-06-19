@@ -18,15 +18,15 @@ final class SelectNomState extends Equatable {
   const SelectNomState({
     this.status = SelectNomStatus.initial,
     this.searchNoms = const [],
-    this.images = const [],
     this.treeNom = const [],
+    this.remaining = const [],
     this.errorMassage = '',
   });
 
   final SelectNomStatus status;
   final List<Nom> searchNoms;
-  final List<ImageOb> images;
   final List<TreeNom> treeNom;
+  final List<Remaining> remaining;
   final String errorMassage;
 
   int get offset => searchNoms.length;
@@ -35,19 +35,19 @@ final class SelectNomState extends Equatable {
       {SelectNomStatus? status,
       List<Nom>? searchNoms,
       String? errorMassage,
-      List<ImageOb>? images,
+      List<Remaining>? remaining,
       List<TreeNom>? treeNom}) {
     return SelectNomState(
         status: status ?? this.status,
         searchNoms: searchNoms ?? this.searchNoms,
         errorMassage: errorMassage ?? this.errorMassage,
-        images: images ?? this.images,
+        remaining: remaining ?? this.remaining,
         treeNom: treeNom ?? this.treeNom);
   }
 
   @override
   List<Object?> get props =>
-      [status, errorMassage, searchNoms, images, treeNom];
+      [status, errorMassage, searchNoms, treeNom, remaining];
 }
 
 class TreeNom {
@@ -88,5 +88,14 @@ class TreeNom {
       unitKey: nom.unitKey,
       imageKey: nom.imageKey,
       children: [],
-      price: 0);
+      price: nom.price);
+}
+
+class Remaining {
+  final String storageKey;
+  final String name;
+  final int remaining;
+
+  Remaining(
+      {required this.storageKey, required this.remaining, required this.name});
 }

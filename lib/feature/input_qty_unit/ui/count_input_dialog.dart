@@ -34,6 +34,7 @@ class _InputQtyUnitDialogState extends State<InputQtyUnitDialog> {
   @override
   Widget build(BuildContext context) {
     return Dialog(
+      clipBehavior: Clip.hardEdge,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [

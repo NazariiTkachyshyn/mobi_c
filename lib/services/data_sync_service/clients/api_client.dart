@@ -4,7 +4,6 @@ import 'dart:typed_data';
 
 import 'package:mobi_c/common/constants/api_constants.dart';
 import 'package:http/http.dart' as http;
-import 'package:mobi_c/common/constants/key_const.dart';
 
 import '../models/models.dart';
 
@@ -19,7 +18,7 @@ class DataSyncApiClient {
   //^----------NOMENKLATURA----------------
   Future<List<SyncNom>> getAllNom() async {
     final uri = Uri.http(ApiConstants.odataHost,
-        "${ApiConstants.odataPath}/InformationRegister_МобільнийКлієнтЗалишки?\$format=json&\$filter=Storage_Key eq '${KeyConst.storageKey}'");
+        "${ApiConstants.odataPath}/InformationRegister_МобільнийКлієнтЗалишки?\$format=json");
 
     try {
       final nomRes = await http.get(uri, headers: headers);
@@ -115,12 +114,10 @@ class DataSyncApiClient {
   //^----------KONTRAGENT----------------
 
   Future<List<SyncCounterparty>> getAllCounterparty() async {
-    final uri = Uri.http(ApiConstants.odataHost,
-        '${ApiConstants.odataPath}/Catalog_Контрагенты', {
-      "\$format": 'json',
-      "\$select":
-          "Ref_Key,Description,ГоловнойКонтрагент_Key,НаименованиеПолное",
-    });
+    final uri = Uri.http(
+      ApiConstants.odataHost,
+      '${ApiConstants.odataPath}/Catalog_Контрагенты?\$format=json&\$select=Ref_Key,Description,ГоловнойКонтрагент_Key,НаименованиеПолное,Parent_Key,IsFolder&\$filter=DeletionMark eq false',
+    );
 
     try {
       final nomRes = await http.get(uri, headers: headers);
@@ -196,17 +193,14 @@ class DataSyncApiClient {
   //^----------Images----------------
 
   Future<Uint8List> getAllImage(String ref) async {
-    final uri = Uri.parse(
-        'http://192.168.2.187/$ref.jpg');
+    final uri = Uri.parse('http://192.168.2.187/$ref.jpg');
 
-      final nomRes = await http.get(uri, headers: headers);
+    final nomRes = await http.get(uri, headers: headers);
 
-      if (nomRes.statusCode == 200) {
-
-        return nomRes.bodyBytes;
-      } else {
-       return Uint8List(0);
-      }
-   
+    if (nomRes.statusCode == 200) {
+      return nomRes.bodyBytes;
+    } else {
+      return Uint8List(0);
+    }
   }
 }

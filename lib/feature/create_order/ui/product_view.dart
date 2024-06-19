@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:mobi_c/common/common.dart';
+import 'package:mobi_c/common/constants/key_const.dart';
 import 'package:mobi_c/feature/create_order/cubit/create_order_cubit.dart';
 import 'package:mobi_c/feature/input_qty_unit/client/client.dart';
 import 'package:mobi_c/feature/input_qty_unit/cubit/input_qty_unit_cubit.dart';
 import 'package:mobi_c/feature/input_qty_unit/ui/count_input_dialog.dart';
+import 'package:mobi_c/feature/settings/cubit/settings_cubit.dart';
 import 'package:mobi_c/services/data_bases/object_box/models/models.dart';
 import 'package:mobi_c/ui/components/widgets/text_field_button.dart';
 
@@ -126,7 +128,16 @@ class _ListTileComponent extends StatelessWidget {
           nom,
         );
       },
-      leading: ListTileImage(ref: nom.ref),
+      contentPadding: const EdgeInsets.fromLTRB(0, 8, 15, 8),
+      minLeadingWidth: 0,
+      leading: BlocBuilder<SettingsCubit, SettingsState>(
+        buildWhen: (previous, current) => previous.viewType != current.viewType,
+        builder: (context, settingsState) {
+          return settingsState.viewType.isListWithIcons
+              ? ListTileImage(ref: nom.ref)
+              : const SizedBox.shrink();
+        },
+      ),
       title: Text(
         nom.article,
         style: theme.textTheme.titleMedium,
@@ -152,18 +163,19 @@ class _ListTileComponent extends StatelessWidget {
               ],
             ),
             Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Text(
-                  '${calcDiscount(nom.price, state.discount.percentDiscounts).toStringAsFixed(2)}грн.',
+                  '${numberFormat.format(calcDiscount(nom.price, state.discount.percentDiscounts))}грн.',
                   style: theme.textTheme.labelLarge,
                 ),
-                Text('${nom.price.toStringAsFixed(2)}грн.',
+                Text('${numberFormat.format(nom.price)}грн.',
                     style: theme.textTheme.labelLarge!
                         .copyWith(color: Colors.grey)),
                 Text(
-                    '${(calcDiscount(nom.price, state.discount.percentDiscounts) * nom.qty * nom.ratio).toStringAsFixed(2)}грн.',
+                    '${numberFormat.format((calcDiscount(nom.price, state.discount.percentDiscounts) * nom.qty * nom.ratio))}грн.',
                     style: theme.textTheme.labelLarge!
                         .copyWith(color: Colors.green)),
               ],

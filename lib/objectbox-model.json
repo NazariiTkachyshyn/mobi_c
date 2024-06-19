@@ -68,7 +68,7 @@
     },
     {
       "id": "9:2309089137925055370",
-      "lastPropertyId": "9:2210602875974207460",
+      "lastPropertyId": "11:2430423662077408787",
       "name": "Counterparty",
       "properties": [
         {
@@ -106,6 +106,16 @@
           "id": "9:2210602875974207460",
           "name": "searchField",
           "type": 9
+        },
+        {
+          "id": "10:4089024541001730385",
+          "name": "parentKey",
+          "type": 9
+        },
+        {
+          "id": "11:2430423662077408787",
+          "name": "isFolder",
+          "type": 1
         }
       ],
       "relations": []

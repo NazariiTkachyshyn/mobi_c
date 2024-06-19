@@ -10,7 +10,9 @@ class SelectNomClient {
     try {
       return await _store
           .box<Nom>()
-          .query(Nom_.isFolder.equals(true))
+          .query(Nom_.isFolder
+              .equals(true)
+              .and(Nom_.storageKey.endsWith(KeyConst.storageKey)))
           .order(Nom_.description)
           .build()
           .findAsync();
@@ -29,7 +31,7 @@ class SelectNomClient {
           .query(isEqParentKey
               .and(Nom_.isFolder.equals(false))
               .and(Nom_.storageKey.equals(KeyConst.storageKey)))
-          .order(Nom_.description)
+          .order(Nom_.article)
           .build()
         ..limit = 30
         ..offset = offset;
@@ -40,25 +42,40 @@ class SelectNomClient {
     }
   }
 
-
-
   Future<List<Nom>> searchNomInFolder(
     String value,
     String parentKey,
   ) async {
+    final valueList = value.split(' ');
+
     final isEqParentKey = parentKey.isNotEmpty
         ? Nom_.parentKey.equals(parentKey)
         : Nom_.parentKey.notEquals('');
+    final contains = valueList.length > 1
+        ? Nom_.searchField
+            .contains(valueList[0].toLowerCase())
+            .and(Nom_.searchField.contains(valueList[1].toLowerCase()))
+        : Nom_.searchField.contains(valueList[0].toLowerCase());
     try {
       final query = _store
           .box<Nom>()
-          .query(Nom_.searchField
-              .contains(value.toLowerCase())
+          .query(contains
               .and(Nom_.isFolder.equals(false))
               .and(Nom_.storageKey.equals(KeyConst.storageKey))
               .and(isEqParentKey))
+          .order(Nom_.article)
           .build()
         ..limit = 50;
+      return await query.findAsync();
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future<List<Nom>> getNomRemaining(String ref) async {
+    try {
+      final query = _store.box<Nom>().query(Nom_.ref.equals(ref)).build();
+
       return await query.findAsync();
     } catch (e) {
       throw Exception(e);

@@ -12,12 +12,10 @@ class Updater {
   Updater({required this.dbService});
 
   Future<void> updateNoms(Set<SyncNom> data) async {
-    dbService.setNom(
+    await dbService.setNom(
       data.map((e) => Nom.fromApi(e)).toList(),
     );
   }
-
-
 
   // Future<void> updateStoragesOb(Set<Storage> storages) async {
   //   dbService.setNewStorages(storages);
@@ -28,27 +26,26 @@ class Updater {
   // }
 
   Future<void> updateCounterparty(Set<SyncCounterparty> data) async {
-    dbService.setCounterparty(
+    await dbService.setCounterparty(
       data.map((e) => Counterparty.fromApi(e)).toList(),
     );
   }
 
   Future<void> updateContract(Set<SyncContract> data) async {
-    dbService.setContract(
+    await dbService.setContract(
       data.map((e) => Contract.fromApi(e)).toList(),
     );
   }
 
   Future<void> updateDiscount(Set<SyncDiscount> data) async {
-    dbService.setDiscount(
+    await dbService.setDiscount(
       data.map((e) => Discount.fromApi(e)).toList(),
     );
   }
 
   Future<void> updateUnit(Set<SyncUnit> data) async {
-    dbService.setUnit(
+    await dbService.setUnit(
       data.map((e) => Unit.fromApi(e)).toList(),
     );
   }
-
 }

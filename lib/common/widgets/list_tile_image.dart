@@ -1,7 +1,6 @@
-import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
+import 'package:mobi_c/common/common.dart';
 
 class ListTileImage extends StatelessWidget {
   const ListTileImage({super.key, required this.ref});
@@ -9,12 +8,6 @@ class ListTileImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    File getImage(String filename) {
-      final docDir = GetIt.I.get<Directory>();
-      File file = File('${docDir.path}/$filename.jpg');
-      return file;
-    }
-
     return ConstrainedBox(
         constraints: const BoxConstraints(
           minWidth: 44,

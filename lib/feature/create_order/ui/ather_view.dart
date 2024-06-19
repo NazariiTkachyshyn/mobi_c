@@ -1,3 +1,4 @@
+import 'package:mobi_c/common/widgets/widget.dart';
 import 'package:mobi_c/feature/create_order/cubit/create_order_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -55,12 +56,22 @@ class _AtherViewState extends State<AtherView> {
               'Кількість позицій ${state.noms.length}',
               style: theme.textTheme.titleMedium,
             ),
-            ElevatedButton(
-                onPressed: () {
-                  context.read<CreateOrderCubit>().createOrder();
-                  Navigator.popAndPushNamed(context, 'createOrderPage');
-                },
-                child: const Text('Створити')),
+            const Spacer(),
+            Center(
+              child: ElevatedButton(
+                  onPressed: () => showCheckDialog(context,
+                          title: 'Створити замовлення',
+                          description:
+                              'Ви впевнені, що хочете створити нове замовлення?',
+                          acceptLable: 'Так, створити',
+                          cancelLable: 'Скасувати', onPressedAccept: () {
+                        context.read<CreateOrderCubit>().createOrder();
+                        Navigator.pop(context);
+                      }),
+                  child: const Text(
+                    'Створити замовлення',
+                  )),
+            ),
           ]),
         );
       },

@@ -7,13 +7,18 @@ class SyncCounterparty extends Equatable {
   final String mainCounterpartyKey;
   final String partnerKey;
   final String fullDescription;
+  final String parentKey;
+  final bool isFolder;
 
   const SyncCounterparty(
       {required this.refKey,
       required this.description,
       required this.partnerKey,
       required this.mainCounterpartyKey,
-      required this.fullDescription});
+      required this.fullDescription,
+      required this.parentKey,
+      required this.isFolder
+      });
 
   factory SyncCounterparty.fromJson(Map<String, dynamic> json) =>
       SyncCounterparty(
@@ -21,14 +26,20 @@ class SyncCounterparty extends Equatable {
           mainCounterpartyKey: json['ГоловнойКонтрагент_Key'] ?? '',
           partnerKey: json['Партнер_Key'] ?? '',
           description: json['Description'] ?? '',
-          fullDescription: json['НаименованиеПолное'] ?? '');
+          fullDescription: json['НаименованиеПолное'] ?? '',
+          parentKey: json['Parent_Key'] ?? '',
+          isFolder: json['IsFolder'] ?? false
+          );
 
   factory SyncCounterparty.fromOb(Counterparty counterparty) => SyncCounterparty(
       refKey: counterparty.refKey,
       description: counterparty.description,
       mainCounterpartyKey: counterparty.mainCounterpartyKey,
       partnerKey: counterparty.partnerKey,
-      fullDescription: counterparty.fullDescription);
+      fullDescription: counterparty.fullDescription,
+      parentKey: counterparty.partnerKey,
+      isFolder: counterparty.isFolder
+      );
 
 
 
@@ -37,9 +48,12 @@ class SyncCounterparty extends Equatable {
       description: '',
       mainCounterpartyKey: '',
       partnerKey: '',
-      fullDescription: '');
+      fullDescription: '',
+      parentKey: '',
+      isFolder: false
+      );
 
   @override
   List<Object?> get props =>
-      [refKey, description, mainCounterpartyKey, fullDescription, partnerKey];
+      [refKey, description, mainCounterpartyKey, fullDescription, partnerKey, parentKey, isFolder];
 }

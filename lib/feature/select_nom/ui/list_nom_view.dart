@@ -1,9 +1,12 @@
+import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:mobi_c/common/common.dart';
+import 'package:mobi_c/common/constants/key_const.dart';
 import 'package:mobi_c/feature/select_nom/cubit/select_nom_cubit.dart';
 import 'package:mobi_c/feature/select_nom/ui/dialog.dart';
+import 'package:mobi_c/feature/settings/cubit/settings_cubit.dart';
 import 'package:mobi_c/services/data_bases/object_box/models/models.dart';
 
 class ListNomView extends StatefulWidget {
@@ -12,7 +15,7 @@ class ListNomView extends StatefulWidget {
       required this.onSelect,
       required this.parentKey,
       required this.discount});
-  final Function(Nom nom, String qty, Unit init) onSelect;
+  final Function(Nom nom, String qty, Unit unit) onSelect;
   final String parentKey;
   final double discount;
 
@@ -28,7 +31,6 @@ class _ListNomViewState extends State<ListNomView> {
     context.read<SelectNomCubit>().getNomsByParentKey(widget.parentKey);
 
     scrollController.addListener(() {
-
       if (scrollController.position.maxScrollExtent ==
           scrollController.offset) {
         context.read<SelectNomCubit>().getNomsByParentKey(widget.parentKey);
@@ -90,10 +92,7 @@ class _ListNomViewState extends State<ListNomView> {
 
 class _SlidableComponent extends StatelessWidget {
   const _SlidableComponent(
-      {
-      required this.nom,
-      required this.onSelect,
-      required this.child});
+      {required this.nom, required this.onSelect, required this.child});
   final Nom nom;
   final Function(Nom nom, String qty, Unit init) onSelect;
   final Widget child;
@@ -105,17 +104,14 @@ class _SlidableComponent extends StatelessWidget {
         SlidableAction(
           borderRadius: const BorderRadius.all(Radius.circular(8)),
           flex: 2,
-          onPressed: (value) => qtyInputDialog(
-              context: context,
-              nom: nom,
-              onSelect: onSelect,
-              onPop: () {
-                Navigator.pop(context);
-              }),
+          onPressed: (value) {
+            context.read<SelectNomCubit>().getNomRemaining(nom.ref);
+            remainingDialog(context);
+          },
           backgroundColor: Colors.green,
           foregroundColor: Colors.white,
-          icon: Icons.add,
-          label: 'Додати',
+          icon: Icons.storage_rounded,
+          label: 'Залишок на складах',
         )
       ]);
     }
@@ -128,18 +124,16 @@ class _SlidableComponent extends StatelessWidget {
 }
 
 class _ListViewItem extends StatelessWidget {
-  const _ListViewItem(
-      {
-      required this.nom,
-      required this.onSelect,
-      required this.discount});
+   const _ListViewItem(
+      {required this.nom, required this.onSelect, required this.discount});
   final Nom nom;
-  final Function(Nom nom, String qty, Unit init) onSelect;
+  final Function(Nom nom, String qty, Unit unit) onSelect;
   final double discount;
 
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    final viewType = context.read<SettingsCubit>().state.viewType;
 
     return Container(
         margin: const EdgeInsets.symmetric(vertical: 2),
@@ -149,7 +143,8 @@ class _ListViewItem extends StatelessWidget {
             borderRadius: BorderRadius.circular(8)),
         child: ListTile(
             visualDensity: const VisualDensity(vertical: 3),
-            leading: ListTileImage(ref: nom.ref),
+            leading:
+                viewType.isListWithIcons ? ListTileImage(ref: nom.ref) : null,
             title: Text(
               nom.article,
               style: textTheme.titleMedium,
@@ -159,9 +154,9 @@ class _ListViewItem extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Text(
-                    '${calcDiscount(nom.price, discount).toStringAsFixed(2)} грн.',
+                    '${numberFormat.format(calcDiscount(nom.price, discount))} грн.',
                     style: textTheme.labelLarge!.copyWith(color: Colors.black)),
-                Text('${nom.price.toStringAsFixed(2)} грн.',
+                Text('${numberFormat.format(nom.price)} грн.',
                     style: textTheme.labelLarge!.copyWith(color: Colors.grey)),
                 Text(
                   nom.remaining.toString(),
@@ -175,7 +170,39 @@ class _ListViewItem extends StatelessWidget {
                 onSelect: onSelect,
                 onPop: () {
                   Navigator.pop(context);
-                  Navigator.pop(context);
                 })));
   }
+}
+
+remainingDialog(BuildContext context) {
+  showModal(
+    context: context,
+    builder: (_) => BlocProvider.value(
+      value: context.read<SelectNomCubit>(),
+      child: Dialog(
+        child: BlocBuilder<SelectNomCubit, SelectNomState>(
+          builder: (context, state) {
+            if (state.remaining.isEmpty) {
+              return const SizedBox(
+                  height: 160,
+                  child: Center(child: CircularProgressIndicator()));
+            }
+            return SizedBox(
+              height: 160,
+              child: ListView.builder(
+                itemCount: state.remaining.length,
+                itemBuilder: (context, index) {
+                  final remaining = state.remaining[index];
+                  return ListTile(
+                    title: Text(remaining.name),
+                    trailing: Text(remaining.remaining.toString()),
+                  );
+                },
+              ),
+            );
+          },
+        ),
+      ),
+    ),
+  );
 }

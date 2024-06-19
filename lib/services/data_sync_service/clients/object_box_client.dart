@@ -1,5 +1,5 @@
+import 'package:mobi_c/common/constants/key_const.dart';
 import 'package:mobi_c/objectbox.g.dart';
-import 'package:mobi_c/services/data_bases/object_box/models/image.dart';
 import 'package:mobi_c/services/data_bases/object_box/models/models.dart';
 import 'package:mobi_c/services/data_sync_service/models/models.dart';
 
@@ -18,7 +18,20 @@ class DataSyncObjectBoxClient {
     }
   }
 
-  void setNom(List<Nom> noms) async {
+  Future<List<SyncNom>> getAllNomsByStorage() async {
+    try {
+      final res = await _store
+          .box<Nom>()
+          .query(Nom_.storageKey.equals(KeyConst.storageKey))
+          .build()
+          .findAsync();
+      return res.map((e) => SyncNom.fromOb(e)).toList();
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future<void> setNom(List<Nom> noms) async {
     try {
       await _store.box<Nom>().putManyAsync(noms);
     } catch (e) {
@@ -36,18 +49,9 @@ class DataSyncObjectBoxClient {
     }
   }
 
-  void setStorage(List<Storage> storages) async {
+  Future<void> setStorage(List<Storage> storages) async {
     try {
       await _store.box<Storage>().putManyAsync(storages);
-    } catch (e) {
-      throw Exception(e);
-    }
-  }
-
-
-  void setBarcode(List<Barcode> barcodes) async {
-    try {
-      await _store.box<Barcode>().putManyAsync(barcodes);
     } catch (e) {
       throw Exception(e);
     }
@@ -63,7 +67,7 @@ class DataSyncObjectBoxClient {
     }
   }
 
-  void setContract(List<Contract> contracts) async {
+  Future<void> setContract(List<Contract> contracts) async {
     try {
       await _store.box<Contract>().putManyAsync(contracts);
     } catch (e) {
@@ -81,7 +85,7 @@ class DataSyncObjectBoxClient {
     }
   }
 
-  void setCounterparty(List<Counterparty> counterpartys) async {
+  Future<void> setCounterparty(List<Counterparty> counterpartys) async {
     try {
       await _store.box<Counterparty>().putManyAsync(counterpartys);
     } catch (e) {
@@ -99,7 +103,7 @@ class DataSyncObjectBoxClient {
     }
   }
 
-  void setDiscount(
+  Future<void> setDiscount(
     List<Discount> discounts,
   ) async {
     try {
@@ -119,7 +123,7 @@ class DataSyncObjectBoxClient {
     }
   }
 
-  void setUnit(List<Unit> units) async {
+  Future<void> setUnit(List<Unit> units) async {
     try {
       await _store.box<Unit>().putManyAsync(units);
     } catch (e) {
@@ -127,25 +131,11 @@ class DataSyncObjectBoxClient {
     }
   }
 
-
-  // // //^----------BARCODES----------------
-  // Future<List<SyncBarcode>> getAllBarcodes() async {
-  //   try {
-  //     final res = await _store.box<Barcode>().query().build().findAsync();
-  //     return res.map((e) => SyncBarcode.fromOb(e)).toList();
-  //   } catch (e) {
-  //     throw Exception(e);
-  //   }
-  // }
-
-//^-----------Image-----------------------------
-
-  Future setImages(List<ImageOb> image) async {
-    try {
-      await _store.box<ImageOb>().putManyAsync(image);
-    } catch (e) {
-      throw Exception(e);
-    }
+  deleteAll() {
+    _store.box<Nom>().query().build().removeAsync();
+    _store.box<Counterparty>().query().build().removeAsync();
+    _store.box<Contract>().query().build().removeAsync();
+    _store.box<Discount>().query().build().removeAsync();
+    _store.box<Unit>().query().build().removeAsync();
   }
-
 }

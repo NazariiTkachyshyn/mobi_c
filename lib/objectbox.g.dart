@@ -95,7 +95,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
       id: const obx_int.IdUid(9, 2309089137925055370),
       name: 'Counterparty',
-      lastPropertyId: const obx_int.IdUid(9, 2210602875974207460),
+      lastPropertyId: const obx_int.IdUid(11, 2430423662077408787),
       flags: 0,
       properties: <obx_int.ModelProperty>[
         obx_int.ModelProperty(
@@ -132,6 +132,16 @@ final _entities = <obx_int.ModelEntity>[
             id: const obx_int.IdUid(9, 2210602875974207460),
             name: 'searchField',
             type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(10, 4089024541001730385),
+            name: 'parentKey',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(11, 2430423662077408787),
+            name: 'isFolder',
+            type: 1,
             flags: 0)
       ],
       relations: <obx_int.ModelRelation>[],
@@ -672,7 +682,8 @@ obx_int.ModelDefinition getObjectBoxModel() {
           final partnerKeyOffset = fbb.writeString(object.partnerKey);
           final fullDescriptionOffset = fbb.writeString(object.fullDescription);
           final searchFieldOffset = fbb.writeString(object.searchField);
-          fbb.startTable(10);
+          final parentKeyOffset = fbb.writeString(object.parentKey);
+          fbb.startTable(12);
           fbb.addInt64(0, object.id);
           fbb.addOffset(1, refKeyOffset);
           fbb.addOffset(2, descriptionOffset);
@@ -680,6 +691,8 @@ obx_int.ModelDefinition getObjectBoxModel() {
           fbb.addOffset(5, partnerKeyOffset);
           fbb.addOffset(6, fullDescriptionOffset);
           fbb.addOffset(8, searchFieldOffset);
+          fbb.addOffset(9, parentKeyOffset);
+          fbb.addBool(10, object.isFolder);
           fbb.finish(fbb.endTable());
           return object.id;
         },
@@ -702,6 +715,10 @@ obx_int.ModelDefinition getObjectBoxModel() {
           final searchFieldParam =
               const fb.StringReader(asciiOptimization: true)
                   .vTableGet(buffer, rootOffset, 20, '');
+          final parentKeyParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 22, '');
+          final isFolderParam =
+              const fb.BoolReader().vTableGet(buffer, rootOffset, 24, false);
           final idParam =
               const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
           final object = Counterparty(
@@ -711,6 +728,8 @@ obx_int.ModelDefinition getObjectBoxModel() {
               partnerKey: partnerKeyParam,
               fullDescription: fullDescriptionParam,
               searchField: searchFieldParam,
+              parentKey: parentKeyParam,
+              isFolder: isFolderParam,
               id: idParam);
 
           return object;
@@ -1174,6 +1193,14 @@ class Counterparty_ {
   /// see [Counterparty.searchField]
   static final searchField =
       obx.QueryStringProperty<Counterparty>(_entities[2].properties[6]);
+
+  /// see [Counterparty.parentKey]
+  static final parentKey =
+      obx.QueryStringProperty<Counterparty>(_entities[2].properties[7]);
+
+  /// see [Counterparty.isFolder]
+  static final isFolder =
+      obx.QueryBooleanProperty<Counterparty>(_entities[2].properties[8]);
 }
 
 /// [Discount] entity fields to define ObjectBox queries.

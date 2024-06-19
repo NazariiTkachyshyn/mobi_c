@@ -42,6 +42,19 @@ class SelectNomCubit extends Cubit<SelectNomState> {
     }
   }
 
+
+   Future<void> getNomRemaining(String  ref) async {
+    try {
+         emit(state.copyWith(
+          remaining: []));
+      final remaining = await _selectNomRepo.getNomRemaining(ref);
+      emit(state.copyWith(
+          remaining: remaining, status: SelectNomStatus.success));
+    } catch (e) {
+      emit(state.copyWith(status: SelectNomStatus.failure));
+    }
+  }
+
   buildTree(List<Nom> folders) {
     final Map<String, TreeNom> map = {};
     final List<TreeNom> roots = [

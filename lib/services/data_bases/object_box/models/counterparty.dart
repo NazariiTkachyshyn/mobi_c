@@ -11,6 +11,8 @@ class Counterparty {
   String partnerKey;
   String fullDescription;
   String searchField;
+  String parentKey;
+  bool isFolder;
 
   Counterparty(
       {required this.refKey,
@@ -19,6 +21,8 @@ class Counterparty {
       required this.partnerKey,
       required this.fullDescription,
       required this.searchField,
+      required this.parentKey,
+      required this.isFolder,
       this.id = 0});
 
   factory Counterparty.fromApi(SyncCounterparty counterparty) => Counterparty(
@@ -28,7 +32,10 @@ class Counterparty {
       partnerKey: counterparty.partnerKey,
       fullDescription: counterparty.fullDescription,
       searchField: (counterparty.description + counterparty.fullDescription)
-          .toLowerCase());
+          .toLowerCase(),
+      parentKey: counterparty.parentKey,
+      isFolder: counterparty.isFolder
+      );
 
   static final empty = Counterparty(
       refKey: '',
@@ -36,5 +43,8 @@ class Counterparty {
       mainCounterpartyKey: '',
       partnerKey: '',
       fullDescription: '',
-      searchField: '');
+      searchField: '',
+      parentKey: '',
+      isFolder: false
+      );
 }

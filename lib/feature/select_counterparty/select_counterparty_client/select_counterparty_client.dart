@@ -19,4 +19,65 @@ class SelectCounterpartyClient {
       throw Exception(e);
     }
   }
+
+  Future<List<Counterparty>> getFolders() async {
+    try {
+      final query = _store
+          .box<Counterparty>()
+          .query(Counterparty_.isFolder.equals(true))
+          .build();
+      return query.findAsync();
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future<List<Counterparty>> getByParentKey(
+      String parentKey, int offset) async {
+    try {
+      final isEqParentKey = parentKey.isNotEmpty
+          ? Counterparty_.parentKey.equals(parentKey)
+          : Counterparty_.parentKey.notEquals('');
+      final query = _store
+          .box<Counterparty>()
+          .query(isEqParentKey.and(Counterparty_.isFolder.equals(false)))
+          .order(Counterparty_.description)
+          .build()
+        ..limit = 30
+        ..offset = offset;
+
+      return await query.findAsync();
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future<List<Counterparty>> searchInFolder(
+    String value,
+    String parentKey,
+  ) async {
+    final valueList = value.split(' ');
+
+    final isEqParentKey = parentKey.isNotEmpty
+        ? Counterparty_.parentKey.equals(parentKey)
+        : Counterparty_.parentKey.notEquals('');
+    final contains = valueList.length > 1
+        ? Counterparty_.searchField
+            .contains(valueList[0].toLowerCase())
+            .and(Counterparty_.searchField.contains(valueList[1].toLowerCase()))
+        : Counterparty_.searchField.contains(valueList[0].toLowerCase());
+    try {
+      final query = _store
+          .box<Counterparty>()
+          .query(contains
+              .and(Counterparty_.isFolder.equals(false))
+              .and(isEqParentKey))
+          .order(Counterparty_.description)
+          .build()
+        ..limit = 50;
+      return await query.findAsync();
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
 }
