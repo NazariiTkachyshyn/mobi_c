@@ -122,45 +122,7 @@ class _SelectCounterpartyViewState extends State<SelectCounterpartyView> {
   }
 }
 
-// class _SearchByTextField extends StatelessWidget {
-//   const _SearchByTextField();
 
-//   @override
-//   Widget build(BuildContext context) {
-//     final onSelect = ModalRoute.of(context)!.settings.arguments as Function(
-//         Counterparty counterparty);
-//     return Padding(
-//       padding: const EdgeInsets.all(8.0),
-//       child: BlocBuilder<SelectCounterpartyCubit, SelectCounterpartyState>(
-//         builder: (context, state) {
-//           return Column(
-//             children: [
-//               TextField(
-//                 onChanged: (value) => context
-//                     .read<SelectCounterpartyCubit>()
-//                     .searchCounterparty(value),
-//                 decoration: const InputDecoration(labelText: 'Назва клієнта'),
-//               ),
-//               const SizedBox(height: 8),
-//               Expanded(
-//                 child: ListView.builder(
-//                   itemCount: state.counterparty.length,
-//                   itemBuilder: (context, index) {
-//                     final counterparty = state.counterparty[index];
-//                     return CounterpartyListItem(
-//                       counterparty: counterparty,
-//                       onSelect: onSelect,
-//                     );
-//                   },
-//                 ),
-//               ),
-//             ],
-//           );
-//         },
-//       ),
-//     );
-//   }
-// }
 
 class CounterpartyListItem extends StatelessWidget {
   final Counterparty counterparty;

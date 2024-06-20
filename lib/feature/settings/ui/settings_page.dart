@@ -19,18 +19,23 @@ class SettingsPage extends StatelessWidget {
               style: theme.textTheme.titleMedium,
             ),
           ),
+          
           ListTile(
-            leading: const Icon(Icons.sync),
-            title: const Text('Синхронізація'),
-            trailing: const Icon(Icons.arrow_forward_ios_rounded),
-            onTap: () {
-              Navigator.pushNamed(context, 'sync');
-            },
-          ),
+              leading: const Icon(Icons.sync),
+              title: const Text('Синхронізація'),
+              trailing: const Icon(Icons.arrow_forward_ios_rounded),
+              onTap: () => Navigator.pushNamed(context, 'sync')),
           const Divider(
             endIndent: 20,
             indent: 20,
-          )
+          ),
+          ListTile(
+            leading: const Icon(Icons.person_search_outlined),
+            title: const Text('Налаштування маршрутів'),
+            trailing: const Icon(Icons.arrow_forward_ios_rounded),
+            onTap: () =>
+                Navigator.pushNamed(context, 'settings_counterparty_view'),
+          ),
         ],
       ),
     );

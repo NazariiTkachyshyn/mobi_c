@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:mobi_c/common/common.dart';
 import 'package:mobi_c/feature/select_counterparty/select_counterparty_repo/select_counterparty_repo.dart';
 import 'package:mobi_c/services/data_bases/object_box/models/models.dart';
 
@@ -14,7 +15,9 @@ class SelectCounterpartyCubit extends Cubit<SelectCounterpartyState> {
   getFolders() async {
     try {
       var folders = await _selectCounterpartyRepo.getFolders();
-      buildTree(folders);
+      final routes = await _selectCounterpartyRepo.getRoutes();
+      final routesIds = routes.map((e) => e.refKey).toList();
+      buildTree(folders, routesIds);
     } catch (e) {
       emit(state.copyWith(status: SelectCounterpartyStatus.failure));
     }
@@ -47,7 +50,7 @@ class SelectCounterpartyCubit extends Cubit<SelectCounterpartyState> {
     }
   }
 
-  buildTree(List<Counterparty> folders) {
+  buildTree(List<Counterparty> folders, List<String> routes) {
     final Map<String, CounterpartyTree> map = {};
     final List<CounterpartyTree> roots = [
       CounterpartyTree(
@@ -62,22 +65,23 @@ class SelectCounterpartyCubit extends Cubit<SelectCounterpartyState> {
           isFolder: true)
     ];
 
-    for (var e in folders) {
-      final nom = CounterpartyTree.fromCounterparty(e);
-      map[nom.refKey] = nom;
+    final noms =
+        folders.map((e) => CounterpartyTree.fromCounterparty(e)).toList();
 
-      if (nom.isFolder &&
-          nom.parentKey == '00000000-0000-0000-0000-000000000000') {
+    for (var nom in noms) {
+      map[nom.refKey] = nom;
+    }
+
+    for (var nom in noms) {
+      if (nom.isFolder && routes.contains(nom.refKey)) {
         roots.add(nom);
       } else {
         map[nom.parentKey]?.addChild(nom);
       }
     }
-
-    emit(state.copyWith(
-      counterpartyTree: roots,
-    ));
+    emit(state.copyWith(counterpartyTree: roots));
   }
 
   clearCounterparty() => emit(state.copyWith(counterparty: []));
 }
+

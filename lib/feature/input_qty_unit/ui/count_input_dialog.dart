@@ -84,7 +84,11 @@ class _InputQtyUnitDialogState extends State<InputQtyUnitDialog> {
                     autofocus: true,
                     controller: controller,
                     keyboardType: TextInputType.number,
-                    decoration: const InputDecoration(labelText: 'Кількість'),
+                    decoration: InputDecoration(
+                        labelText: 'Кількість',
+                        suffixIcon: IconButton(
+                            onPressed: () {},
+                            icon: const Icon(Icons.calculate_outlined))),
                   ),
                 ),
                 const SizedBox(width: 4),

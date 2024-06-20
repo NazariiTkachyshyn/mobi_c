@@ -13,8 +13,8 @@ class SyncCubit extends Cubit<SyncState> {
     _syncData('Номенклатура', _dataSyncService.syncNomData());
     _syncData('Угоди', _dataSyncService.syncContractData());
     _syncData('Контрагенти', _dataSyncService.syncCounterpartyData());
-    _syncData('Знижки', _dataSyncService.syncDiscountData());
     _syncData('Од. виміру', _dataSyncService.syncUnitData());
+    _syncData('Знижки', _dataSyncService.syncDiscountData());
   }
 
   Future<void> syncAll() async {
@@ -22,8 +22,9 @@ class SyncCubit extends Cubit<SyncState> {
     _syncData('Номенклатура', _dataSyncService.syncNomData());
     _syncData('Угоди', _dataSyncService.syncContractData());
     _syncData('Контрагенти', _dataSyncService.syncCounterpartyData());
-    _syncData('Знижки', _dataSyncService.syncDiscountData());
     _syncData('Од. виміру', _dataSyncService.syncUnitData());
+    _syncData('Знижки', _dataSyncService.syncDiscountData());
+
     await _dataSyncService.downloadImage();
   }
 

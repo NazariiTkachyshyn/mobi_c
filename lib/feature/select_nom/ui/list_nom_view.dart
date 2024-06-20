@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:mobi_c/common/common.dart';
 import 'package:mobi_c/common/constants/key_const.dart';
+import 'package:mobi_c/common/widgets/slidable_component.dart';
 import 'package:mobi_c/feature/select_nom/cubit/select_nom_cubit.dart';
 import 'package:mobi_c/feature/select_nom/ui/dialog.dart';
 import 'package:mobi_c/feature/settings/cubit/settings_cubit.dart';
@@ -71,9 +72,14 @@ class _ListNomViewState extends State<ListNomView> {
                   itemCount: noms.length,
                   itemBuilder: (context, index) {
                     final nom = noms[index];
-                    return _SlidableComponent(
-                      nom: nom,
-                      onSelect: widget.onSelect,
+                    return SlidableComponent(
+                      lable: 'Залишок на складах',
+                      color: Colors.green,
+                      icon: Icons.storage_rounded,
+                      onPressed: (_) {
+                        context.read<SelectNomCubit>().getNomRemaining(nom.ref);
+                        remainingDialog(context);
+                      },
                       child: _ListViewItem(
                           nom: nom,
                           onSelect: widget.onSelect,
@@ -90,41 +96,8 @@ class _ListNomViewState extends State<ListNomView> {
   }
 }
 
-class _SlidableComponent extends StatelessWidget {
-  const _SlidableComponent(
-      {required this.nom, required this.onSelect, required this.child});
-  final Nom nom;
-  final Function(Nom nom, String qty, Unit init) onSelect;
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    ActionPane actionPane(Nom nom) {
-      return ActionPane(motion: const DrawerMotion(), children: [
-        SlidableAction(
-          borderRadius: const BorderRadius.all(Radius.circular(8)),
-          flex: 2,
-          onPressed: (value) {
-            context.read<SelectNomCubit>().getNomRemaining(nom.ref);
-            remainingDialog(context);
-          },
-          backgroundColor: Colors.green,
-          foregroundColor: Colors.white,
-          icon: Icons.storage_rounded,
-          label: 'Залишок на складах',
-        )
-      ]);
-    }
-
-    return Slidable(
-        endActionPane: actionPane(nom),
-        startActionPane: actionPane(nom),
-        child: child);
-  }
-}
-
 class _ListViewItem extends StatelessWidget {
-   const _ListViewItem(
+  const _ListViewItem(
       {required this.nom, required this.onSelect, required this.discount});
   final Nom nom;
   final Function(Nom nom, String qty, Unit unit) onSelect;

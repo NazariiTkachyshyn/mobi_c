@@ -23,6 +23,7 @@ import 'services/data_bases/object_box/models/image.dart';
 import 'services/data_bases/object_box/models/nom.dart';
 import 'services/data_bases/object_box/models/order.dart';
 import 'services/data_bases/object_box/models/order_nom.dart';
+import 'services/data_bases/object_box/models/route.dart';
 import 'services/data_bases/object_box/models/storage.dart';
 import 'services/data_bases/object_box/models/unit.dart';
 
@@ -149,7 +150,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
       id: const obx_int.IdUid(10, 5759294465032866587),
       name: 'Discount',
-      lastPropertyId: const obx_int.IdUid(3, 7831687243485353902),
+      lastPropertyId: const obx_int.IdUid(4, 835642782943392987),
       flags: 0,
       properties: <obx_int.ModelProperty>[
         obx_int.ModelProperty(
@@ -166,6 +167,11 @@ final _entities = <obx_int.ModelEntity>[
             id: const obx_int.IdUid(3, 7831687243485353902),
             name: 'percentDiscounts',
             type: 8,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(4, 835642782943392987),
+            name: 'lineNumber',
+            type: 9,
             flags: 0)
       ],
       relations: <obx_int.ModelRelation>[],
@@ -453,6 +459,30 @@ final _entities = <obx_int.ModelEntity>[
             flags: 0)
       ],
       relations: <obx_int.ModelRelation>[],
+      backlinks: <obx_int.ModelBacklink>[]),
+  obx_int.ModelEntity(
+      id: const obx_int.IdUid(20, 8440420398118128629),
+      name: 'ClientRoute',
+      lastPropertyId: const obx_int.IdUid(3, 6705487900373853905),
+      flags: 0,
+      properties: <obx_int.ModelProperty>[
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(1, 6375900555084225472),
+            name: 'id',
+            type: 6,
+            flags: 1),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(2, 3396620146322391117),
+            name: 'refKey',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(3, 6705487900373853905),
+            name: 'description',
+            type: 9,
+            flags: 0)
+      ],
+      relations: <obx_int.ModelRelation>[],
       backlinks: <obx_int.ModelBacklink>[])
 ];
 
@@ -491,7 +521,7 @@ Future<obx.Store> openStore(
 obx_int.ModelDefinition getObjectBoxModel() {
   final model = obx_int.ModelInfo(
       entities: _entities,
-      lastEntityId: const obx_int.IdUid(18, 3919612804243317385),
+      lastEntityId: const obx_int.IdUid(20, 8440420398118128629),
       lastIndexId: const obx_int.IdUid(3, 7103564559432852772),
       lastRelationId: const obx_int.IdUid(1, 722765356975776349),
       lastSequenceId: const obx_int.IdUid(0, 0),
@@ -503,7 +533,8 @@ obx_int.ModelDefinition getObjectBoxModel() {
         2530145175776008345,
         7267715397295541197,
         7933627278554947172,
-        1217038652377431431
+        1217038652377431431,
+        5505935820194913463
       ],
       retiredIndexUids: const [3024279412695165456, 9020169584786767910],
       retiredPropertyUids: const [
@@ -573,7 +604,11 @@ obx_int.ModelDefinition getObjectBoxModel() {
         7906024082909248668,
         3707222008438228901,
         8634112332784935050,
-        1341748683991012141
+        1341748683991012141,
+        7186105592673904592,
+        2817775012833110515,
+        5114499610979595010,
+        365647527067639562
       ],
       retiredRelationUids: const [722765356975776349],
       modelVersion: 5,
@@ -745,10 +780,12 @@ obx_int.ModelDefinition getObjectBoxModel() {
         objectToFB: (Discount object, fb.Builder fbb) {
           final discountRecipientKeyOffset =
               fbb.writeString(object.discountRecipientKey);
-          fbb.startTable(4);
+          final lineNumberOffset = fbb.writeString(object.lineNumber);
+          fbb.startTable(5);
           fbb.addInt64(0, object.id);
           fbb.addOffset(1, discountRecipientKeyOffset);
           fbb.addFloat64(2, object.percentDiscounts);
+          fbb.addOffset(3, lineNumberOffset);
           fbb.finish(fbb.endTable());
           return object.id;
         },
@@ -760,11 +797,14 @@ obx_int.ModelDefinition getObjectBoxModel() {
                   .vTableGet(buffer, rootOffset, 6, '');
           final percentDiscountsParam =
               const fb.Float64Reader().vTableGet(buffer, rootOffset, 8, 0);
+          final lineNumberParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 10, '');
           final idParam =
               const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
           final object = Discount(
               discountRecipientKey: discountRecipientKeyParam,
               percentDiscounts: percentDiscountsParam,
+              lineNumber: lineNumberParam,
               id: idParam);
 
           return object;
@@ -1116,6 +1156,39 @@ obx_int.ModelDefinition getObjectBoxModel() {
               ref: refParam, imageBase64: imageBase64Param, id: idParam);
 
           return object;
+        }),
+    ClientRoute: obx_int.EntityDefinition<ClientRoute>(
+        model: _entities[10],
+        toOneRelations: (ClientRoute object) => [],
+        toManyRelations: (ClientRoute object) => {},
+        getId: (ClientRoute object) => object.id,
+        setId: (ClientRoute object, int id) {
+          object.id = id;
+        },
+        objectToFB: (ClientRoute object, fb.Builder fbb) {
+          final refKeyOffset = fbb.writeString(object.refKey);
+          final descriptionOffset = fbb.writeString(object.description);
+          fbb.startTable(4);
+          fbb.addInt64(0, object.id);
+          fbb.addOffset(1, refKeyOffset);
+          fbb.addOffset(2, descriptionOffset);
+          fbb.finish(fbb.endTable());
+          return object.id;
+        },
+        objectFromFB: (obx.Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
+          final refKeyParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 6, '');
+          final descriptionParam =
+              const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 8, '');
+          final idParam =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
+          final object = ClientRoute(
+              refKey: refKeyParam, description: descriptionParam, id: idParam);
+
+          return object;
         })
   };
 
@@ -1216,6 +1289,10 @@ class Discount_ {
   /// see [Discount.percentDiscounts]
   static final percentDiscounts =
       obx.QueryDoubleProperty<Discount>(_entities[3].properties[2]);
+
+  /// see [Discount.lineNumber]
+  static final lineNumber =
+      obx.QueryStringProperty<Discount>(_entities[3].properties[3]);
 }
 
 /// [Nom] entity fields to define ObjectBox queries.
@@ -1412,4 +1489,19 @@ class ImageOb_ {
   /// see [ImageOb.imageBase64]
   static final imageBase64 =
       obx.QueryStringProperty<ImageOb>(_entities[9].properties[2]);
+}
+
+/// [ClientRoute] entity fields to define ObjectBox queries.
+class ClientRoute_ {
+  /// see [ClientRoute.id]
+  static final id =
+      obx.QueryIntegerProperty<ClientRoute>(_entities[10].properties[0]);
+
+  /// see [ClientRoute.refKey]
+  static final refKey =
+      obx.QueryStringProperty<ClientRoute>(_entities[10].properties[1]);
+
+  /// see [ClientRoute.description]
+  static final description =
+      obx.QueryStringProperty<ClientRoute>(_entities[10].properties[2]);
 }

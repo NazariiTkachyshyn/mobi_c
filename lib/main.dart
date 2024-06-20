@@ -9,7 +9,8 @@ import 'package:mobi_c/feature/select_counterparty/ui/select_counterparty_page.d
 import 'package:mobi_c/feature/select_nom/ui/select_nom_page.dart';
 import 'package:mobi_c/feature/settings/cubit/settings_cubit.dart';
 import 'package:mobi_c/feature/settings/ui/settings_page.dart';
-import 'package:mobi_c/feature/settings/ui/views/views.dart';
+import 'package:mobi_c/feature/settings/ui/pages/counterparty_page/counterparty_page.dart';
+import 'package:mobi_c/feature/settings/ui/pages/views.dart';
 import 'package:mobi_c/objectbox.g.dart';
 import 'package:mobi_c/ui/theme/app_theme.dart';
 import 'package:flutter/material.dart';
@@ -26,8 +27,6 @@ void main() async {
   objectbox = await ObjectBox.create();
 
   final store = objectbox.store;
-
-
 
   final odataApiClient = OdataApiClient();
 
@@ -58,8 +57,10 @@ class MainApp extends StatelessWidget {
         initialRoute: '/',
         routes: {
           '/': (context) => const HomePage(),
-          'settings':(context) => const SettingsPage(),
+          'settings': (context) => const SettingsPage(),
           'sync': (context) => const SyncPage(),
+          'settings_counterparty_view': (context) =>
+              const SettingsCounterpartyPage(),
           'createOrderPage': (context) => const CreateOrderPage(),
           'selectCounterparty': (context) => const SelectCounterpartyPage(),
           'selectNom': (context) => const SelectNomPage()

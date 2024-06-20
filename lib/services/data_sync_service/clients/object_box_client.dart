@@ -18,14 +18,9 @@ class DataSyncObjectBoxClient {
     }
   }
 
-  Future<List<SyncNom>> getAllNomsByStorage() async {
+  int getNomsCount()  {
     try {
-      final res = await _store
-          .box<Nom>()
-          .query(Nom_.storageKey.equals(KeyConst.storageKey))
-          .build()
-          .findAsync();
-      return res.map((e) => SyncNom.fromOb(e)).toList();
+      return _store.box<Nom>().count();
     } catch (e) {
       throw Exception(e);
     }
@@ -34,6 +29,19 @@ class DataSyncObjectBoxClient {
   Future<void> setNom(List<Nom> noms) async {
     try {
       await _store.box<Nom>().putManyAsync(noms);
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future<List<SyncNom>> getAllNomsByStorage() async {
+    try {
+      final res = await _store
+          .box<Nom>()
+          .query(Nom_.storageKey.equals(KeyConst.storageKey))
+          .build()
+          .findAsync();
+      return res.map((e) => SyncNom.fromOb(e)).toList();
     } catch (e) {
       throw Exception(e);
     }
@@ -55,6 +63,12 @@ class DataSyncObjectBoxClient {
     } catch (e) {
       throw Exception(e);
     }
+  } int getStoragesCount()  {
+    try {
+      return _store.box<Storage>().count();
+    } catch (e) {
+      throw Exception(e);
+    }
   }
 
   //^----------CONTRACT----------------
@@ -73,6 +87,12 @@ class DataSyncObjectBoxClient {
     } catch (e) {
       throw Exception(e);
     }
+  }  int getContractsCount()  {
+    try {
+      return _store.box<Contract>().count();
+    } catch (e) {
+      throw Exception(e);
+    }
   }
 
   //^----------Counterparty----------------
@@ -88,6 +108,12 @@ class DataSyncObjectBoxClient {
   Future<void> setCounterparty(List<Counterparty> counterpartys) async {
     try {
       await _store.box<Counterparty>().putManyAsync(counterpartys);
+    } catch (e) {
+      throw Exception(e);
+    }
+  } int getCounterpartysCount()  {
+    try {
+      return _store.box<Counterparty>().count();
     } catch (e) {
       throw Exception(e);
     }
@@ -111,6 +137,12 @@ class DataSyncObjectBoxClient {
     } catch (e) {
       throw Exception(e);
     }
+  }  int getDiscountsCount()  {
+    try {
+      return _store.box<Discount>().count();
+    } catch (e) {
+      throw Exception(e);
+    }
   }
 
   //^----------Unit----------------
@@ -126,6 +158,12 @@ class DataSyncObjectBoxClient {
   Future<void> setUnit(List<Unit> units) async {
     try {
       await _store.box<Unit>().putManyAsync(units);
+    } catch (e) {
+      throw Exception(e);
+    }
+  }  int getUnitsCount()  {
+    try {
+      return _store.box<Unit>().count();
     } catch (e) {
       throw Exception(e);
     }

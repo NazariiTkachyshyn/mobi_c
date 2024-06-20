@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:mobi_c/common/common.dart';
 import 'package:mobi_c/feature/select_nom/select_nom_repo/select_nom_repo.dart';
 import 'package:mobi_c/services/data_bases/object_box/models/models.dart';
 
@@ -42,11 +43,9 @@ class SelectNomCubit extends Cubit<SelectNomState> {
     }
   }
 
-
-   Future<void> getNomRemaining(String  ref) async {
+  Future<void> getNomRemaining(String ref) async {
     try {
-         emit(state.copyWith(
-          remaining: []));
+      emit(state.copyWith(remaining: []));
       final remaining = await _selectNomRepo.getNomRemaining(ref);
       emit(state.copyWith(
           remaining: remaining, status: SelectNomStatus.success));
@@ -56,6 +55,7 @@ class SelectNomCubit extends Cubit<SelectNomState> {
   }
 
   buildTree(List<Nom> folders) {
+    final noms = folders.map((e) => TreeNom.fromNom(e)).toList();
     final Map<String, TreeNom> map = {};
     final List<TreeNom> roots = [
       TreeNom(
@@ -78,17 +78,17 @@ class SelectNomCubit extends Cubit<SelectNomState> {
       '35e3c75c-24bf-11e1-b235-3e32ff0a5e79'
     ];
 
-    for (var e in folders) {
-      final nom = TreeNom.fromNom(e);
+    for (var nom in noms) {
       map[nom.ref] = nom;
+    }
 
+    for (var nom in noms) {
       if (nom.isFolder && specialRefs.contains(nom.ref)) {
         roots.add(nom);
       } else {
         map[nom.parentKey]?.addChild(nom);
       }
     }
-
     emit(state.copyWith(treeNom: roots));
   }
 

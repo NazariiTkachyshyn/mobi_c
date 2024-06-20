@@ -1,6 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:mobi_c/objectbox.g.dart';
-import 'package:mobi_c/services/data_bases/object_box/models/counterparty.dart';
+import 'package:mobi_c/services/data_bases/object_box/models/models.dart';
 
 class SelectCounterpartyClient {
   final _store = GetIt.I.get<Store>();
@@ -76,6 +76,14 @@ class SelectCounterpartyClient {
           .build()
         ..limit = 50;
       return await query.findAsync();
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+    Future<List<ClientRoute>> getRoutes() async {
+    try {
+      final query = _store.box<ClientRoute>().query().build();
+      return query.findAsync();
     } catch (e) {
       throw Exception(e);
     }

@@ -64,9 +64,9 @@ class _ListCounterpartyViewState extends State<ListCounterpartyView> {
                   controller: scrollController,
                   itemCount: counterpartys.length,
                   itemBuilder: (context, index) {
-                    final nom = counterpartys[index];
+                    final counterparty = counterpartys[index];
                     return _ListViewItem(
-                      counterparty: nom,
+                      counterparty: counterparty,
                       onSelect: widget.onSelect,
                     );
                   },

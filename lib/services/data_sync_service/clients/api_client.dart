@@ -16,7 +16,7 @@ class DataSyncApiClient {
   };
 
   //^----------NOMENKLATURA----------------
-  Future<List<SyncNom>> getAllNom() async {
+  Future<List<SyncNom>> getAllNoms() async {
     final uri = Uri.http(ApiConstants.odataHost,
         "${ApiConstants.odataPath}/InformationRegister_МобільнийКлієнтЗалишки?\$format=json");
 
@@ -141,10 +141,11 @@ class DataSyncApiClient {
   Future<List<SyncDiscount>> getAllDiscount() async {
     final uri = Uri.http(
         ApiConstants.odataHost,
-        '${ApiConstants.odataPath}/InformationRegister_СкидкиНаценкиНоменклатуры_RecordType',
+        '${ApiConstants.odataPath}/InformationRegister_СкидкиНаценкиНоменклатуры_RecordType/SliceLast',
         {
           "\$format": 'json',
           "\$select": "ПолучательСкидки,ПроцентСкидкиНаценки",
+          "\$filter": 'Active eq true'
         });
 
     try {
@@ -201,6 +202,25 @@ class DataSyncApiClient {
       return nomRes.bodyBytes;
     } else {
       return Uint8List(0);
+    }
+  }
+
+  Future<int> getCount(String catalog) async {
+    final uri = Uri.http(
+      ApiConstants.odataHost,
+      '${ApiConstants.odataPath}/$catalog',
+    );
+    try {
+      final nomRes = await http.get(uri, headers: headers);
+
+      if (nomRes.statusCode == 200) {
+        return int.parse(nomRes.body);
+      } else {
+        throw Exception(
+            "${nomRes.reasonPhrase ?? ''} ${nomRes.statusCode} ${utf8.decode(nomRes.bodyBytes)}");
+      }
+    } catch (e) {
+      throw Exception(e);
     }
   }
 }

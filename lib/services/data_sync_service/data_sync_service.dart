@@ -20,8 +20,15 @@ class DataSyncService {
 
   Future<int> syncNomData() async {
     try {
+      final dbCount = _dbClient.getNomsCount();
+      final apiCount = await _apiClient.getCount(
+          'InformationRegister_МобільнийКлієнтЗалишки/\$count?\$select=Ref_Key');
+      if (!validator.needsUpdated(apiCount, dbCount)) {
+        return 0;
+      }
+
       final dbData = await _dbClient.getAllNoms();
-      final apiData = await _apiClient.getAllNom();
+      final apiData = await _apiClient.getAllNoms();
 
       final validationResult = validator.validate(apiData, dbData);
 
@@ -38,6 +45,13 @@ class DataSyncService {
 
   Future<int> syncContractData() async {
     try {
+      final dbCount = _dbClient.getContractsCount();
+      final apiCount = await _apiClient
+          .getCount('Catalog_ДоговорыКонтрагентов/\$count?\$select=Ref_Key');
+      if (!validator.needsUpdated(apiCount, dbCount)) {
+        return 0;
+      }
+
       final dbData = await _dbClient.getAllContract();
       final apiData = await _apiClient.getAllContract();
 
@@ -56,6 +70,13 @@ class DataSyncService {
 
   Future<int> syncCounterpartyData() async {
     try {
+      final dbCount = _dbClient.getCounterpartysCount();
+      final apiCount = await _apiClient
+          .getCount('Catalog_Контрагенты/\$count?\$select=Ref_Key&\$filter=DeletionMark eq false');
+      if (!(validator.needsUpdated(apiCount, dbCount))) {
+        return 0;
+      }
+
       final dbData = await _dbClient.getAllCounterparty();
       final apiData = await _apiClient.getAllCounterparty();
 
@@ -74,6 +95,13 @@ class DataSyncService {
 
   Future<int> syncDiscountData() async {
     try {
+      final dbCount = _dbClient.getDiscountsCount();
+      final apiCount = await _apiClient.getCount(
+          'InformationRegister_СкидкиНаценкиНоменклатуры_RecordType/SliceLast/\$count?\$select=Номенклатура_Key&\$filter=Active eq true');
+      if (validator.needsUpdated(apiCount, dbCount) == false) {
+        return 0;
+      }
+
       final dbData = await _dbClient.getAllDiscount();
       final apiData = await _apiClient.getAllDiscount();
 
@@ -92,6 +120,13 @@ class DataSyncService {
 
   Future<int> syncUnitData() async {
     try {
+      final dbCount = _dbClient.getUnitsCount();
+      final apiCount = await _apiClient
+          .getCount('Catalog_ЕдиницыИзмерения/\$count?\$select=Ref_Key');
+      if (!validator.needsUpdated(apiCount, dbCount)) {
+        return 0;
+      }
+
       final dbData = await _dbClient.getAllUnit();
       final apiData = await _apiClient.getAllUnit();
 

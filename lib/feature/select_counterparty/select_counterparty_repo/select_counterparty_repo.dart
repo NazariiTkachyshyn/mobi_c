@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:mobi_c/feature/select_counterparty/select_counterparty_client/select_counterparty_client.dart';
 import 'package:mobi_c/services/data_bases/object_box/models/models.dart';
 
@@ -7,6 +8,8 @@ abstract interface class SelectCounterpartyRepo {
   Future<List<Counterparty>> searchInFolder(String value, String parentKey);
 
   Future<List<Counterparty>> getFolders();
+
+  Future<List<ClientRoute>> getRoutes();
 }
 
 class SelectCounterpartyRepoImpl implements SelectCounterpartyRepo {
@@ -40,6 +43,15 @@ class SelectCounterpartyRepoImpl implements SelectCounterpartyRepo {
       String value, String parentKey) async {
     try {
       return await _selectCounterpartyClient.searchInFolder(value, parentKey);
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  @override
+  Future<List<ClientRoute>> getRoutes() async {
+    try {
+      return await _selectCounterpartyClient.getRoutes();
     } catch (e) {
       throw Exception(e);
     }

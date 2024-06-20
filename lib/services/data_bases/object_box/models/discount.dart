@@ -7,15 +7,19 @@ class Discount {
   int id;
    String discountRecipientKey;
    double percentDiscounts;
+   String lineNumber;
 
   Discount(
       {required this.discountRecipientKey,
       required this.percentDiscounts,
+      required this.lineNumber,
       this.id = 0});
 
   factory Discount.fromApi(SyncDiscount discount) => Discount(
       discountRecipientKey: discount.discountRecipientKey,
-      percentDiscounts: discount.percentDiscounts);
+      percentDiscounts: discount.percentDiscounts,
+      lineNumber: discount.lineNumber
+      );
 
-  static final empty = Discount(discountRecipientKey: '', percentDiscounts: 0);
+  static final empty = Discount(discountRecipientKey: '', percentDiscounts: 0, lineNumber: '0');
 }
