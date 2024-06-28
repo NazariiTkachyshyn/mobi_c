@@ -1,6 +1,6 @@
-import 'package:mobi_c/common/constants/key_const.dart';
-import 'package:mobi_c/feature/select_nom/cubit/select_nom_cubit.dart';
+import 'package:mobi_c/common/models/config.dart';
 import 'package:mobi_c/services/data_bases/object_box/models/models.dart';
+import '../../../common/common.dart';
 import '../select_nom_client/select_nom_client.dart';
 
 abstract interface class SelectNomRepo {
@@ -10,7 +10,7 @@ abstract interface class SelectNomRepo {
 
   Future<List<Nom>> searchNomsInFolder(String value, String parentKey);
 
-  Future<List<Remaining>> getNomRemaining(String ref);
+  Future<List<Remaining>> getNomRemaining(String ref, List<ConfigStorage> storages);
 }
 
 class SelectNomRepoImpl implements SelectNomRepo {
@@ -50,14 +50,15 @@ class SelectNomRepoImpl implements SelectNomRepo {
   }
 
   @override
-  Future<List<Remaining>> getNomRemaining(String ref) async {
+  Future<List<Remaining>> getNomRemaining(String ref, List<ConfigStorage> storages) async {
+    
     try {
       final noms = await _selecNomClient.getNomRemaining(ref);
       return noms
           .map((e) => Remaining(
               storageKey: e.storageKey,
               remaining: e.remaining,
-              name: storages.firstWhere((s) => s['ref'] == e.storageKey)['name']))
+              name: storages.firstWhere((s) => s.refKey == e.storageKey).description))
           .toList();
     } catch (e) {
       throw Exception(e);

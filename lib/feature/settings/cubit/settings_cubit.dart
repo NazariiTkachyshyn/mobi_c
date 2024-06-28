@@ -6,6 +6,8 @@ part 'settings_state.dart';
 
 class SettingsCubit extends Cubit<SettingsState> {
   SettingsCubit() : super(const SettingsState());
+
+  
   changeViewType(ViewType viewType) {
     emit(state.copyWith(viewType: viewType));
   }

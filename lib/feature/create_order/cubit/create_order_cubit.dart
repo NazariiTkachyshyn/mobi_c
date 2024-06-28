@@ -131,7 +131,7 @@ class CreateOrderCubit extends Cubit<CreateOrderState> {
       int number = 1;
       for (final nom in state.noms) {
         products.add(nom.toJson(
-            number, KeyConst.storageKey, state.discount.percentDiscounts));
+            number, Key1Const.storageKey, state.discount.percentDiscounts));
         number++;
       }
       await _createOrderRepo.createOrder(state.order.toJson(products));

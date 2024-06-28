@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobi_c/auth/bloc/auth_bloc.dart';
+import 'package:mobi_c/common/widgets/widget.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
@@ -10,7 +13,7 @@ class SettingsPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Налаштування'),
       ),
-      body: ListView(
+      body: Column(
         children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(20, 5, 5, 5),
@@ -19,7 +22,6 @@ class SettingsPage extends StatelessWidget {
               style: theme.textTheme.titleMedium,
             ),
           ),
-          
           ListTile(
               leading: const Icon(Icons.sync),
               title: const Text('Синхронізація'),
@@ -36,6 +38,25 @@ class SettingsPage extends StatelessWidget {
             onTap: () =>
                 Navigator.pushNamed(context, 'settings_counterparty_view'),
           ),
+          const Spacer(),
+          ListTile(
+              leading: const SizedBox(
+                width: 24,
+              ),
+              title: const Text('Вийти'),
+              trailing: Icon(
+                Icons.exit_to_app_rounded,
+                color: Colors.red[900],
+              ),
+              onTap: () => showCheckDialog(
+                    context,
+                    title: 'Вихід',
+                    description:
+                        'Ви впевнені, що хочете вийти з акаунту.',
+                    onPressedAccept: () => context
+                        .read<AuthenticationBloc>()
+                        .add(AuthenticationLogoutRequested()),
+                  )),
         ],
       ),
     );

@@ -16,6 +16,7 @@ import 'package:objectbox/objectbox.dart' as obx;
 import 'package:objectbox_flutter_libs/objectbox_flutter_libs.dart';
 
 import 'services/data_bases/object_box/models/barcode.dart';
+import 'services/data_bases/object_box/models/config.dart';
 import 'services/data_bases/object_box/models/contract.dart';
 import 'services/data_bases/object_box/models/counterparty.dart';
 import 'services/data_bases/object_box/models/discount.dart';
@@ -483,6 +484,162 @@ final _entities = <obx_int.ModelEntity>[
             flags: 0)
       ],
       relations: <obx_int.ModelRelation>[],
+      backlinks: <obx_int.ModelBacklink>[]),
+  obx_int.ModelEntity(
+      id: const obx_int.IdUid(21, 1088902570074783361),
+      name: 'ConfigOb',
+      lastPropertyId: const obx_int.IdUid(4, 7702511690646570607),
+      flags: 0,
+      properties: <obx_int.ModelProperty>[
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(1, 3849375872318713865),
+            name: 'id',
+            type: 6,
+            flags: 1),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(2, 1110193107832685751),
+            name: 'dbConnId',
+            type: 11,
+            flags: 520,
+            indexId: const obx_int.IdUid(4, 520808824574097653),
+            relationTarget: 'DbConnOb'),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(3, 2996240061704075739),
+            name: 'imagesDbId',
+            type: 11,
+            flags: 520,
+            indexId: const obx_int.IdUid(5, 4746996137138788853),
+            relationTarget: 'ImagesDbOb'),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(4, 7702511690646570607),
+            name: 'keysId',
+            type: 11,
+            flags: 520,
+            indexId: const obx_int.IdUid(6, 6308282322637790738),
+            relationTarget: 'KeysOb')
+      ],
+      relations: <obx_int.ModelRelation>[
+        obx_int.ModelRelation(
+            id: const obx_int.IdUid(2, 2984543309158183382),
+            name: 'storages',
+            targetId: const obx_int.IdUid(25, 7468752713148675714))
+      ],
+      backlinks: <obx_int.ModelBacklink>[]),
+  obx_int.ModelEntity(
+      id: const obx_int.IdUid(22, 2779429368858638046),
+      name: 'DbConnOb',
+      lastPropertyId: const obx_int.IdUid(5, 7021340973833315505),
+      flags: 0,
+      properties: <obx_int.ModelProperty>[
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(1, 5717301174383419528),
+            name: 'id',
+            type: 6,
+            flags: 1),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(2, 2303190524906887985),
+            name: 'path',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(3, 3724537436326754630),
+            name: 'pass',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(4, 7068917289877108178),
+            name: 'host',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(5, 7021340973833315505),
+            name: 'user',
+            type: 9,
+            flags: 0)
+      ],
+      relations: <obx_int.ModelRelation>[],
+      backlinks: <obx_int.ModelBacklink>[]),
+  obx_int.ModelEntity(
+      id: const obx_int.IdUid(23, 7761497618026978471),
+      name: 'ImagesDbOb',
+      lastPropertyId: const obx_int.IdUid(3, 6019575295111854854),
+      flags: 0,
+      properties: <obx_int.ModelProperty>[
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(1, 3051213560645937744),
+            name: 'id',
+            type: 6,
+            flags: 1),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(2, 3851361234858607992),
+            name: 'port',
+            type: 6,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(3, 6019575295111854854),
+            name: 'host',
+            type: 9,
+            flags: 0)
+      ],
+      relations: <obx_int.ModelRelation>[],
+      backlinks: <obx_int.ModelBacklink>[]),
+  obx_int.ModelEntity(
+      id: const obx_int.IdUid(24, 5010045990031752180),
+      name: 'KeysOb',
+      lastPropertyId: const obx_int.IdUid(5, 3343891860151681651),
+      flags: 0,
+      properties: <obx_int.ModelProperty>[
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(1, 7564736904605314559),
+            name: 'id',
+            type: 6,
+            flags: 1),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(2, 1507578124710201840),
+            name: 'unitKey',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(3, 573581142904593742),
+            name: 'priceType',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(4, 448225652404686576),
+            name: 'currencyKey',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(5, 3343891860151681651),
+            name: 'organizationKey',
+            type: 9,
+            flags: 0)
+      ],
+      relations: <obx_int.ModelRelation>[],
+      backlinks: <obx_int.ModelBacklink>[]),
+  obx_int.ModelEntity(
+      id: const obx_int.IdUid(25, 7468752713148675714),
+      name: 'StorageOb',
+      lastPropertyId: const obx_int.IdUid(3, 1876389831725088987),
+      flags: 0,
+      properties: <obx_int.ModelProperty>[
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(1, 2550305237185546362),
+            name: 'id',
+            type: 6,
+            flags: 1),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(2, 4044747717814791801),
+            name: 'refKey',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(3, 1876389831725088987),
+            name: 'description',
+            type: 9,
+            flags: 0)
+      ],
+      relations: <obx_int.ModelRelation>[],
       backlinks: <obx_int.ModelBacklink>[])
 ];
 
@@ -521,9 +678,9 @@ Future<obx.Store> openStore(
 obx_int.ModelDefinition getObjectBoxModel() {
   final model = obx_int.ModelInfo(
       entities: _entities,
-      lastEntityId: const obx_int.IdUid(20, 8440420398118128629),
-      lastIndexId: const obx_int.IdUid(3, 7103564559432852772),
-      lastRelationId: const obx_int.IdUid(1, 722765356975776349),
+      lastEntityId: const obx_int.IdUid(25, 7468752713148675714),
+      lastIndexId: const obx_int.IdUid(6, 6308282322637790738),
+      lastRelationId: const obx_int.IdUid(2, 2984543309158183382),
       lastSequenceId: const obx_int.IdUid(0, 0),
       retiredEntityUids: const [
         6879025521139470878,
@@ -1189,6 +1346,198 @@ obx_int.ModelDefinition getObjectBoxModel() {
               refKey: refKeyParam, description: descriptionParam, id: idParam);
 
           return object;
+        }),
+    ConfigOb: obx_int.EntityDefinition<ConfigOb>(
+        model: _entities[11],
+        toOneRelations: (ConfigOb object) =>
+            [object.dbConn, object.imagesDb, object.keys],
+        toManyRelations: (ConfigOb object) =>
+            {obx_int.RelInfo<ConfigOb>.toMany(2, object.id): object.storages},
+        getId: (ConfigOb object) => object.id,
+        setId: (ConfigOb object, int id) {
+          object.id = id;
+        },
+        objectToFB: (ConfigOb object, fb.Builder fbb) {
+          fbb.startTable(5);
+          fbb.addInt64(0, object.id);
+          fbb.addInt64(1, object.dbConn.targetId);
+          fbb.addInt64(2, object.imagesDb.targetId);
+          fbb.addInt64(3, object.keys.targetId);
+          fbb.finish(fbb.endTable());
+          return object.id;
+        },
+        objectFromFB: (obx.Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
+          final idParam =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
+          final object = ConfigOb(id: idParam);
+          object.dbConn.targetId =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 6, 0);
+          object.dbConn.attach(store);
+          object.imagesDb.targetId =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 8, 0);
+          object.imagesDb.attach(store);
+          object.keys.targetId =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 10, 0);
+          object.keys.attach(store);
+          obx_int.InternalToManyAccess.setRelInfo<ConfigOb>(object.storages,
+              store, obx_int.RelInfo<ConfigOb>.toMany(2, object.id));
+          return object;
+        }),
+    DbConnOb: obx_int.EntityDefinition<DbConnOb>(
+        model: _entities[12],
+        toOneRelations: (DbConnOb object) => [],
+        toManyRelations: (DbConnOb object) => {},
+        getId: (DbConnOb object) => object.id,
+        setId: (DbConnOb object, int id) {
+          object.id = id;
+        },
+        objectToFB: (DbConnOb object, fb.Builder fbb) {
+          final pathOffset = fbb.writeString(object.path);
+          final passOffset = fbb.writeString(object.pass);
+          final hostOffset = fbb.writeString(object.host);
+          final userOffset = fbb.writeString(object.user);
+          fbb.startTable(6);
+          fbb.addInt64(0, object.id);
+          fbb.addOffset(1, pathOffset);
+          fbb.addOffset(2, passOffset);
+          fbb.addOffset(3, hostOffset);
+          fbb.addOffset(4, userOffset);
+          fbb.finish(fbb.endTable());
+          return object.id;
+        },
+        objectFromFB: (obx.Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
+          final idParam =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
+          final pathParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 6, '');
+          final passParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 8, '');
+          final hostParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 10, '');
+          final userParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 12, '');
+          final object = DbConnOb(
+              id: idParam,
+              path: pathParam,
+              pass: passParam,
+              host: hostParam,
+              user: userParam);
+
+          return object;
+        }),
+    ImagesDbOb: obx_int.EntityDefinition<ImagesDbOb>(
+        model: _entities[13],
+        toOneRelations: (ImagesDbOb object) => [],
+        toManyRelations: (ImagesDbOb object) => {},
+        getId: (ImagesDbOb object) => object.id,
+        setId: (ImagesDbOb object, int id) {
+          object.id = id;
+        },
+        objectToFB: (ImagesDbOb object, fb.Builder fbb) {
+          final hostOffset = fbb.writeString(object.host);
+          fbb.startTable(4);
+          fbb.addInt64(0, object.id);
+          fbb.addInt64(1, object.port);
+          fbb.addOffset(2, hostOffset);
+          fbb.finish(fbb.endTable());
+          return object.id;
+        },
+        objectFromFB: (obx.Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
+          final idParam =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
+          final portParam =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 6, 0);
+          final hostParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 8, '');
+          final object =
+              ImagesDbOb(id: idParam, port: portParam, host: hostParam);
+
+          return object;
+        }),
+    KeysOb: obx_int.EntityDefinition<KeysOb>(
+        model: _entities[14],
+        toOneRelations: (KeysOb object) => [],
+        toManyRelations: (KeysOb object) => {},
+        getId: (KeysOb object) => object.id,
+        setId: (KeysOb object, int id) {
+          object.id = id;
+        },
+        objectToFB: (KeysOb object, fb.Builder fbb) {
+          final unitKeyOffset = fbb.writeString(object.unitKey);
+          final priceTypeOffset = fbb.writeString(object.priceType);
+          final currencyKeyOffset = fbb.writeString(object.currencyKey);
+          final organizationKeyOffset = fbb.writeString(object.organizationKey);
+          fbb.startTable(6);
+          fbb.addInt64(0, object.id);
+          fbb.addOffset(1, unitKeyOffset);
+          fbb.addOffset(2, priceTypeOffset);
+          fbb.addOffset(3, currencyKeyOffset);
+          fbb.addOffset(4, organizationKeyOffset);
+          fbb.finish(fbb.endTable());
+          return object.id;
+        },
+        objectFromFB: (obx.Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
+          final idParam =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
+          final unitKeyParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 6, '');
+          final priceTypeParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 8, '');
+          final currencyKeyParam =
+              const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 10, '');
+          final organizationKeyParam =
+              const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 12, '');
+          final object = KeysOb(
+              id: idParam,
+              unitKey: unitKeyParam,
+              priceType: priceTypeParam,
+              currencyKey: currencyKeyParam,
+              organizationKey: organizationKeyParam);
+
+          return object;
+        }),
+    StorageOb: obx_int.EntityDefinition<StorageOb>(
+        model: _entities[15],
+        toOneRelations: (StorageOb object) => [],
+        toManyRelations: (StorageOb object) => {},
+        getId: (StorageOb object) => object.id,
+        setId: (StorageOb object, int id) {
+          object.id = id;
+        },
+        objectToFB: (StorageOb object, fb.Builder fbb) {
+          final refKeyOffset = fbb.writeString(object.refKey);
+          final descriptionOffset = fbb.writeString(object.description);
+          fbb.startTable(4);
+          fbb.addInt64(0, object.id);
+          fbb.addOffset(1, refKeyOffset);
+          fbb.addOffset(2, descriptionOffset);
+          fbb.finish(fbb.endTable());
+          return object.id;
+        },
+        objectFromFB: (obx.Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
+          final idParam =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
+          final refKeyParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 6, '');
+          final descriptionParam =
+              const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 8, '');
+          final object = StorageOb(
+              id: idParam, refKey: refKeyParam, description: descriptionParam);
+
+          return object;
         })
   };
 
@@ -1504,4 +1853,103 @@ class ClientRoute_ {
   /// see [ClientRoute.description]
   static final description =
       obx.QueryStringProperty<ClientRoute>(_entities[10].properties[2]);
+}
+
+/// [ConfigOb] entity fields to define ObjectBox queries.
+class ConfigOb_ {
+  /// see [ConfigOb.id]
+  static final id =
+      obx.QueryIntegerProperty<ConfigOb>(_entities[11].properties[0]);
+
+  /// see [ConfigOb.dbConn]
+  static final dbConn =
+      obx.QueryRelationToOne<ConfigOb, DbConnOb>(_entities[11].properties[1]);
+
+  /// see [ConfigOb.imagesDb]
+  static final imagesDb =
+      obx.QueryRelationToOne<ConfigOb, ImagesDbOb>(_entities[11].properties[2]);
+
+  /// see [ConfigOb.keys]
+  static final keys =
+      obx.QueryRelationToOne<ConfigOb, KeysOb>(_entities[11].properties[3]);
+
+  /// see [ConfigOb.storages]
+  static final storages =
+      obx.QueryRelationToMany<ConfigOb, StorageOb>(_entities[11].relations[0]);
+}
+
+/// [DbConnOb] entity fields to define ObjectBox queries.
+class DbConnOb_ {
+  /// see [DbConnOb.id]
+  static final id =
+      obx.QueryIntegerProperty<DbConnOb>(_entities[12].properties[0]);
+
+  /// see [DbConnOb.path]
+  static final path =
+      obx.QueryStringProperty<DbConnOb>(_entities[12].properties[1]);
+
+  /// see [DbConnOb.pass]
+  static final pass =
+      obx.QueryStringProperty<DbConnOb>(_entities[12].properties[2]);
+
+  /// see [DbConnOb.host]
+  static final host =
+      obx.QueryStringProperty<DbConnOb>(_entities[12].properties[3]);
+
+  /// see [DbConnOb.user]
+  static final user =
+      obx.QueryStringProperty<DbConnOb>(_entities[12].properties[4]);
+}
+
+/// [ImagesDbOb] entity fields to define ObjectBox queries.
+class ImagesDbOb_ {
+  /// see [ImagesDbOb.id]
+  static final id =
+      obx.QueryIntegerProperty<ImagesDbOb>(_entities[13].properties[0]);
+
+  /// see [ImagesDbOb.port]
+  static final port =
+      obx.QueryIntegerProperty<ImagesDbOb>(_entities[13].properties[1]);
+
+  /// see [ImagesDbOb.host]
+  static final host =
+      obx.QueryStringProperty<ImagesDbOb>(_entities[13].properties[2]);
+}
+
+/// [KeysOb] entity fields to define ObjectBox queries.
+class KeysOb_ {
+  /// see [KeysOb.id]
+  static final id =
+      obx.QueryIntegerProperty<KeysOb>(_entities[14].properties[0]);
+
+  /// see [KeysOb.unitKey]
+  static final unitKey =
+      obx.QueryStringProperty<KeysOb>(_entities[14].properties[1]);
+
+  /// see [KeysOb.priceType]
+  static final priceType =
+      obx.QueryStringProperty<KeysOb>(_entities[14].properties[2]);
+
+  /// see [KeysOb.currencyKey]
+  static final currencyKey =
+      obx.QueryStringProperty<KeysOb>(_entities[14].properties[3]);
+
+  /// see [KeysOb.organizationKey]
+  static final organizationKey =
+      obx.QueryStringProperty<KeysOb>(_entities[14].properties[4]);
+}
+
+/// [StorageOb] entity fields to define ObjectBox queries.
+class StorageOb_ {
+  /// see [StorageOb.id]
+  static final id =
+      obx.QueryIntegerProperty<StorageOb>(_entities[15].properties[0]);
+
+  /// see [StorageOb.refKey]
+  static final refKey =
+      obx.QueryStringProperty<StorageOb>(_entities[15].properties[1]);
+
+  /// see [StorageOb.description]
+  static final description =
+      obx.QueryStringProperty<StorageOb>(_entities[15].properties[2]);
 }

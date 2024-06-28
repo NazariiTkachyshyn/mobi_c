@@ -1,7 +1,6 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:mobi_c/common/common.dart';
 import 'package:mobi_c/common/constants/key_const.dart';
 import 'package:mobi_c/common/widgets/slidable_component.dart';

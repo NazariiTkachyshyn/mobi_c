@@ -45,8 +45,8 @@ class OrderNom {
   Map<String, dynamic> toJson(int number, String storageKey, double discount) => {
         'LineNumber': number,
         'Номенклатура_Key': ref,
-        "ЕдиницаИзмерения_Key": KeyConst.unitKey,
-        'Склад_Key': KeyConst.storageKey,
+        "ЕдиницаИзмерения_Key": Key1Const.unitKey,
+        'Склад_Key': Key1Const.storageKey,
         'КоличествоУпаковок': qty,
         "ЕдиницаИзмерения_Key": unitKey,
         'Количество': qty,
@@ -59,7 +59,7 @@ class OrderNom {
         "УсловиеАвтоматическойСкидки": "ПоКоличествуТовара",
         "ЗначениеУсловияАвтоматическойСкидки": "0",
         "ЗначениеУсловияАвтоматическойСкидки_Type": "Edm.Double",
-        'ТипЦен_Key': KeyConst.priceType,
+        'ТипЦен_Key': Key1Const.priceType,
         'ВариантОбеспечения': 'Отгрузить',
       };
 }

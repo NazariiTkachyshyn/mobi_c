@@ -9,14 +9,14 @@ import 'validator.dart';
 import 'updater.dart';
 
 class DataSyncService {
-  final DataSyncApiClient _apiClient = DataSyncApiClient();
+  final DataSyncApiClient _apiClient;
   final DataSyncObjectBoxClient _dbClient =
       DataSyncObjectBoxClient(store: GetIt.I.get<Store>());
   final Validator validator = Validator();
   final Updater updater =
       Updater(dbService: DataSyncObjectBoxClient(store: GetIt.I.get<Store>()));
 
-  DataSyncService();
+  DataSyncService(this._apiClient);
 
   Future<int> syncNomData() async {
     try {

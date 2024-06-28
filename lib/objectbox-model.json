@@ -456,11 +456,171 @@
         }
       ],
       "relations": []
+    },
+    {
+      "id": "21:1088902570074783361",
+      "lastPropertyId": "4:7702511690646570607",
+      "name": "ConfigOb",
+      "properties": [
+        {
+          "id": "1:3849375872318713865",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:1110193107832685751",
+          "name": "dbConnId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "4:520808824574097653",
+          "relationTarget": "DbConnOb"
+        },
+        {
+          "id": "3:2996240061704075739",
+          "name": "imagesDbId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "5:4746996137138788853",
+          "relationTarget": "ImagesDbOb"
+        },
+        {
+          "id": "4:7702511690646570607",
+          "name": "keysId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "6:6308282322637790738",
+          "relationTarget": "KeysOb"
+        }
+      ],
+      "relations": [
+        {
+          "id": "2:2984543309158183382",
+          "name": "storages",
+          "targetId": "25:7468752713148675714"
+        }
+      ]
+    },
+    {
+      "id": "22:2779429368858638046",
+      "lastPropertyId": "5:7021340973833315505",
+      "name": "DbConnOb",
+      "properties": [
+        {
+          "id": "1:5717301174383419528",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:2303190524906887985",
+          "name": "path",
+          "type": 9
+        },
+        {
+          "id": "3:3724537436326754630",
+          "name": "pass",
+          "type": 9
+        },
+        {
+          "id": "4:7068917289877108178",
+          "name": "host",
+          "type": 9
+        },
+        {
+          "id": "5:7021340973833315505",
+          "name": "user",
+          "type": 9
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "23:7761497618026978471",
+      "lastPropertyId": "3:6019575295111854854",
+      "name": "ImagesDbOb",
+      "properties": [
+        {
+          "id": "1:3051213560645937744",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:3851361234858607992",
+          "name": "port",
+          "type": 6
+        },
+        {
+          "id": "3:6019575295111854854",
+          "name": "host",
+          "type": 9
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "24:5010045990031752180",
+      "lastPropertyId": "5:3343891860151681651",
+      "name": "KeysOb",
+      "properties": [
+        {
+          "id": "1:7564736904605314559",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:1507578124710201840",
+          "name": "unitKey",
+          "type": 9
+        },
+        {
+          "id": "3:573581142904593742",
+          "name": "priceType",
+          "type": 9
+        },
+        {
+          "id": "4:448225652404686576",
+          "name": "currencyKey",
+          "type": 9
+        },
+        {
+          "id": "5:3343891860151681651",
+          "name": "organizationKey",
+          "type": 9
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "25:7468752713148675714",
+      "lastPropertyId": "3:1876389831725088987",
+      "name": "StorageOb",
+      "properties": [
+        {
+          "id": "1:2550305237185546362",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:4044747717814791801",
+          "name": "refKey",
+          "type": 9
+        },
+        {
+          "id": "3:1876389831725088987",
+          "name": "description",
+          "type": 9
+        }
+      ],
+      "relations": []
     }
   ],
-  "lastEntityId": "20:8440420398118128629",
-  "lastIndexId": "3:7103564559432852772",
-  "lastRelationId": "1:722765356975776349",
+  "lastEntityId": "25:7468752713148675714",
+  "lastIndexId": "6:6308282322637790738",
+  "lastRelationId": "2:2984543309158183382",
   "lastSequenceId": "0:0",
   "modelVersion": 5,
   "modelVersionParserMinimum": 5,

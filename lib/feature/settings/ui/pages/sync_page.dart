@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobi_c/common/common.dart';
 import 'package:mobi_c/feature/settings/cubit/sync_cubit.dart';
+import 'package:mobi_c/services/data_sync_service/clients/api_client.dart';
 import 'package:mobi_c/services/data_sync_service/data_sync_service.dart';
 
 class SyncPage extends StatelessWidget {
@@ -11,7 +12,8 @@ class SyncPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        create: (context) => SyncCubit(DataSyncService()),
+        create: (context) => SyncCubit(DataSyncService(
+            DataSyncApiClient())),
         child: const SyncView());
   }
 }

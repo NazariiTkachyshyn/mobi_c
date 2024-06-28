@@ -1,15 +1,17 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:mobi_c/common/common.dart';
+import 'package:mobi_c/common/config/cubit/config_cubit.dart';
 import 'package:mobi_c/feature/select_nom/select_nom_repo/select_nom_repo.dart';
 import 'package:mobi_c/services/data_bases/object_box/models/models.dart';
 
 part 'select_nom_state.dart';
 
 class SelectNomCubit extends Cubit<SelectNomState> {
-  SelectNomCubit(this._selectNomRepo) : super(const SelectNomState());
+  SelectNomCubit(this._selectNomRepo, this._configState) : super(const SelectNomState());
 
   final SelectNomRepo _selectNomRepo;
+  final ConfigState _configState;
 
   getFolders() async {
     try {
@@ -43,10 +45,10 @@ class SelectNomCubit extends Cubit<SelectNomState> {
     }
   }
 
-  Future<void> getNomRemaining(String ref) async {
+  Future<void> getNomRemaining(String ref, ) async {
     try {
       emit(state.copyWith(remaining: []));
-      final remaining = await _selectNomRepo.getNomRemaining(ref);
+      final remaining = await _selectNomRepo.getNomRemaining(ref, _configState.storages);
       emit(state.copyWith(
           remaining: remaining, status: SelectNomStatus.success));
     } catch (e) {

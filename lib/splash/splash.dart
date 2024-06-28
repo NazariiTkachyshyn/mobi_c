@@ -1,0 +1,1 @@
+export 'package:mobi_c/splash/view/splash_page.dart';

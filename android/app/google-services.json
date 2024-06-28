@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "659393448514",
+    "project_id": "mobicusers",
+    "storage_bucket": "mobicusers.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:659393448514:android:e9c3ffffd42b2a5cadfbdb",
+        "android_client_info": {
+          "package_name": "com.example.admin"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDLgUGHocw2nTIV56Olc-hxL9fjE3o7ljk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:659393448514:android:39f87fd9966efbecadfbdb",
+        "android_client_info": {
+          "package_name": "com.example.mobi_c"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDLgUGHocw2nTIV56Olc-hxL9fjE3o7ljk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

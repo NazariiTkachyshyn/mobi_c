@@ -38,7 +38,7 @@ class DataSyncObjectBoxClient {
     try {
       final res = await _store
           .box<Nom>()
-          .query(Nom_.storageKey.equals(KeyConst.storageKey))
+          .query(Nom_.storageKey.equals(Key1Const.storageKey))
           .build()
           .findAsync();
       return res.map((e) => SyncNom.fromOb(e)).toList();

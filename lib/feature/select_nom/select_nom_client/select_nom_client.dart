@@ -12,7 +12,7 @@ class SelectNomClient {
           .box<Nom>()
           .query(Nom_.isFolder
               .equals(true)
-              .and(Nom_.storageKey.endsWith(KeyConst.storageKey)))
+              .and(Nom_.storageKey.endsWith(Key1Const.storageKey)))
           .order(Nom_.description)
           .build()
           .findAsync();
@@ -30,7 +30,7 @@ class SelectNomClient {
           .box<Nom>()
           .query(isEqParentKey
               .and(Nom_.isFolder.equals(false))
-              .and(Nom_.storageKey.equals(KeyConst.storageKey)))
+              .and(Nom_.storageKey.equals(Key1Const.storageKey)))
           .order(Nom_.article)
           .build()
         ..limit = 30
@@ -61,7 +61,7 @@ class SelectNomClient {
           .box<Nom>()
           .query(contains
               .and(Nom_.isFolder.equals(false))
-              .and(Nom_.storageKey.equals(KeyConst.storageKey))
+              .and(Nom_.storageKey.equals(Key1Const.storageKey))
               .and(isEqParentKey))
           .order(Nom_.article)
           .build()
