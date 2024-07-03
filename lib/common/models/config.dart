@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:mobi_c/services/data_bases/object_box/models/config.dart';
+import 'package:mobi_c/services/data_base/object_box/models/config.dart';
 
 class ConfigModel extends Equatable {
   final List<ConfigStorage> storages;

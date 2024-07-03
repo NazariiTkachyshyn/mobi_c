@@ -5,7 +5,7 @@ import 'package:mobi_c/feature/select_counterparty/cubit/select_counterparty_cub
 import 'package:mobi_c/feature/select_counterparty/select_counterparty_client/select_counterparty_client.dart';
 import 'package:mobi_c/feature/select_counterparty/select_counterparty_repo/select_counterparty_repo.dart';
 import 'package:mobi_c/feature/select_counterparty/ui/list_nom_view.dart';
-import 'package:mobi_c/services/data_bases/object_box/models/models.dart';
+import 'package:mobi_c/services/data_base/object_box/models/models.dart';
 
 class SelectCounterpartyPage extends StatelessWidget {
   const SelectCounterpartyPage({super.key});

@@ -1,4 +1,4 @@
-import 'package:mobi_c/services/data_bases/object_box/models/models.dart';
+import 'package:mobi_c/services/data_base/object_box/models/models.dart';
 
 class TreeNom {
   final int id;

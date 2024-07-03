@@ -1,12 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:global_configuration/global_configuration.dart';
 import 'package:mobi_c/common/common.dart';
-import 'package:mobi_c/common/config/config_repo/config_repo.dart';
-import 'package:mobi_c/common/constants/const.dart';
-import 'package:mobi_c/common/models/config.dart';
+import 'package:mobi_c/repository/config_repo/config_repo.dart';
+
 import 'package:mobi_c/feature/select_nom/select_nom_repo/select_nom_repo.dart';
-import 'package:mobi_c/services/data_bases/object_box/models/models.dart';
+import 'package:mobi_c/services/data_base/object_box/models/models.dart';
 
 part 'select_nom_state.dart';
 

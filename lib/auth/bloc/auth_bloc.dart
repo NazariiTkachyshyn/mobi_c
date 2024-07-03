@@ -2,10 +2,9 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:get_it/get_it.dart';
 import 'package:mobi_c/auth/models.dart/user.dart';
-import 'package:mobi_c/common/config/config_repo/config_repo.dart';
-import 'package:mobi_c/repository/user_repository.dart';
+import 'package:mobi_c/repository/config_repo/config_repo.dart';
+import 'package:mobi_c/repository/user_repo/user_repository.dart';
 import 'package:mobi_c/repository/authentication_repository/authentication_repository.dart';
 
 part 'auth_event.dart';
@@ -65,12 +64,4 @@ class AuthenticationBloc
     ();
   }
 
-  Future<User?> _tryGetUser() async {
-    try {
-      final user = await _userRepository.getUser();
-      return user;
-    } catch (_) {
-      return null;
     }
-  }
-}

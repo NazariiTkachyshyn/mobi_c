@@ -15,18 +15,18 @@ import 'package:objectbox/internal.dart'
 import 'package:objectbox/objectbox.dart' as obx;
 import 'package:objectbox_flutter_libs/objectbox_flutter_libs.dart';
 
-import 'services/data_bases/object_box/models/barcode.dart';
-import 'services/data_bases/object_box/models/config.dart';
-import 'services/data_bases/object_box/models/contract.dart';
-import 'services/data_bases/object_box/models/counterparty.dart';
-import 'services/data_bases/object_box/models/discount.dart';
-import 'services/data_bases/object_box/models/image.dart';
-import 'services/data_bases/object_box/models/nom.dart';
-import 'services/data_bases/object_box/models/order.dart';
-import 'services/data_bases/object_box/models/order_nom.dart';
-import 'services/data_bases/object_box/models/route.dart';
-import 'services/data_bases/object_box/models/storage.dart';
-import 'services/data_bases/object_box/models/unit.dart';
+import 'services/data_base/object_box/models/barcode.dart';
+import 'services/data_base/object_box/models/config.dart';
+import 'services/data_base/object_box/models/contract.dart';
+import 'services/data_base/object_box/models/counterparty.dart';
+import 'services/data_base/object_box/models/discount.dart';
+import 'services/data_base/object_box/models/image.dart';
+import 'services/data_base/object_box/models/nom.dart';
+import 'services/data_base/object_box/models/order.dart';
+import 'services/data_base/object_box/models/order_nom.dart';
+import 'services/data_base/object_box/models/route.dart';
+import 'services/data_base/object_box/models/storage.dart';
+import 'services/data_base/object_box/models/unit.dart';
 
 export 'package:objectbox/objectbox.dart'; // so that callers only have to import this file
 

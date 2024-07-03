@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import '../../data_bases/object_box/models/contract.dart';
+import '../../data_base/object_box/models/contract.dart';
 
 class SyncContract extends Equatable {
   final String refKey;

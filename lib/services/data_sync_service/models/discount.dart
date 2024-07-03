@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:equatable/equatable.dart';
-import 'package:mobi_c/services/data_bases/object_box/models/discount.dart';
+import 'package:mobi_c/services/data_base/object_box/models/discount.dart';
 
 class SyncDiscount extends Equatable {
   final String discountRecipientKey;

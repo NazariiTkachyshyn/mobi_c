@@ -1,5 +1,3 @@
-import 'package:get_it/get_it.dart';
-import 'package:mobi_c/clients/odata_api_clients/odata_api_client.dart';
 import 'package:mobi_c/common/common.dart';
 import 'package:mobi_c/feature/create_order/create_order_client/cerate_order_client.dart';
 import 'package:mobi_c/feature/create_order/create_order_repo/create_order_repo.dart';
@@ -10,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobi_c/feature/create_order/ui/product_view.dart';
 import 'package:mobi_c/feature/settings/cubit/settings_cubit.dart';
-import 'package:mobi_c/services/data_bases/object_box/models/models.dart';
 
 class CreateOrderPage extends StatelessWidget {
   const CreateOrderPage({super.key});
@@ -20,7 +17,7 @@ class CreateOrderPage extends StatelessWidget {
     return BlocProvider(
         create: (context) => CreateOrderCubit(CreateOrderRepoImpl(
             createOrderClient: CreateOrderClient(),
-            odataApiClient: GetIt.I.get<OdataApiClient>())),
+          )),
         child: const _CreateOrderPage());
   }
 }
@@ -134,7 +131,7 @@ class _CreateOrderPageState extends State<_CreateOrderPage>
             bottom: TabBar(
               controller: tabController,
               onTap: (value) {
-                final state = context.read<CreateOrderCubit>().state;
+                // final state = context.read<CreateOrderCubit>().state;
       
                 // if (value != 0 && state.counterparty == Counterparty.empty) {
                 //   tabController.index = 0;

@@ -1,9 +1,9 @@
 import 'package:mobi_c/services/data_sync_service/models/models.dart';
-import 'package:mobi_c/services/data_bases/object_box/models/contract.dart';
-import 'package:mobi_c/services/data_bases/object_box/models/counterparty.dart';
-import 'package:mobi_c/services/data_bases/object_box/models/discount.dart';
-import 'package:mobi_c/services/data_bases/object_box/models/nom.dart';
-import 'package:mobi_c/services/data_bases/object_box/models/unit.dart';
+import 'package:mobi_c/services/data_base/object_box/models/contract.dart';
+import 'package:mobi_c/services/data_base/object_box/models/counterparty.dart';
+import 'package:mobi_c/services/data_base/object_box/models/discount.dart';
+import 'package:mobi_c/services/data_base/object_box/models/nom.dart';
+import 'package:mobi_c/services/data_base/object_box/models/unit.dart';
 import 'package:mobi_c/services/data_sync_service/clients/object_box_client.dart';
 
 class Updater {

@@ -1,6 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:mobi_c/feature/select_counterparty/select_counterparty_client/select_counterparty_client.dart';
-import 'package:mobi_c/services/data_bases/object_box/models/models.dart';
+import 'package:mobi_c/services/data_base/object_box/models/models.dart';
 
 abstract interface class SelectCounterpartyRepo {
   Future<List<Counterparty>> getByParentKey(String parentKey, int offset);

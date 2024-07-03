@@ -1,5 +1,5 @@
-import 'package:mobi_c/common/config/config_repo/config_repo.dart';
-import 'package:mobi_c/services/data_bases/object_box/models/nom.dart';
+import 'package:mobi_c/repository/config_repo/config_repo.dart';
+import 'package:mobi_c/services/data_base/object_box/models/nom.dart';
 import 'package:objectbox/objectbox.dart';
 
 @Entity()
@@ -42,19 +42,17 @@ class OrderNom {
       ratio: 1,
       unitName: '');
 
-  Map<String, dynamic> toJson(int number, String storageKey, double discount) => {
+  Map<String, dynamic> toJson(int number, String storageKey, double discount) =>
+      {
         'LineNumber': number,
         'Номенклатура_Key': ref,
-        "ЕдиницаИзмерения_Key": Config.unitKey,
         'Склад_Key': Config.storageKey,
         'КоличествоУпаковок': qty,
         "ЕдиницаИзмерения_Key": unitKey,
         'Количество': qty,
         'Цена': price,
         "Коэффициент": 1,
-        'Номенклатура_Key': ref,
         'СтавкаНДС': 'НДС20',
-        'Цена': price,
         "ПроцентАвтоматическихСкидок": discount,
         "УсловиеАвтоматическойСкидки": "ПоКоличествуТовара",
         "ЗначениеУсловияАвтоматическойСкидки": "0",

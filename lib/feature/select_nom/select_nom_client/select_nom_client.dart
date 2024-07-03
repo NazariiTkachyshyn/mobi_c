@@ -1,7 +1,7 @@
 import 'package:get_it/get_it.dart';
-import 'package:mobi_c/common/config/config_repo/config_repo.dart';
+import 'package:mobi_c/repository/config_repo/config_repo.dart';
 import 'package:mobi_c/objectbox.g.dart';
-import 'package:mobi_c/services/data_bases/object_box/models/models.dart';
+import 'package:mobi_c/services/data_base/object_box/models/models.dart';
 
 class SelectNomClient {
   final _store = GetIt.I.get<Store>();

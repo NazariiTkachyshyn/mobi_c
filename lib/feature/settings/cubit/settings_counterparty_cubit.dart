@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:mobi_c/common/models/models.dart';
 import 'package:mobi_c/feature/settings/settings_repo/settings_repo.dart';
-import 'package:mobi_c/services/data_bases/object_box/models/models.dart';
+import 'package:mobi_c/services/data_base/object_box/models/models.dart';
 
 part 'settings_counterparty_state.dart';
 

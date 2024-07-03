@@ -7,7 +7,7 @@ import 'package:mobi_c/feature/select_nom/select_nom_repo/select_nom_repo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobi_c/feature/select_nom/ui/list_nom_view.dart';
-import 'package:mobi_c/services/data_bases/object_box/models/models.dart';
+import 'package:mobi_c/services/data_base/object_box/models/models.dart';
 
 
 class SelectNomPage extends StatelessWidget {

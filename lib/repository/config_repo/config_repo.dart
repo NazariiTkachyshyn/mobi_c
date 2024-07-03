@@ -5,7 +5,7 @@ import 'package:get_it/get_it.dart';
 import 'package:mobi_c/common/models/config.dart';
 import 'package:mobi_c/objectbox.g.dart';
 import 'package:mobi_c/repository/authentication_repository/models/user.dart';
-import 'package:mobi_c/services/data_bases/object_box/models/route.dart';
+import 'package:mobi_c/services/data_base/object_box/models/route.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ConfigRepo {

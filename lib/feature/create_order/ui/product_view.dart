@@ -9,8 +9,7 @@ import 'package:mobi_c/feature/input_qty_unit/client/client.dart';
 import 'package:mobi_c/feature/input_qty_unit/cubit/input_qty_unit_cubit.dart';
 import 'package:mobi_c/feature/input_qty_unit/ui/count_input_dialog.dart';
 import 'package:mobi_c/feature/settings/cubit/settings_cubit.dart';
-import 'package:mobi_c/services/data_bases/object_box/models/models.dart';
-import 'package:mobi_c/ui/components/widgets/text_field_button.dart';
+import 'package:mobi_c/services/data_base/object_box/models/models.dart';
 
 class ProductView extends StatelessWidget {
   const ProductView({super.key});

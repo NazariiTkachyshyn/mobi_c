@@ -1,5 +1,5 @@
 import 'package:mobi_c/common/models/config.dart';
-import 'package:mobi_c/services/data_bases/object_box/models/models.dart';
+import 'package:mobi_c/services/data_base/object_box/models/models.dart';
 import '../../../common/common.dart';
 import '../select_nom_client/select_nom_client.dart';
 

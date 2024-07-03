@@ -1,7 +1,7 @@
 import 'package:animations/animations.dart';
 import 'package:mobi_c/feature/create_order/cubit/create_order_cubit.dart';
-import 'package:mobi_c/services/data_bases/object_box/models/models.dart';
-import 'package:mobi_c/ui/components/widgets/text_field_button.dart';
+import 'package:mobi_c/services/data_base/object_box/models/models.dart';
+import 'package:mobi_c/common/ui/widgets/text_field_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobi_c/auth/bloc/auth_bloc.dart';
-import 'package:mobi_c/common/widgets/widget.dart';
+import 'package:mobi_c/common/ui/widgets/widget.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});

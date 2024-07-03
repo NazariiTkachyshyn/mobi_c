@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:mobi_c/common/config/config_repo/config_repo.dart';
+import 'package:mobi_c/repository/config_repo/config_repo.dart';
 import 'package:http/http.dart' as http;
 
 import '../models/models.dart';

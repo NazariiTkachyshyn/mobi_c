@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:get_it/get_it.dart';
-import 'package:mobi_c/common/config/config_repo/config_repo.dart';
+import 'package:mobi_c/repository/config_repo/config_repo.dart';
 import 'package:mobi_c/objectbox.g.dart';
-import 'package:mobi_c/services/data_bases/object_box/models/models.dart';
+import 'package:mobi_c/services/data_base/object_box/models/models.dart';
 
 import 'package:http/http.dart' as http;
 
@@ -68,8 +68,7 @@ class CreateOrderClient {
 
   Future<void> deleteNom(int id) async {
     try {
-      final res = await _store.box<OrderNom>().removeAsync(id);
-      print(res);
+await _store.box<OrderNom>().removeAsync(id);
     } catch (e) {
       throw Exception(e);
     }
@@ -100,15 +99,11 @@ class CreateOrderClient {
           body: body);
 
       if (res.statusCode == 201) {
-        print(res.statusCode);
       } else {
-        print(res.body);
         throw Exception(res.body);
       }
     } catch (e) {
       throw Exception(e);
-    } finally {
-      // client.close();
-    }
+    } 
   }
 }

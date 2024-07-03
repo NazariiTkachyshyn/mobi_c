@@ -1,5 +1,5 @@
 import 'package:mobi_c/feature/settings/settings_client/settings_client.dart';
-import 'package:mobi_c/services/data_bases/object_box/models/models.dart';
+import 'package:mobi_c/services/data_base/object_box/models/models.dart';
 
 abstract interface class SettingsRepo {
   Future<List<Counterparty>> getFolders();

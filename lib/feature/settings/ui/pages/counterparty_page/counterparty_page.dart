@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobi_c/common/widgets/slidable_component.dart';
+import 'package:mobi_c/common/ui/widgets/slidable_component.dart';
 import 'package:mobi_c/feature/settings/cubit/settings_counterparty_cubit.dart';
 import 'package:mobi_c/feature/settings/settings_client/settings_client.dart';
 import 'package:mobi_c/feature/settings/settings_repo/settings_repo.dart';
 import 'package:mobi_c/feature/settings/ui/pages/counterparty_page/counterparty_tree_view.dart';
-import 'package:mobi_c/ui/components/widgets/text_field_button.dart';
-import 'package:mobi_c/services/data_bases/object_box/models/route.dart' as ob;
+import 'package:mobi_c/common/ui/widgets/text_field_button.dart';
+import 'package:mobi_c/services/data_base/object_box/models/route.dart' as ob;
 
 class SettingsCounterpartyPage extends StatelessWidget {
   const SettingsCounterpartyPage({super.key});
