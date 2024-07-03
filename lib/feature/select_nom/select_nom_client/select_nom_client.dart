@@ -1,5 +1,5 @@
 import 'package:get_it/get_it.dart';
-import 'package:mobi_c/common/constants/key_const.dart';
+import 'package:mobi_c/common/config/config_repo/config_repo.dart';
 import 'package:mobi_c/objectbox.g.dart';
 import 'package:mobi_c/services/data_bases/object_box/models/models.dart';
 
@@ -12,7 +12,7 @@ class SelectNomClient {
           .box<Nom>()
           .query(Nom_.isFolder
               .equals(true)
-              .and(Nom_.storageKey.endsWith(Key1Const.storageKey)))
+              .and(Nom_.storageKey.endsWith(Config.storageKey)))
           .order(Nom_.description)
           .build()
           .findAsync();
@@ -30,7 +30,7 @@ class SelectNomClient {
           .box<Nom>()
           .query(isEqParentKey
               .and(Nom_.isFolder.equals(false))
-              .and(Nom_.storageKey.equals(Key1Const.storageKey)))
+              .and(Nom_.storageKey.equals(Config.storageKey)))
           .order(Nom_.article)
           .build()
         ..limit = 30
@@ -61,7 +61,7 @@ class SelectNomClient {
           .box<Nom>()
           .query(contains
               .and(Nom_.isFolder.equals(false))
-              .and(Nom_.storageKey.equals(Key1Const.storageKey))
+              .and(Nom_.storageKey.equals(Config.storageKey))
               .and(isEqParentKey))
           .order(Nom_.article)
           .build()

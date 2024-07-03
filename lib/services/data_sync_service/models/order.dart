@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:mobi_c/common/constants/key_const.dart';
+import 'package:mobi_c/common/config/config_repo/config_repo.dart';
 
 class ApiOrder extends Equatable {
   final DateTime? date;
@@ -17,9 +17,9 @@ class ApiOrder extends Equatable {
     required this.shipmentDate,
     required this.counterpartyKey,
     required this.partnerKey,
-    this.storageKey = Key1Const.storageKey,
+    this.storageKey = '',
     required this.contractKey,
-    this.organization = "49b22f0e-2258-11e1-b864-002354e1ef1c",
+    this.organization = '',
     required this.comment,
     required this.pickup
   });
@@ -54,7 +54,7 @@ class ApiOrder extends Equatable {
       'Date': (date ?? DateTime.now()).toIso8601String(),
       "Posted": false,
       "DeletionMark": false,
-      "ВалютаДокумента_Key": Key1Const.currencyKey,
+      "ВалютаДокумента_Key": Config.currencyKey,
       'Контрагент_Key': counterpartyKey,
       'Партнер_Key': partnerKey,
       'ЦенаВключаетНДС': true,
@@ -66,10 +66,11 @@ class ApiOrder extends Equatable {
       "КратностьВзаиморасчетов": "1",
       "Самовивіз": pickup,
       'Согласован': false,
-      "СкладГруппа": Key1Const.storageKey,
+      "СкладГруппа": Config.storageKey,
+      "Ответственный_Key": Config.responsibleUser,
       "СкладГруппа_Type": "StandardODATA.Catalog_Склады",
       "СуммаДокумента": products.fold(0.0, (a, b) => a + b['Цена']),
-      'Организация_Key': Key1Const.organizationKey,
+      'Организация_Key': Config.organizationKey,
       'Комментарий': comment,
       'Товары': products
     };

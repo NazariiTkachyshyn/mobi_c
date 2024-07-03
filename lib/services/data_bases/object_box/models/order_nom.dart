@@ -1,4 +1,4 @@
-import 'package:mobi_c/common/constants/key_const.dart';
+import 'package:mobi_c/common/config/config_repo/config_repo.dart';
 import 'package:mobi_c/services/data_bases/object_box/models/nom.dart';
 import 'package:objectbox/objectbox.dart';
 
@@ -45,8 +45,8 @@ class OrderNom {
   Map<String, dynamic> toJson(int number, String storageKey, double discount) => {
         'LineNumber': number,
         'Номенклатура_Key': ref,
-        "ЕдиницаИзмерения_Key": Key1Const.unitKey,
-        'Склад_Key': Key1Const.storageKey,
+        "ЕдиницаИзмерения_Key": Config.unitKey,
+        'Склад_Key': Config.storageKey,
         'КоличествоУпаковок': qty,
         "ЕдиницаИзмерения_Key": unitKey,
         'Количество': qty,
@@ -59,7 +59,7 @@ class OrderNom {
         "УсловиеАвтоматическойСкидки": "ПоКоличествуТовара",
         "ЗначениеУсловияАвтоматическойСкидки": "0",
         "ЗначениеУсловияАвтоматическойСкидки_Type": "Edm.Double",
-        'ТипЦен_Key': Key1Const.priceType,
+        'ТипЦен_Key': Config.priceType,
         'ВариантОбеспечения': 'Отгрузить',
       };
 }

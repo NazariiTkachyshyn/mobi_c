@@ -2,10 +2,8 @@ import 'dart:io';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobi_c/auth/bloc/auth_bloc.dart';
-import 'package:mobi_c/auth/user_repository.dart';
 import 'package:mobi_c/clients/odata_api_clients/odata_api_client.dart';
-import 'package:mobi_c/common/config/config_repo/config_repo.dart';
-import 'package:mobi_c/common/config/cubit/config_cubit.dart';
+
 import 'package:mobi_c/feature/create_order/ui/create_order_page.dart';
 import 'package:mobi_c/feature/home_page/ui/home_page.dart';
 import 'package:mobi_c/feature/login/ui/login_page.dart';
@@ -17,10 +15,12 @@ import 'package:mobi_c/feature/settings/ui/pages/counterparty_page/counterparty_
 import 'package:mobi_c/feature/settings/ui/pages/views.dart';
 import 'package:mobi_c/objectbox.g.dart';
 import 'package:mobi_c/repository/authentication_repository/authentication_repository.dart';
+import 'package:mobi_c/repository/user_repository.dart';
 import 'package:mobi_c/ui/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'services/data_bases/object_box/object_box.dart';
 
 import 'package:firebase_core/firebase_core.dart';
@@ -38,13 +38,17 @@ void main() async {
 
   objectbox = await ObjectBox.create();
 
+  final prefs = await SharedPreferences.getInstance();
+
   final store = objectbox.store;
 
   final odataApiClient = OdataApiClient();
+  
 
   GetIt.instance.registerSingleton<Store>(store);
   GetIt.instance.registerSingleton<OdataApiClient>(odataApiClient);
   GetIt.instance.registerSingleton<Directory>(docDir);
+  GetIt.instance.registerSingleton<SharedPreferences>(prefs);
 
   runApp(const App());
 }
@@ -106,9 +110,7 @@ class _AppViewState extends State<AppView> {
         BlocProvider(
           create: (context) => SettingsCubit(),
         ),
-        BlocProvider(
-          create: (context) => ConfigCubit(ConfigRepo()),
-        ),
+   
       ],
       child: MaterialApp(
         navigatorKey: _navigatorKey,
@@ -130,7 +132,6 @@ class _AppViewState extends State<AppView> {
                     '/',
                     (route) => false,
                   );
-                  context.read<ConfigCubit>().getConfig();
 
                 case AuthenticationStatus.unauthenticated:
                   _navigator.pushNamedAndRemoveUntil<void>(
@@ -161,3 +162,4 @@ class _AppViewState extends State<AppView> {
     );
   }
 }
+

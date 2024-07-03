@@ -2,14 +2,14 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:mobi_c/common/constants/api_constants.dart';
+import 'package:mobi_c/common/config/config_repo/config_repo.dart';
 import 'package:http/http.dart' as http;
 
 import '../models/models.dart';
 
 class DataSyncApiClient {
   final headers = {
-    'Authorization': ApiConstants.basicAuth,
+    'Authorization': Config.basicAuth,
     "Accept": "application/json",
     "Accept-Charset": "UTF-8",
     "Content-Type": "application/json",
@@ -17,8 +17,8 @@ class DataSyncApiClient {
 
   //^----------NOMENKLATURA----------------
   Future<List<SyncNom>> getAllNoms() async {
-    final uri = Uri.http(ApiConstants.odataHost,
-        "${ApiConstants.odataPath}/InformationRegister_МобільнийКлієнтЗалишки?\$format=json");
+    final uri = Uri.http(Config.odataHost,
+        "${Config.odataPath}/InformationRegister_МобільнийКлієнтЗалишки?\$format=json");
 
     try {
       final nomRes = await http.get(uri, headers: headers);
@@ -39,7 +39,7 @@ class DataSyncApiClient {
 
   Future<List<SyncStorage>> getAllStorages() async {
     final uri = Uri.http(
-        ApiConstants.odataHost, '${ApiConstants.odataPath}/Catalog_Склады', {
+        Config.odataHost, '${Config.odataPath}/Catalog_Склады', {
       "\$format": 'json',
       "\$select": "Ref_Key,Description",
     });
@@ -63,8 +63,8 @@ class DataSyncApiClient {
   //^----------BARCODES----------------
 
   Future<List<SyncBarcode>> getAllBarcodes() async {
-    final uri = Uri.http(ApiConstants.odataHost,
-        '${ApiConstants.odataPath}/InformationRegister_ШтрихкодыНоменклатуры', {
+    final uri = Uri.http(Config.odataHost,
+        '${Config.odataPath}/InformationRegister_ШтрихкодыНоменклатуры', {
       "\$format": 'json',
       "\$select": "Штрихкод,Номенклатура_Key,Упаковка_Key",
     });
@@ -89,8 +89,8 @@ class DataSyncApiClient {
   //^----------CONTRAKT----------------
 
   Future<List<SyncContract>> getAllContract() async {
-    final uri = Uri.http(ApiConstants.odataHost,
-        '${ApiConstants.odataPath}/Catalog_ДоговорыКонтрагентов', {
+    final uri = Uri.http(Config.odataHost,
+        '${Config.odataPath}/Catalog_ДоговорыКонтрагентов', {
       "\$format": 'json',
       "\$select": "Ref_Key,Owner_Key,Description,Организация_Key",
     });
@@ -115,8 +115,8 @@ class DataSyncApiClient {
 
   Future<List<SyncCounterparty>> getAllCounterparty() async {
     final uri = Uri.http(
-      ApiConstants.odataHost,
-      '${ApiConstants.odataPath}/Catalog_Контрагенты?\$format=json&\$select=Ref_Key,Description,ГоловнойКонтрагент_Key,НаименованиеПолное,Parent_Key,IsFolder&\$filter=DeletionMark eq false',
+      Config.odataHost,
+      '${Config.odataPath}/Catalog_Контрагенты?\$format=json&\$select=Ref_Key,Description,ГоловнойКонтрагент_Key,НаименованиеПолное,Parent_Key,IsFolder&\$filter=DeletionMark eq false',
     );
 
     try {
@@ -140,8 +140,8 @@ class DataSyncApiClient {
 
   Future<List<SyncDiscount>> getAllDiscount() async {
     final uri = Uri.http(
-        ApiConstants.odataHost,
-        '${ApiConstants.odataPath}/InformationRegister_СкидкиНаценкиНоменклатуры_RecordType/SliceLast',
+        Config.odataHost,
+        '${Config.odataPath}/InformationRegister_СкидкиНаценкиНоменклатуры_RecordType/SliceLast',
         {
           "\$format": 'json',
           "\$select": "ПолучательСкидки,ПроцентСкидкиНаценки",
@@ -168,8 +168,8 @@ class DataSyncApiClient {
   //^----------Unit----------------
 
   Future<List<SyncUnit>> getAllUnit() async {
-    final uri = Uri.http(ApiConstants.odataHost,
-        '${ApiConstants.odataPath}/Catalog_ЕдиницыИзмерения', {
+    final uri = Uri.http(Config.odataHost,
+        '${Config.odataPath}/Catalog_ЕдиницыИзмерения', {
       "\$format": 'json',
       "\$select":
           "Ref_Key,Owner,Коэффициент,ЕдиницаПоКлассификатору_Key,Description",
@@ -207,8 +207,8 @@ class DataSyncApiClient {
 
   Future<int> getCount(String catalog) async {
     final uri = Uri.http(
-      ApiConstants.odataHost,
-      '${ApiConstants.odataPath}/$catalog',
+      Config.odataHost,
+      '${Config.odataPath}/$catalog',
     );
     try {
       final nomRes = await http.get(uri, headers: headers);

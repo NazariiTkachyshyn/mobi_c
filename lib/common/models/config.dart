@@ -1,53 +1,65 @@
 import 'package:equatable/equatable.dart';
 import 'package:mobi_c/services/data_bases/object_box/models/config.dart';
 
-class Config extends Equatable {
+class ConfigModel extends Equatable {
   final List<ConfigStorage> storages;
   final DbConn dbConn;
   final ImagesDb imagesDb;
   final Keys keys;
+  final String userStorage;
+  final String responsibleUser;
 
-  const Config({
+  const ConfigModel({
     required this.storages,
     required this.dbConn,
     required this.imagesDb,
     required this.keys,
+    required this.userStorage,
+    required this.responsibleUser
   });
 
-  Config copyWith({
+  ConfigModel copyWith({
     List<ConfigStorage>? storages,
     DbConn? dbConn,
     ImagesDb? imagesDb,
     Keys? keys,
+    String? userStorage,
+    String? responsibleUser
   }) =>
-      Config(
+      ConfigModel(
         storages: storages ?? this.storages,
         dbConn: dbConn ?? this.dbConn,
         imagesDb: imagesDb ?? this.imagesDb,
         keys: keys ?? this.keys,
+        userStorage: userStorage ?? this.userStorage,
+        responsibleUser: responsibleUser ?? this.responsibleUser
       );
 
-  factory Config.fromJson(Map<String, dynamic> json) {
-    return Config(
+  factory ConfigModel.fromJson(Map<String, dynamic> json) {
+    return ConfigModel(
       storages: List<ConfigStorage>.from(
           json['storages'].map((storage) => ConfigStorage.fromJson(storage))),
       dbConn: DbConn.fromJson(json['dbConn']),
       imagesDb: ImagesDb.fromJson(json['imagesDb']),
       keys: Keys.fromJson(json['keys']),
+      userStorage: json['userStorage'] ?? '',
+      responsibleUser: json['odata_responsible_ref'] ?? ''
     );
   }
 
 
-  static const Config empty = Config(
+  static const ConfigModel empty = ConfigModel(
     storages: [],
     dbConn: DbConn.empty,
     imagesDb: ImagesDb.empty,
     keys: Keys.empty,
+    userStorage: '',
+    responsibleUser: ''
   );
 
 
   @override
-  List<Object?> get props => [storages, dbConn, imagesDb, keys];
+  List<Object?> get props => [storages, dbConn, imagesDb, keys, responsibleUser];
 }
 
 class DbConn extends Equatable {

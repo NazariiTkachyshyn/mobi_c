@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
+import 'package:mobi_c/common/config/config_repo/config_repo.dart';
 import 'package:mobi_c/feature/login/models/models.dart';
 import 'package:mobi_c/repository/authentication_repository/authentication_repository.dart';
 
@@ -52,10 +53,13 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     if (state.isValid) {
       emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
       try {
-        await _authenticationRepository.logIn(
+        final user = await _authenticationRepository.logIn(
           username: state.username.value,
           password: state.password.value,
         );
+        if (user != null) {
+          ConfigRepo().writeConfig(user);
+        }
         emit(state.copyWith(status: FormzSubmissionStatus.success));
       } catch (_) {
         emit(state.copyWith(status: FormzSubmissionStatus.failure));

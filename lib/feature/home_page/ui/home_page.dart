@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobi_c/common/config/cubit/config_cubit.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
+    static Page page() => const MaterialPage<void>(child: HomePage());
+
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -11,10 +11,10 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   @override
-  void initState() {
-    context.read<ConfigCubit>().getConfig();
-    super.initState();
-  }
+  // void initState() {
+  //   context.read<ConfigCubit>().getConfig();
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {

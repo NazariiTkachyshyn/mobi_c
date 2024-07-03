@@ -1,5 +1,4 @@
 import 'package:mobi_c/common/common.dart';
-import 'package:mobi_c/common/config/cubit/config_cubit.dart';
 import 'package:mobi_c/feature/input_qty_unit/client/client.dart';
 import 'package:mobi_c/feature/input_qty_unit/cubit/input_qty_unit_cubit.dart';
 import 'package:mobi_c/feature/select_nom/cubit/select_nom_cubit.dart';
@@ -19,7 +18,7 @@ class SelectNomPage extends StatelessWidget {
     return MultiBlocProvider(providers: [
       BlocProvider(
           create: (context) => SelectNomCubit(
-              SelectNomRepoImpl(selectNomClient: SelectNomClient()), context.read<ConfigCubit>().state)),
+              SelectNomRepoImpl(selectNomClient: SelectNomClient()))),
       BlocProvider(create: (context) => InputQtyUnitCubit(InputQtyUnitClient()))
     ], child: const SelectNomView());
   }

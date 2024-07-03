@@ -2,11 +2,11 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:global_configuration/global_configuration.dart';
+import 'package:get_it/get_it.dart';
 import 'package:mobi_c/auth/models.dart/user.dart';
-import 'package:mobi_c/auth/user_repository.dart';
-import 'package:mobi_c/repository/authentication_repository/authentication_repository.dart';
 import 'package:mobi_c/common/config/config_repo/config_repo.dart';
+import 'package:mobi_c/repository/user_repository.dart';
+import 'package:mobi_c/repository/authentication_repository/authentication_repository.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
@@ -45,8 +45,6 @@ class AuthenticationBloc
       case AuthenticationStatus.unauthenticated:
         return emit(const AuthenticationState.unauthenticated());
       case AuthenticationStatus.authenticated:
-        await ConfigRepo().writeConfig();
-
         final user = await _userRepository.getUser();
         return emit(
           user != null
@@ -63,7 +61,8 @@ class AuthenticationBloc
     Emitter<AuthenticationState> emit,
   ) {
     _authenticationRepository.logOut();
-    GlobalConfiguration().clear();
+    ConfigRepo().cleanConfig();
+    ();
   }
 
   Future<User?> _tryGetUser() async {

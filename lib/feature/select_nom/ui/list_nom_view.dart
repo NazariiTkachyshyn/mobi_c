@@ -2,7 +2,7 @@ import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobi_c/common/common.dart';
-import 'package:mobi_c/common/constants/key_const.dart';
+import 'package:mobi_c/common/constants/const.dart';
 import 'package:mobi_c/common/widgets/slidable_component.dart';
 import 'package:mobi_c/feature/select_nom/cubit/select_nom_cubit.dart';
 import 'package:mobi_c/feature/select_nom/ui/dialog.dart';

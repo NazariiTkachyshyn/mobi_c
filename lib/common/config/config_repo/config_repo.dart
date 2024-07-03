@@ -1,48 +1,112 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get_it/get_it.dart';
-import 'package:global_configuration/global_configuration.dart';
 import 'package:mobi_c/common/models/config.dart';
 import 'package:mobi_c/objectbox.g.dart';
-import 'package:mobi_c/services/data_bases/object_box/models/config.dart';
+import 'package:mobi_c/repository/authentication_repository/models/user.dart';
+import 'package:mobi_c/services/data_bases/object_box/models/route.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ConfigRepo {
   final _store = GetIt.I.get<Store>();
+  final _prefs = GetIt.I.get<SharedPreferences>();
 
-  Future<Config> getConfig() async {
+  writeConfig(User user) async {
     final config = await FirebaseFirestore.instance.collection('config').get();
-    final configData = config.docs;
-    return Config.fromJson(configData.first.data());
+    final configData = config.docs.first.data();
+    configData.addAll({'userStorage': user.storage.refKey, 'odata_responsible_ref':user.responsibleUser});
+
+    await _prefs.setString('config', jsonEncode(configData));
+    final routes = user.routes
+        .map((e) => ClientRoute(refKey: e.ref, description: e.description))
+        .toList();
+
+    await _store.box<ClientRoute>().putManyAsync(routes);
   }
 
-  Future<Config> getConfigFromOb() async {
-    final dbConnOb = (await _store.box<DbConnOb>().getAllAsync()).last;
-    final imagesDbOb = (await _store.box<ImagesDbOb>().getAllAsync()).last;
-    final keysOb = (await _store.box<KeysOb>().getAllAsync()).last;
-    final storagesOb = await _store.box<StorageOb>().getAllAsync();
+  cleanConfig() async {
+    await _prefs.remove('config');
+    await _store.box<ClientRoute>().removeAllAsync();
+  }
+}
 
-    return Config(
-        storages: storagesOb
-            .map((e) => ConfigStorage(refKey: e.refKey, description: e.description))
-            .toList(),
-        dbConn: DbConn(
-            path: dbConnOb.path,
-            pass: dbConnOb.pass,
-            host: dbConnOb.host,
-            user: dbConnOb.user),
-        imagesDb: ImagesDb(port: imagesDbOb.port, host: imagesDbOb.host),
-        keys: Keys(
-            unitKey: keysOb.unitKey,
-            priceType: keysOb.priceType,
-            currencyKey: keysOb.currencyKey,
-            organizationKey: keysOb.organizationKey));
+class Config {
+  static ConfigModel _loadConfig()  {
+ final prefs = GetIt.I.get<SharedPreferences>();
+
+final strConfig = prefs.getString('config') ?? '';
+final jsonconfig = jsonDecode(strConfig);
+return ConfigModel.fromJson(jsonconfig);
   }
 
-  writeConfig()async{
-     final config = await FirebaseFirestore.instance.collection('config').get();
-    final configData = config.docs;
-      GlobalConfiguration().loadFromMap(configData.first.data());
-      print( GlobalConfiguration().get('dbConn'));
-
+  static String get priceType  {
+    final config =  _loadConfig();
+    return config.keys.priceType;
   }
 
+  static String get storageKey  {
+    final config =  _loadConfig();
+    return config.userStorage;
+  }
+ static String get responsibleUser  {
+    final config =  _loadConfig();
+    return config.responsibleUser;
+  }
+  static String get organizationKey  {
+    final config =  _loadConfig();
+    return config.keys.organizationKey;
+  }
+
+  static String get unitKey  {
+    final config =  _loadConfig();
+    return config.keys.unitKey;
+  }
+
+  static String get currencyKey  {
+    final config =  _loadConfig();
+    return config.keys.currencyKey;
+  }
+
+  static List<ConfigStorage> get storages  {
+    final config =  _loadConfig();
+    return config.storages;
+  }
+
+  static String get odataHost  {
+    final config =  _loadConfig();
+    return config.dbConn.host;
+  }
+
+  static String get odataPath  {
+    final config =  _loadConfig();
+    return config.dbConn.path;
+  }
+
+  static String get odataUser  {
+    final config =  _loadConfig();
+    return config.dbConn.user;
+  }
+
+  static String get odataPass  {
+    final config =  _loadConfig();
+    return config.dbConn.pass;
+  }
+  static String get basicAuth  {
+    final config =  _loadConfig();
+
+    final odataUser = config.dbConn.user;
+    final odataPass = config.dbConn.pass;
+    return 'Basic ${base64Encode(utf8.encode('$odataUser:$odataPass'))}';
+  }
+
+  static String get imagesDbHost  {
+    final config =  _loadConfig();
+    return config.imagesDb.host;
+  }
+
+  static int get imagesDbPort  {
+    final config =  _loadConfig();
+    return config.imagesDb.port;
+  }
 }

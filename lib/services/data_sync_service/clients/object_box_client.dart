@@ -1,4 +1,5 @@
-import 'package:mobi_c/common/constants/key_const.dart';
+import 'package:mobi_c/common/config/config_repo/config_repo.dart';
+import 'package:mobi_c/common/constants/const.dart';
 import 'package:mobi_c/objectbox.g.dart';
 import 'package:mobi_c/services/data_bases/object_box/models/models.dart';
 import 'package:mobi_c/services/data_sync_service/models/models.dart';
@@ -38,7 +39,7 @@ class DataSyncObjectBoxClient {
     try {
       final res = await _store
           .box<Nom>()
-          .query(Nom_.storageKey.equals(Key1Const.storageKey))
+          .query(Nom_.storageKey.equals(Config.storageKey))
           .build()
           .findAsync();
       return res.map((e) => SyncNom.fromOb(e)).toList();

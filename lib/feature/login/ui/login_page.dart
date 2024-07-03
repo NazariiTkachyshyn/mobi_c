@@ -7,9 +7,7 @@ import 'package:mobi_c/repository/authentication_repository/authentication_repos
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
 
-  static Route<void> route() {
-    return MaterialPageRoute<void>(builder: (_) => const LoginPage());
-  }
+    static Page page() => const MaterialPage<void>(child: LoginPage());
 
   @override
   Widget build(BuildContext context) {
