@@ -29,6 +29,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       state.copyWith(
         username: username,
         isValid: Formz.validate([state.password, username]),
+        errorMassage: '',
       ),
     );
   }
@@ -42,6 +43,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       state.copyWith(
         password: password,
         isValid: Formz.validate([password, state.username]),
+        errorMassage: '',
       ),
     );
   }
@@ -57,12 +59,23 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           username: state.username.value,
           password: state.password.value,
         );
-        if (user != null) {
-          ConfigRepo().writeConfig(user);
-        }
+        ConfigRepo().writeConfig(user);
+
         emit(state.copyWith(status: FormzSubmissionStatus.success));
-      } catch (_) {
-        emit(state.copyWith(status: FormzSubmissionStatus.failure));
+      } catch (e) {
+        if (e is UserNotFoundFailure) {
+          emit(state.copyWith(
+              status: FormzSubmissionStatus.failure,
+              errorMassage: 'Користувача не знайдено'));
+        } else if (e is UserBlockedFailure) {
+          emit(state.copyWith(
+              status: FormzSubmissionStatus.failure,
+              errorMassage: 'Користувача заблоковано'));
+        } else if (e is LoginRequestFailure) {
+          emit(state.copyWith(
+              status: FormzSubmissionStatus.failure,
+              errorMassage: 'Помилка авторизації'));
+        }
       }
     }
   }

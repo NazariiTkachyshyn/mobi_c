@@ -10,11 +10,11 @@ class LoginForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<LoginBloc, LoginState>(
       listener: (context, state) {
-        if (state.status.isFailure) {
+        if (state.status.isFailure && state.errorMassage.isNotEmpty) {
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(
-              const SnackBar(content: Text('Помилка аутентифікації')),
+               SnackBar(content: Text(state.errorMassage)),
             );
         }
   
