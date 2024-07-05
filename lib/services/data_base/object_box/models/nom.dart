@@ -49,4 +49,20 @@ class Nom {
       imageKey: nom.imageKey,
       unitKey: nom.unitKey,
       storageKey: nom.storageKey);
+      
+        factory Nom.empty() => Nom(
+    ref: '',
+    isFolder: false,
+    description: '',
+    article: '',
+    parentKey: '',
+    unitKey: '',
+    imageKey: '',
+    price: 0.0,
+    remaining: 0,
+    priceTypeKey: '',
+    currencyKey: '',
+    searchField: '',
+    storageKey: '',
+  );
 }

@@ -61,7 +61,7 @@ class AuthenticationBloc
   ) {
     _authenticationRepository.logOut();
     ConfigRepo().cleanConfig();
-    ();
+    
   }
 
     }

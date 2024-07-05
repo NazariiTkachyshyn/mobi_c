@@ -1,65 +1,78 @@
 import 'package:equatable/equatable.dart';
+import 'package:mobi_c/repository/authentication_repository/models/models.dart';
 import 'package:mobi_c/services/data_base/object_box/models/config.dart';
 
 class ConfigModel extends Equatable {
-  final List<ConfigStorage> storages;
+  final List<Storage> storages;
   final DbConn dbConn;
   final ImagesDb imagesDb;
   final Keys keys;
   final String userStorage;
   final String responsibleUser;
+  final Kasa kasa;
+  final List<Storage> visibleStorageBalance;
 
-  const ConfigModel({
-    required this.storages,
-    required this.dbConn,
-    required this.imagesDb,
-    required this.keys,
-    required this.userStorage,
-    required this.responsibleUser
-  });
+  const ConfigModel(
+      {required this.storages,
+      required this.dbConn,
+      required this.imagesDb,
+      required this.keys,
+      required this.userStorage,
+      required this.responsibleUser,
+      required this.kasa,
+      required this.visibleStorageBalance
+      });
 
-  ConfigModel copyWith({
-    List<ConfigStorage>? storages,
-    DbConn? dbConn,
-    ImagesDb? imagesDb,
-    Keys? keys,
-    String? userStorage,
-    String? responsibleUser
-  }) =>
+  ConfigModel copyWith(
+          {List<Storage>? storages,
+          DbConn? dbConn,
+          ImagesDb? imagesDb,
+          Keys? keys,
+          String? userStorage,
+          String? responsibleUser,
+          Kasa? kasa,
+          List<Storage>? visibleStorageBalance
+          }) =>
       ConfigModel(
-        storages: storages ?? this.storages,
-        dbConn: dbConn ?? this.dbConn,
-        imagesDb: imagesDb ?? this.imagesDb,
-        keys: keys ?? this.keys,
-        userStorage: userStorage ?? this.userStorage,
-        responsibleUser: responsibleUser ?? this.responsibleUser
-      );
+          storages: storages ?? this.storages,
+          dbConn: dbConn ?? this.dbConn,
+          imagesDb: imagesDb ?? this.imagesDb,
+          keys: keys ?? this.keys,
+          userStorage: userStorage ?? this.userStorage,
+          responsibleUser: responsibleUser ?? this.responsibleUser,
+          kasa: kasa ?? this.kasa,
+          visibleStorageBalance: visibleStorageBalance ?? this.visibleStorageBalance
+          );
 
   factory ConfigModel.fromJson(Map<String, dynamic> json) {
     return ConfigModel(
-      storages: List<ConfigStorage>.from(
-          json['storages'].map((storage) => ConfigStorage.fromJson(storage))),
-      dbConn: DbConn.fromJson(json['dbConn']),
-      imagesDb: ImagesDb.fromJson(json['imagesDb']),
-      keys: Keys.fromJson(json['keys']),
-      userStorage: json['userStorage'] ?? '',
-      responsibleUser: json['odata_responsible_ref'] ?? ''
-    );
+        storages: List<Storage>.from(
+            json['storages'].map((storage) => Storage.fromJson(storage))),
+        dbConn: DbConn.fromJson(json['dbConn']),
+        imagesDb: ImagesDb.fromJson(json['imagesDb']),
+        keys: Keys.fromJson(json['keys']),
+        userStorage: json['userStorage'] ?? '',
+        responsibleUser: json['odata_responsible_ref'] ?? '',
+        kasa: Kasa.fromJson(json['kasa']),
+        visibleStorageBalance: List<Storage>.from(
+            json['visibleStorageBalance'].map((storage) => Storage.fromJson(storage))),
+        );
   }
 
-
   static const ConfigModel empty = ConfigModel(
-    storages: [],
-    dbConn: DbConn.empty,
-    imagesDb: ImagesDb.empty,
-    keys: Keys.empty,
-    userStorage: '',
-    responsibleUser: ''
-  );
-
+      storages: [],
+      dbConn: DbConn.empty,
+      imagesDb: ImagesDb.empty,
+      keys: Keys.empty,
+      userStorage: '',
+      responsibleUser: '',
+      kasa: Kasa.empty,
+      visibleStorageBalance: []
+      );
 
   @override
-  List<Object?> get props => [storages, dbConn, imagesDb, keys, responsibleUser];
+  List<Object?> get props =>
+      [storages, dbConn, imagesDb, keys, responsibleUser, kasa, visibleStorageBalance];
 }
 
 class DbConn extends Equatable {
@@ -97,16 +110,12 @@ class DbConn extends Equatable {
     );
   }
 
- 
-
   static const DbConn empty = DbConn(
     path: '',
     pass: '',
     host: '',
     user: '',
   );
-
-
 
   @override
   List<Object?> get props => [path, pass, host, user];
@@ -224,50 +233,3 @@ class Keys extends Equatable {
   List<Object?> get props => [unitKey, priceType, currencyKey, organizationKey];
 }
 
-class ConfigStorage extends Equatable {
-  final String refKey;
-  final String description;
-
-  const ConfigStorage({
-    required this.refKey,
-    required this.description,
-  });
-
-  ConfigStorage copyWith({
-    String? refKey,
-    String? description,
-  }) =>
-      ConfigStorage(
-        refKey: refKey ?? this.refKey,
-        description: description ?? this.description,
-      );
-
-  factory ConfigStorage.fromJson(Map<String, dynamic> json) {
-    return ConfigStorage(
-      refKey: json['Ref_Key'],
-      description: json['Description'],
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'Ref_Key': refKey,
-      'Description': description,
-    };
-  }
-
-  static const ConfigStorage empty = ConfigStorage(
-    refKey: '',
-    description: '',
-  );
-
-  factory ConfigStorage.fromStorageOb(StorageOb storageOb) {
-    return ConfigStorage(
-      refKey: storageOb.refKey,
-      description: storageOb.description,
-    );
-  }
-
-  @override
-  List<Object?> get props => [refKey, description];
-}

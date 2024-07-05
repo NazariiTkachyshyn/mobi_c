@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:mobi_c/repository/authentication_repository/models/user.dart';
@@ -26,12 +25,13 @@ class AuthenticationRepository {
     required String password,
   }) async {
     try {
+
       final users = FirebaseFirestore.instance
           .collection('users')
           .where('username', isEqualTo: username)
           .where('password', isEqualTo: password);
       final snapshot = await users.get();
-      final data = snapshot.docs;
+    final data = snapshot.docs;
       List<User> userList =
           data.map((doc) => User.fromJson(doc.data())).toList();
 
@@ -49,11 +49,7 @@ class AuthenticationRepository {
       prefs.setBool('isLogin', true);
       return userList.first;
     } catch (e) {
-      if (e is SocketException) {
-        throw LoginRequestFailure();
-      } else {
-        rethrow;
-      }
+   rethrow;
     }
   }
 
