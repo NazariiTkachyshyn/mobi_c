@@ -4,6 +4,7 @@ import 'package:get_it/get_it.dart';
 import 'package:mobi_c/auth/bloc/auth_bloc.dart';
 
 import 'package:mobi_c/feature/create_order/ui/create_order_page.dart';
+import 'package:mobi_c/feature/create_pko/ui/create_PKO_page.dart';
 import 'package:mobi_c/feature/home_page/ui/home_page.dart';
 import 'package:mobi_c/feature/login/ui/login_page.dart';
 import 'package:mobi_c/feature/select_counterparty/ui/select_counterparty_page.dart';
@@ -100,7 +101,6 @@ class _AppViewState extends State<AppView> {
         BlocProvider(
           create: (context) => SettingsCubit(),
         ),
-   
       ],
       child: MaterialApp(
         navigatorKey: _navigatorKey,
@@ -145,6 +145,7 @@ class _AppViewState extends State<AppView> {
           'settings_counterparty_view': (context) =>
               const SettingsCounterpartyPage(),
           'createOrderPage': (context) => const CreateOrderPage(),
+          'createPKO': (context) => const CreatePKOPage(),
           'selectCounterparty': (context) => const SelectCounterpartyPage(),
           'selectNom': (context) => const SelectNomPage()
         },
@@ -152,4 +153,3 @@ class _AppViewState extends State<AppView> {
     );
   }
 }
-

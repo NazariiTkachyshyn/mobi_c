@@ -21,21 +21,20 @@ class ApiOrder extends Equatable {
     required this.contractKey,
     this.organization = '',
     required this.comment,
-    required this.pickup
+    required this.pickup,
   });
 
-  ApiOrder copyWith({
-    DateTime? date,
-    DateTime? shipmentDate,
-    String? counterpartyKey,
-    String? partnerKey,
-    String? ofertaKey,
-    String? contractKey,
-    String? storageKey,
-    String? organization,
-    String? comment,
-    bool?  pickup
-  }) {
+  ApiOrder copyWith(
+      {DateTime? date,
+      DateTime? shipmentDate,
+      String? counterpartyKey,
+      String? partnerKey,
+      String? ofertaKey,
+      String? contractKey,
+      String? storageKey,
+      String? organization,
+      String? comment,
+      bool? pickup}) {
     return ApiOrder(
         date: date ?? this.date,
         shipmentDate: shipmentDate ?? this.shipmentDate,
@@ -45,8 +44,7 @@ class ApiOrder extends Equatable {
         organization: organization ?? this.organization,
         comment: comment ?? this.comment,
         contractKey: contractKey ?? this.contractKey,
-        pickup: pickup ?? this.pickup
-        );
+        pickup: pickup ?? this.pickup);
   }
 
   Map<String, dynamic> toJson(List<Map<String, dynamic>> products) {

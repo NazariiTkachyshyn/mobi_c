@@ -16,8 +16,8 @@ class CreateOrderPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
         create: (context) => CreateOrderCubit(CreateOrderRepoImpl(
-            createOrderClient: CreateOrderClient(),
-          )),
+              createOrderClient: CreateOrderClient(),
+            )),
         child: const _CreateOrderPage());
   }
 }
@@ -66,13 +66,14 @@ class _CreateOrderPageState extends State<_CreateOrderPage>
 
   Future<bool> _onWillPop() async {
     return await showCheckDialog(
-      context,
-      onPressedAccept: () {
-        Navigator.pop(context, true); 
-      },
-      title: 'Закрити замовлення',
-      description: 'Ви впевнені, що хочете закрити замовлення?',
-    ) ?? false; 
+          context,
+          onPressedAccept: () {
+            Navigator.pop(context, true);
+          },
+          title: 'Закрити замовлення',
+          description: 'Ви впевнені, що хочете закрити замовлення?',
+        ) ??
+        false;
   }
 
   @override
@@ -132,7 +133,7 @@ class _CreateOrderPageState extends State<_CreateOrderPage>
               controller: tabController,
               onTap: (value) {
                 // final state = context.read<CreateOrderCubit>().state;
-      
+
                 // if (value != 0 && state.counterparty == Counterparty.empty) {
                 //   tabController.index = 0;
                 //   ScaffoldMessenger.of(context).showSnackBar(

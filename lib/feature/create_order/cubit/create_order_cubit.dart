@@ -39,7 +39,8 @@ class CreateOrderCubit extends Cubit<CreateOrderState> {
       final contracts = await _createOrderRepo.getContracts(ownerKey);
       emit(state.copyWith(
           order: state.order.copyWith(
-            contractKey: contracts.first.refKey,),
+            contractKey: contracts.first.refKey,
+          ),
           contracts: contracts,
           status: CreateOrderStatus.success));
     } catch (e) {

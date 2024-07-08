@@ -22,8 +22,7 @@ abstract interface class CreateOrderRepo {
 class CreateOrderRepoImpl implements CreateOrderRepo {
   final CreateOrderClient _createOrderClient;
 
-  CreateOrderRepoImpl(
-      {required CreateOrderClient createOrderClient})
+  CreateOrderRepoImpl({required CreateOrderClient createOrderClient})
       : _createOrderClient = createOrderClient;
 
   @override
