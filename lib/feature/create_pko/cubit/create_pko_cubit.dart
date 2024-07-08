@@ -22,7 +22,6 @@ class CreatePKOCubit extends Cubit<CreatePKOState> {
     emit(state.copyWith(selectedDate: date));
   }
 
-  // Methods to update the state
   void updateDate(DateTime date) {
     emit(state.copyWith(selectedDate: date));
   }
@@ -36,8 +35,6 @@ class CreatePKOCubit extends Cubit<CreatePKOState> {
             counterpartyKey: counterparty.refKey,
             partnerKey: counterparty.refKey)));
     await getContracts(counterparty.refKey);
-    print(state.contracts);
-    await getDiscount(state.contracts.first.refKey);
   }
 
   Future<void> getContracts(String ownerKey) async {
@@ -73,41 +70,73 @@ class CreatePKOCubit extends Cubit<CreatePKOState> {
     emit(state.copyWith(sum: value));
   }
 
+  double getSum() {
+    return state.sum;
+  }
+
   String formatDateTime(DateTime dateTime) {
     final DateFormat formatter = DateFormat('yyyy-MM-ddTHH:mm:ss');
     return formatter.format(dateTime);
   }
 
+  bool counterPartyIsEmpty() {
+    return state.counterparty == Counterparty.empty;
+  }
+
   Map<String, dynamic> toJson() {
     return {
+      "DeletionMark": false,
       "Date": state.selectedDate!.toIso8601String(),
+      "Posted": true,
       "Организация_Key": Config.organizationKey,
+      "Касса_Key": Config.kasa.ref,
+      "Подразделение_Key": "00000000-0000-0000-0000-000000000000",
+      "ВидОперации": "ОплатаПокупателя",
+      "Контрагент": state.counterparty.refKey,
+      //"Контрагент_Type": "StandardODATA.Catalog_Контрагенты",
+      "ДоговорКонтрагента_Key": state.contracts[0].refKey,
+      "ВалютаДокумента_Key": "7fc302bf-2248-11e1-b864-002354e1ef1c",
       "СуммаДокумента": state.sum.toString(),
-      "Касса_Key": "c5f03dd7-224c-11ee-b91b-3ca82a229d6f",
+      "ПринятоОт": state.counterparty.fullDescription,
+      "ОтраженоВОперУчете": true,
+      "Оплачено": true,
+      "Ответственный_Key": Config.responsibleUser,
       "Комментарий": state.comment,
+      "ОтражатьВУправленческомУчете": true,
+      "ОтражатьВБухгалтерскомУчете": true,
+      "СтатьяДвиженияДенежныхСредств_Key":
+          "eb3df34e-24c9-46b6-9967-3ab8deacf6d3",
+      "СчетОрганизации_Key": "00000000-0000-0000-0000-000000000000",
+      "ОтражатьВНалоговомУчете": true,
+      "РасшифровкаПлатежа": [
+        {
+          "LineNumber": "1",
+          "ДоговорКонтрагента_Key": state.counterparty.refKey,
+          "КурсВзаиморасчетов": 1,
+          "СуммаПлатежа": state.sum.toString(),
+          "КратностьВзаиморасчетов": "1",
+          "СуммаВзаиморасчетов": state.sum.toString(),
+          "СтавкаНДС": "",
+          "СуммаНДС": 0,
+          "ЗаТару": false,
+        }
+      ],
     };
   }
 
   Future<void> sendPostRequest() async {
-    final url = Uri.parse(
-        'http://192.168.2.50:81/virok_kup/odata/standard.odata/Document_ПриходныйКассовыйОрдер?\$top=2&\$format=json');
+    final url = Uri.http(Config.odataHost,
+        "${Config.odataPath}/Document_ПриходныйКассовыйОрдер?\$format=json");
     final headers = {
       'Authorization': Config.basicAuth,
     };
     final body = jsonEncode(toJson());
 
+    // ignore: unused_local_variable
     final response = await http.post(
       url,
       headers: headers,
       body: body,
     );
-
-    if (response.statusCode == 201) {
-      print('Запит успішний!');
-      print(response.body);
-    } else {
-      print('Запит не вдався: ${response.statusCode}');
-      print(response.body);
-    }
   }
 }

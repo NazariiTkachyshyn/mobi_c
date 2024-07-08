@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobi_c/feature/create_order/ui/product_view.dart';
 import 'package:mobi_c/feature/settings/cubit/settings_cubit.dart';
+import 'package:mobi_c/services/data_base/object_box/models/models.dart';
 
 class CreateOrderPage extends StatelessWidget {
   const CreateOrderPage({super.key});
@@ -43,18 +44,18 @@ class _CreateOrderPageState extends State<_CreateOrderPage>
         vsync: this,
         animationDuration: const Duration(milliseconds: 100));
 
-    // tabController.addListener(() {
-    //   if (!tabController.indexIsChanging) {
-    //     final state = context.read<CreateOrderCubit>().state;
-    //     if (tabController.index != 0 &&
-    //         state.counterparty == Counterparty.empty) {
-    //       tabController.index = 0;
-    //       ScaffoldMessenger.of(context).showSnackBar(
-    //         const SnackBar(content: Text('Клієнта не вибрано.')),
-    //       );
-    //     }
-    //   }
-    // });
+    tabController.addListener(() {
+      if (!tabController.indexIsChanging) {
+        final state = context.read<CreateOrderCubit>().state;
+        if (tabController.index != 0 &&
+            state.counterparty == Counterparty.empty) {
+          tabController.index = 0;
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Клієнта не вибрано.')),
+          );
+        }
+      }
+    });
     super.initState();
   }
 

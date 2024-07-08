@@ -6,7 +6,6 @@ import 'package:mobi_c/feature/create_order/create_order_client/cerate_order_cli
 import 'package:mobi_c/feature/create_order/create_order_repo/create_order_repo.dart';
 import 'package:mobi_c/feature/create_pko/cubit/create_pko_cubit.dart';
 import 'package:mobi_c/common/common.dart';
-import 'package:mobi_c/feature/create_pko/models/order_data.dart';
 import 'package:mobi_c/services/data_base/object_box/models/counterparty.dart';
 
 class CreatePKOPage extends StatelessWidget {
@@ -67,7 +66,6 @@ class _CreatePKOPageState extends State<_CreatePKOPage> {
             icon: const Icon(Icons.arrow_back),
           ),
           title: const Text('ПКО'),
-          actions: const [],
         ),
         body: BlocBuilder<CreatePKOCubit, CreatePKOState>(
           builder: (context, state) {
@@ -85,12 +83,6 @@ class _CreatePKOPageState extends State<_CreatePKOPage> {
                                 .format(state.selectedDate ?? DateTime.now()),
                             lableText: 'Дата',
                             onTap: _onSelectDate)),
-                    // const Padding(padding: EdgeInsets.all(6)),
-                    // TextFielButton(
-                    //   //text: state.counterparty.description,
-                    //   lableText: 'Фірма',
-                    //   onTap: () {},
-                    // ),
                     const Padding(padding: EdgeInsets.all(6)),
                     TextFielButton(
                       text: state.counterparty.description,
@@ -117,12 +109,6 @@ class _CreatePKOPageState extends State<_CreatePKOPage> {
                       },
                     ),
                     const Padding(padding: EdgeInsets.all(6)),
-                    // TextFielButton(
-                    //   //text: state.counterparty.description,
-                    //   lableText: 'Основа',
-                    //   onTap: () {},
-                    // ),
-                    // const Padding(padding: EdgeInsets.all(6)),
                     SizedBox(
                         width: 200,
                         child: TextField(
@@ -133,6 +119,9 @@ class _CreatePKOPageState extends State<_CreatePKOPage> {
                             ),
                             onChanged: (value) {
                               currentValue = value;
+                              context
+                                  .read<CreatePKOCubit>()
+                                  .setSum(double.parse(currentValue));
                             },
                             onEditingComplete: () {
                               context
@@ -146,19 +135,71 @@ class _CreatePKOPageState extends State<_CreatePKOPage> {
                       ),
                       onTap: () {},
                     ),
-                    // const Padding(padding: EdgeInsets.all(6)),
-                    // TextFielButton(
-                    //   //text: state.counterparty.description,
-                    //   lableText: 'Категорії',
-                    //   onTap: () {},
-                    // ),
                     const Padding(padding: EdgeInsets.all(6)),
                     Center(
                       child: SizedBox(
                         width: 200,
                         child: FilledButton(
                           onPressed: () {
-                            context.read<CreatePKOCubit>().sendPostRequest();
+                            if (context
+                                .read<CreatePKOCubit>()
+                                .counterPartyIsEmpty()) {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title:
+                                        const Text('Контрагент не заповнений'),
+                                    content: const Text(
+                                        'Контрагент не заповнений. Будь ласка, заповніть необхідну інформацію.'),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: const Text('Закрити'),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                          _onSelectCounterparty();
+                                        },
+                                        child: const Text('Ок'),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            }
+                            if (context.read<CreatePKOCubit>().getSum() <= 0) {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title:
+                                        const Text('Сума введена некоректно!'),
+                                    content: const Text(
+                                        'Будь ласка, заповніть необхідну інформацію.'),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: const Text('Закрити'),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            } else {
+                              context.read<CreatePKOCubit>().sendPostRequest();
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('Операція успішна!'),
+                                  duration: Duration(seconds: 2),
+                                ),
+                              );
+                            }
                           },
                           child: const Row(
                             children: [
@@ -231,7 +272,7 @@ class _CreatePKOPageState extends State<_CreatePKOPage> {
                             ),
                           )
                         : Text(
-                            'Договір відсутня',
+                            'Договір відсутній',
                             style: theme.textTheme.titleMedium,
                           );
                   },
