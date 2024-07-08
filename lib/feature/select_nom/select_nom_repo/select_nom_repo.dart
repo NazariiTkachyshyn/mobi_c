@@ -1,5 +1,7 @@
-import 'package:mobi_c/common/models/config.dart';
 import 'package:mobi_c/services/data_base/object_box/models/models.dart';
+import 'package:mobi_c/repository/authentication_repository/models/storage.dart'
+    as config;
+
 import '../../../common/common.dart';
 import '../select_nom_client/select_nom_client.dart';
 
@@ -10,7 +12,8 @@ abstract interface class SelectNomRepo {
 
   Future<List<Nom>> searchNomsInFolder(String value, String parentKey);
 
-  Future<List<Remaining>> getNomRemaining(String ref, List<ConfigStorage> storages);
+  Future<List<Remaining>> getNomRemaining(
+      String ref, List<config.Storage> storages);
 }
 
 class SelectNomRepoImpl implements SelectNomRepo {
@@ -50,15 +53,21 @@ class SelectNomRepoImpl implements SelectNomRepo {
   }
 
   @override
-  Future<List<Remaining>> getNomRemaining(String ref, List<ConfigStorage> storages) async {
-    
+  Future<List<Remaining>> getNomRemaining(
+      String ref, List<config.Storage> storages) async {
     try {
       final noms = await _selecNomClient.getNomRemaining(ref);
-      return noms
+
+      return storages
           .map((e) => Remaining(
-              storageKey: e.storageKey,
-              remaining: e.remaining,
-              name: storages.firstWhere((s) => s.refKey == e.storageKey).description))
+              storageKey: e.refKey,
+              remaining: noms
+                  .firstWhere(
+                    (nom) => nom.storageKey == e.refKey,
+                    orElse: () => Nom.empty(),
+                  )
+                  .remaining,
+              name: e.description))
           .toList();
     } catch (e) {
       throw Exception(e);

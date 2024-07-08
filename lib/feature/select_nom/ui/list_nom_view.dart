@@ -145,35 +145,3 @@ class _ListViewItem extends StatelessWidget {
   }
 }
 
-remainingDialog(BuildContext context) {
-  showModal(
-    context: context,
-    builder: (_) => BlocProvider.value(
-      value: context.read<SelectNomCubit>(),
-      child: Dialog(
-        child: BlocBuilder<SelectNomCubit, SelectNomState>(
-          builder: (context, state) {
-            if (state.remaining.isEmpty) {
-              return const SizedBox(
-                  height: 160,
-                  child: Center(child: CircularProgressIndicator()));
-            }
-            return SizedBox(
-              height: 160,
-              child: ListView.builder(
-                itemCount: state.remaining.length,
-                itemBuilder: (context, index) {
-                  final remaining = state.remaining[index];
-                  return ListTile(
-                    title: Text(remaining.name),
-                    trailing: Text(remaining.remaining.toString()),
-                  );
-                },
-              ),
-            );
-          },
-        ),
-      ),
-    ),
-  );
-}

@@ -9,8 +9,9 @@ import 'package:mobi_c/services/data_base/object_box/models/models.dart';
 part 'select_nom_state.dart';
 
 class SelectNomCubit extends Cubit<SelectNomState> {
-  SelectNomCubit(this._selectNomRepo, )
-      : super(const SelectNomState());
+  SelectNomCubit(
+    this._selectNomRepo,
+  ) : super(const SelectNomState());
 
   final SelectNomRepo _selectNomRepo;
 
@@ -50,7 +51,7 @@ class SelectNomCubit extends Cubit<SelectNomState> {
     String ref,
   ) async {
     try {
-      final storagesConfig = Config.storages;
+      final storagesConfig = Config.visibleStorageBalance;
 
       emit(state.copyWith(remaining: []));
       final remaining =
