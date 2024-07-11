@@ -12,8 +12,7 @@ class SyncPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        create: (context) => SyncCubit(DataSyncService(
-            DataSyncApiClient())),
+        create: (context) => SyncCubit(DataSyncService(DataSyncApiClient())),
         child: const SyncView());
   }
 }
@@ -50,6 +49,22 @@ class SyncView extends StatelessWidget {
             title: const Text('Завантажити все'),
             onTap: () =>
                 (context.read<SyncCubit>().syncAll(), showDialogg(context)),
+          ),
+          const Divider(
+            endIndent: 20,
+            indent: 20,
+          ),
+          ListTile(
+            title: const Text('Вивантажити замовлення'),
+            onTap: () => (context.read<SyncCubit>().syncOrders()),
+          ),
+          const Divider(
+            endIndent: 20,
+            indent: 20,
+          ),
+          ListTile(
+            title: const Text('Вивантажити пко'),
+            onTap: () => (),
           ),
           const Divider(
             endIndent: 20,

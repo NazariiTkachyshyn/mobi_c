@@ -92,7 +92,7 @@ class CreateOrderRepoImpl implements CreateOrderRepo {
   @override
   Future<void> createOrder(Map<String, dynamic> order) async {
     try {
-      await _createOrderClient.createOrder(order);
+      await _createOrderClient.createOrderWithOfflineFallback(order);
     } catch (e) {
       throw Exception(e);
     }

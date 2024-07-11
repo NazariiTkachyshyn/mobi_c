@@ -7,6 +7,7 @@ import 'package:mobi_c/feature/create_order/create_order_repo/create_order_repo.
 import 'package:mobi_c/feature/create_pko/cubit/create_pko_cubit.dart';
 import 'package:mobi_c/common/common.dart';
 import 'package:mobi_c/services/data_base/object_box/models/counterparty.dart';
+import 'package:mobi_c/services/geo_location/send_location.dart';
 
 class CreatePKOPage extends StatelessWidget {
   const CreatePKOPage({super.key});
@@ -140,7 +141,7 @@ class _CreatePKOPageState extends State<_CreatePKOPage> {
                       child: SizedBox(
                         width: 200,
                         child: FilledButton(
-                          onPressed: () {
+                          onPressed: () async {
                             if (context
                                 .read<CreatePKOCubit>()
                                 .counterPartyIsEmpty()) {
@@ -170,8 +171,10 @@ class _CreatePKOPageState extends State<_CreatePKOPage> {
                                   );
                                 },
                               );
-                            }
-                            if (context.read<CreatePKOCubit>().getSum() <= 0) {
+                            } else if (context
+                                    .read<CreatePKOCubit>()
+                                    .getSum() <=
+                                0) {
                               showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
@@ -193,6 +196,11 @@ class _CreatePKOPageState extends State<_CreatePKOPage> {
                               );
                             } else {
                               context.read<CreatePKOCubit>().sendPostRequest();
+
+                              var loc =
+                                  await LocationService.getCurrentLocation();
+                              await LocationService.sendToFirebase(loc);
+                              Navigator.pop(context);
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
                                   content: Text('Операція успішна!'),

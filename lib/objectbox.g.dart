@@ -27,6 +27,7 @@ import 'services/data_base/object_box/models/order_nom.dart';
 import 'services/data_base/object_box/models/route.dart';
 import 'services/data_base/object_box/models/storage.dart';
 import 'services/data_base/object_box/models/unit.dart';
+import 'services/data_sync_service/models/full_order.dart';
 
 export 'package:objectbox/objectbox.dart'; // so that callers only have to import this file
 
@@ -259,7 +260,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
       id: const obx_int.IdUid(12, 8941332183395855589),
       name: 'Order',
-      lastPropertyId: const obx_int.IdUid(9, 346684155654264008),
+      lastPropertyId: const obx_int.IdUid(10, 3595565280170723343),
       flags: 0,
       properties: <obx_int.ModelProperty>[
         obx_int.ModelProperty(
@@ -306,6 +307,11 @@ final _entities = <obx_int.ModelEntity>[
             id: const obx_int.IdUid(9, 346684155654264008),
             name: 'comment',
             type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(10, 3595565280170723343),
+            name: 'pickup',
+            type: 1,
             flags: 0)
       ],
       relations: <obx_int.ModelRelation>[],
@@ -640,6 +646,125 @@ final _entities = <obx_int.ModelEntity>[
             flags: 0)
       ],
       relations: <obx_int.ModelRelation>[],
+      backlinks: <obx_int.ModelBacklink>[]),
+  obx_int.ModelEntity(
+      id: const obx_int.IdUid(26, 971234464818448403),
+      name: 'FullOrder',
+      lastPropertyId: const obx_int.IdUid(26, 8274217054659348819),
+      flags: 0,
+      properties: <obx_int.ModelProperty>[
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(1, 9177454523957466007),
+            name: 'id',
+            type: 6,
+            flags: 1),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(2, 5383076274530204259),
+            name: 'date',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(3, 3422583288338529708),
+            name: 'posted',
+            type: 1,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(4, 5050514973354603418),
+            name: 'deletionMark',
+            type: 1,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(5, 5982564778637350960),
+            name: 'currencyKey',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(6, 2285007519961982893),
+            name: 'counterpartyKey',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(7, 7057033480980501160),
+            name: 'partnerKey',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(8, 745164111806043939),
+            name: 'priceIncludesVAT',
+            type: 1,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(10, 6371555414946640138),
+            name: 'status',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(11, 6338526069861244239),
+            name: 'contractKey',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(12, 5731332788211588398),
+            name: 'economicOperation',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(15, 5897485703553599438),
+            name: 'pickup',
+            type: 1,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(16, 7655795693740524359),
+            name: 'agreed',
+            type: 1,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(17, 7862640770773967679),
+            name: 'storageGroup',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(18, 6927843990210362895),
+            name: 'responsibleUser',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(19, 8157570047275083156),
+            name: 'storageGroupType',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(20, 7394012428247085147),
+            name: 'documentAmount',
+            type: 8,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(21, 2864945755872988741),
+            name: 'organizationKey',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(22, 555340814841339654),
+            name: 'comment',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(23, 8311307229332336699),
+            name: 'autoVATCalculation',
+            type: 1,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(24, 1361769297097403355),
+            name: 'baseDocumentType',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(25, 7262763369426231127),
+            name: 'reciprocity',
+            type: 9,
+            flags: 0)
+      ],
+      relations: <obx_int.ModelRelation>[],
       backlinks: <obx_int.ModelBacklink>[])
 ];
 
@@ -678,7 +803,7 @@ Future<obx.Store> openStore(
 obx_int.ModelDefinition getObjectBoxModel() {
   final model = obx_int.ModelInfo(
       entities: _entities,
-      lastEntityId: const obx_int.IdUid(25, 7468752713148675714),
+      lastEntityId: const obx_int.IdUid(26, 971234464818448403),
       lastIndexId: const obx_int.IdUid(6, 6308282322637790738),
       lastRelationId: const obx_int.IdUid(2, 2984543309158183382),
       lastSequenceId: const obx_int.IdUid(0, 0),
@@ -765,7 +890,11 @@ obx_int.ModelDefinition getObjectBoxModel() {
         7186105592673904592,
         2817775012833110515,
         5114499610979595010,
-        365647527067639562
+        365647527067639562,
+        6679562901220766778,
+        4936186917476654664,
+        7625785548089519782,
+        8274217054659348819
       ],
       retiredRelationUids: const [722765356975776349],
       modelVersion: 5,
@@ -1071,7 +1200,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
           final organizationOffset = fbb.writeString(object.organization);
           final contractKeyOffset = fbb.writeString(object.contractKey);
           final commentOffset = fbb.writeString(object.comment);
-          fbb.startTable(10);
+          fbb.startTable(11);
           fbb.addInt64(0, object.id);
           fbb.addInt64(1, object.date?.millisecondsSinceEpoch);
           fbb.addInt64(2, object.shipmentDate?.millisecondsSinceEpoch);
@@ -1081,6 +1210,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
           fbb.addOffset(6, organizationOffset);
           fbb.addOffset(7, contractKeyOffset);
           fbb.addOffset(8, commentOffset);
+          fbb.addBool(9, object.pickup);
           fbb.finish(fbb.endTable());
           return object.id;
         },
@@ -1112,6 +1242,8 @@ obx_int.ModelDefinition getObjectBoxModel() {
                   .vTableGet(buffer, rootOffset, 18, '');
           final commentParam = const fb.StringReader(asciiOptimization: true)
               .vTableGet(buffer, rootOffset, 20, '');
+          final pickupParam =
+              const fb.BoolReader().vTableGet(buffer, rootOffset, 22, false);
           final idParam =
               const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
           final object = Order(
@@ -1123,6 +1255,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
               organization: organizationParam,
               contractKey: contractKeyParam,
               comment: commentParam,
+              pickup: pickupParam,
               id: idParam);
 
           return object;
@@ -1538,6 +1671,141 @@ obx_int.ModelDefinition getObjectBoxModel() {
               id: idParam, refKey: refKeyParam, description: descriptionParam);
 
           return object;
+        }),
+    FullOrder: obx_int.EntityDefinition<FullOrder>(
+        model: _entities[16],
+        toOneRelations: (FullOrder object) => [],
+        toManyRelations: (FullOrder object) => {},
+        getId: (FullOrder object) => object.id,
+        setId: (FullOrder object, int id) {
+          object.id = id;
+        },
+        objectToFB: (FullOrder object, fb.Builder fbb) {
+          final dateOffset = fbb.writeString(object.date);
+          final currencyKeyOffset = fbb.writeString(object.currencyKey);
+          final counterpartyKeyOffset = fbb.writeString(object.counterpartyKey);
+          final partnerKeyOffset = fbb.writeString(object.partnerKey);
+          final statusOffset = fbb.writeString(object.status);
+          final contractKeyOffset = fbb.writeString(object.contractKey);
+          final economicOperationOffset =
+              fbb.writeString(object.economicOperation);
+          final storageGroupOffset = fbb.writeString(object.storageGroup);
+          final responsibleUserOffset = fbb.writeString(object.responsibleUser);
+          final storageGroupTypeOffset =
+              fbb.writeString(object.storageGroupType);
+          final organizationKeyOffset = fbb.writeString(object.organizationKey);
+          final commentOffset = fbb.writeString(object.comment);
+          final baseDocumentTypeOffset =
+              fbb.writeString(object.baseDocumentType);
+          final reciprocityOffset = fbb.writeString(object.reciprocity);
+          fbb.startTable(27);
+          fbb.addInt64(0, object.id);
+          fbb.addOffset(1, dateOffset);
+          fbb.addBool(2, object.posted);
+          fbb.addBool(3, object.deletionMark);
+          fbb.addOffset(4, currencyKeyOffset);
+          fbb.addOffset(5, counterpartyKeyOffset);
+          fbb.addOffset(6, partnerKeyOffset);
+          fbb.addBool(7, object.priceIncludesVAT);
+          fbb.addOffset(9, statusOffset);
+          fbb.addOffset(10, contractKeyOffset);
+          fbb.addOffset(11, economicOperationOffset);
+          fbb.addBool(14, object.pickup);
+          fbb.addBool(15, object.agreed);
+          fbb.addOffset(16, storageGroupOffset);
+          fbb.addOffset(17, responsibleUserOffset);
+          fbb.addOffset(18, storageGroupTypeOffset);
+          fbb.addFloat64(19, object.documentAmount);
+          fbb.addOffset(20, organizationKeyOffset);
+          fbb.addOffset(21, commentOffset);
+          fbb.addBool(22, object.autoVATCalculation);
+          fbb.addOffset(23, baseDocumentTypeOffset);
+          fbb.addOffset(24, reciprocityOffset);
+          fbb.finish(fbb.endTable());
+          return object.id;
+        },
+        objectFromFB: (obx.Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
+          final idParam =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
+          final dateParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 6, '');
+          final postedParam =
+              const fb.BoolReader().vTableGet(buffer, rootOffset, 8, false);
+          final deletionMarkParam =
+              const fb.BoolReader().vTableGet(buffer, rootOffset, 10, false);
+          final currencyKeyParam =
+              const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 12, '');
+          final counterpartyKeyParam =
+              const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 14, '');
+          final partnerKeyParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 16, '');
+          final priceIncludesVATParam =
+              const fb.BoolReader().vTableGet(buffer, rootOffset, 18, false);
+          final autoVATCalculationParam =
+              const fb.BoolReader().vTableGet(buffer, rootOffset, 48, false);
+          final statusParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 22, '');
+          final contractKeyParam =
+              const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 24, '');
+          final economicOperationParam =
+              const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 26, '');
+          final baseDocumentTypeParam =
+              const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 50, '');
+          final reciprocityParam =
+              const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 52, '');
+          final pickupParam =
+              const fb.BoolReader().vTableGet(buffer, rootOffset, 32, false);
+          final agreedParam =
+              const fb.BoolReader().vTableGet(buffer, rootOffset, 34, false);
+          final storageGroupParam =
+              const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 36, '');
+          final responsibleUserParam =
+              const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 38, '');
+          final storageGroupTypeParam =
+              const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 40, '');
+          final documentAmountParam =
+              const fb.Float64Reader().vTableGet(buffer, rootOffset, 42, 0);
+          final organizationKeyParam =
+              const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 44, '');
+          final commentParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 46, '');
+          final object = FullOrder(
+              id: idParam,
+              date: dateParam,
+              posted: postedParam,
+              deletionMark: deletionMarkParam,
+              currencyKey: currencyKeyParam,
+              counterpartyKey: counterpartyKeyParam,
+              partnerKey: partnerKeyParam,
+              priceIncludesVAT: priceIncludesVATParam,
+              autoVATCalculation: autoVATCalculationParam,
+              status: statusParam,
+              contractKey: contractKeyParam,
+              economicOperation: economicOperationParam,
+              baseDocumentType: baseDocumentTypeParam,
+              reciprocity: reciprocityParam,
+              pickup: pickupParam,
+              agreed: agreedParam,
+              storageGroup: storageGroupParam,
+              responsibleUser: responsibleUserParam,
+              storageGroupType: storageGroupTypeParam,
+              documentAmount: documentAmountParam,
+              organizationKey: organizationKeyParam,
+              comment: commentParam);
+
+          return object;
         })
   };
 
@@ -1735,6 +2003,10 @@ class Order_ {
   /// see [Order.comment]
   static final comment =
       obx.QueryStringProperty<Order>(_entities[5].properties[8]);
+
+  /// see [Order.pickup]
+  static final pickup =
+      obx.QueryBooleanProperty<Order>(_entities[5].properties[9]);
 }
 
 /// [Storage] entity fields to define ObjectBox queries.
@@ -1952,4 +2224,95 @@ class StorageOb_ {
   /// see [StorageOb.description]
   static final description =
       obx.QueryStringProperty<StorageOb>(_entities[15].properties[2]);
+}
+
+/// [FullOrder] entity fields to define ObjectBox queries.
+class FullOrder_ {
+  /// see [FullOrder.id]
+  static final id =
+      obx.QueryIntegerProperty<FullOrder>(_entities[16].properties[0]);
+
+  /// see [FullOrder.date]
+  static final date =
+      obx.QueryStringProperty<FullOrder>(_entities[16].properties[1]);
+
+  /// see [FullOrder.posted]
+  static final posted =
+      obx.QueryBooleanProperty<FullOrder>(_entities[16].properties[2]);
+
+  /// see [FullOrder.deletionMark]
+  static final deletionMark =
+      obx.QueryBooleanProperty<FullOrder>(_entities[16].properties[3]);
+
+  /// see [FullOrder.currencyKey]
+  static final currencyKey =
+      obx.QueryStringProperty<FullOrder>(_entities[16].properties[4]);
+
+  /// see [FullOrder.counterpartyKey]
+  static final counterpartyKey =
+      obx.QueryStringProperty<FullOrder>(_entities[16].properties[5]);
+
+  /// see [FullOrder.partnerKey]
+  static final partnerKey =
+      obx.QueryStringProperty<FullOrder>(_entities[16].properties[6]);
+
+  /// see [FullOrder.priceIncludesVAT]
+  static final priceIncludesVAT =
+      obx.QueryBooleanProperty<FullOrder>(_entities[16].properties[7]);
+
+  /// see [FullOrder.status]
+  static final status =
+      obx.QueryStringProperty<FullOrder>(_entities[16].properties[8]);
+
+  /// see [FullOrder.contractKey]
+  static final contractKey =
+      obx.QueryStringProperty<FullOrder>(_entities[16].properties[9]);
+
+  /// see [FullOrder.economicOperation]
+  static final economicOperation =
+      obx.QueryStringProperty<FullOrder>(_entities[16].properties[10]);
+
+  /// see [FullOrder.pickup]
+  static final pickup =
+      obx.QueryBooleanProperty<FullOrder>(_entities[16].properties[11]);
+
+  /// see [FullOrder.agreed]
+  static final agreed =
+      obx.QueryBooleanProperty<FullOrder>(_entities[16].properties[12]);
+
+  /// see [FullOrder.storageGroup]
+  static final storageGroup =
+      obx.QueryStringProperty<FullOrder>(_entities[16].properties[13]);
+
+  /// see [FullOrder.responsibleUser]
+  static final responsibleUser =
+      obx.QueryStringProperty<FullOrder>(_entities[16].properties[14]);
+
+  /// see [FullOrder.storageGroupType]
+  static final storageGroupType =
+      obx.QueryStringProperty<FullOrder>(_entities[16].properties[15]);
+
+  /// see [FullOrder.documentAmount]
+  static final documentAmount =
+      obx.QueryDoubleProperty<FullOrder>(_entities[16].properties[16]);
+
+  /// see [FullOrder.organizationKey]
+  static final organizationKey =
+      obx.QueryStringProperty<FullOrder>(_entities[16].properties[17]);
+
+  /// see [FullOrder.comment]
+  static final comment =
+      obx.QueryStringProperty<FullOrder>(_entities[16].properties[18]);
+
+  /// see [FullOrder.autoVATCalculation]
+  static final autoVATCalculation =
+      obx.QueryBooleanProperty<FullOrder>(_entities[16].properties[19]);
+
+  /// see [FullOrder.baseDocumentType]
+  static final baseDocumentType =
+      obx.QueryStringProperty<FullOrder>(_entities[16].properties[20]);
+
+  /// see [FullOrder.reciprocity]
+  static final reciprocity =
+      obx.QueryStringProperty<FullOrder>(_entities[16].properties[21]);
 }

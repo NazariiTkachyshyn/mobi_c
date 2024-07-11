@@ -93,7 +93,7 @@ class CreatePKOCubit extends Cubit<CreatePKOState> {
       "Подразделение_Key": "00000000-0000-0000-0000-000000000000",
       "ВидОперации": "ОплатаПокупателя",
       "Контрагент": state.counterparty.refKey,
-      //"Контрагент_Type": "StandardODATA.Catalog_Контрагенты",
+      "Контрагент_Type": "StandardODATA.Catalog_Контрагенты",
       "ДоговорКонтрагента_Key": state.contracts[0].refKey,
       "ВалютаДокумента_Key": "7fc302bf-2248-11e1-b864-002354e1ef1c",
       "СуммаДокумента": state.sum.toString(),
@@ -112,12 +112,12 @@ class CreatePKOCubit extends Cubit<CreatePKOState> {
         {
           "LineNumber": "1",
           "ДоговорКонтрагента_Key": state.counterparty.refKey,
-          "КурсВзаиморасчетов": 1,
+          "КурсВзаиморасчетов": "1",
           "СуммаПлатежа": state.sum.toString(),
           "КратностьВзаиморасчетов": "1",
           "СуммаВзаиморасчетов": state.sum.toString(),
           "СтавкаНДС": "",
-          "СуммаНДС": 0,
+          "СуммаНДС": "0",
           "ЗаТару": false,
         }
       ],
@@ -125,10 +125,15 @@ class CreatePKOCubit extends Cubit<CreatePKOState> {
   }
 
   Future<void> sendPostRequest() async {
-    final url = Uri.http(Config.odataHost,
-        "${Config.odataPath}/Document_ПриходныйКассовыйОрдер?\$format=json");
+    final url = Uri.parse(
+        "http://192.168.2.50:81/virok_test/odata/standard.odata/Document_ПриходныйКассовыйОрдер?\$format=json");
+    // "${Config.odataPath}/Document_ПриходныйКассовыйОрдер?\$format=json");
+    const String username = 'dt';
+    const String pass = 'DT20Group';
+    final String basicAuth =
+        'Basic ${base64Encode(utf8.encode('$username:$pass'))}';
     final headers = {
-      'Authorization': Config.basicAuth,
+      'Authorization': basicAuth,
     };
     final body = jsonEncode(toJson());
 

@@ -1,7 +1,15 @@
+import 'dart:io';
+
+import 'package:get_it/get_it.dart';
 import 'package:mobi_c/common/ui/widgets/widget.dart';
+import 'package:mobi_c/feature/create_order/create_order_repo/order_repo.dart';
 import 'package:mobi_c/feature/create_order/cubit/create_order_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobi_c/services/data_base/object_box/models/order.dart';
+import 'package:mobi_c/services/data_base/object_box/object_box.dart';
+import 'package:mobi_c/services/data_sync_service/models/order.dart';
+import 'package:mobi_c/services/geo_location/send_location.dart';
 
 class AtherView extends StatefulWidget {
   const AtherView({super.key});
@@ -59,18 +67,22 @@ class _AtherViewState extends State<AtherView> {
             const Spacer(),
             Center(
               child: ElevatedButton(
-                  onPressed: () => showCheckDialog(context,
-                          title: 'Створити замовлення',
-                          description:
-                              'Ви впевнені, що хочете створити нове замовлення?',
-                          acceptLable: 'Так, створити',
-                          cancelLable: 'Скасувати', onPressedAccept: () {
-                        context.read<CreateOrderCubit>().createOrder();
-                        Navigator.pop(context);
-                      }),
-                  child: const Text(
-                    'Створити замовлення',
-                  )),
+                onPressed: () => showCheckDialog(
+                  context,
+                  title: 'Створити замовлення',
+                  description:
+                      'Ви впевнені, що хочете створити нове замовлення?',
+                  acceptLable: 'Так, створити',
+                  cancelLable: 'Скасувати',
+                  onPressedAccept: () async {
+                    context.read<CreateOrderCubit>().createOrder();
+                    Navigator.pop(context);
+                    //var loc = await LocationService.getCurrentLocation();
+                    //await LocationService.sendToFirebase(loc);
+                  },
+                ),
+                child: const Text('Створити замовлення'),
+              ),
             ),
           ]),
         );

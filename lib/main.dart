@@ -26,9 +26,6 @@ import 'services/data_base/object_box/object_box.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
-
-
-
 late ObjectBox objectbox;
 
 void main() async {
@@ -37,12 +34,11 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-
-
   final Directory docDir = await getApplicationDocumentsDirectory();
   objectbox = await ObjectBox.create();
   final prefs = await SharedPreferences.getInstance();
   final store = objectbox.store;
+  GetIt.instance.registerSingleton<ObjectBox>(objectbox);
   GetIt.instance.registerSingleton<Store>(store);
   GetIt.instance.registerSingleton<Directory>(docDir);
   GetIt.instance.registerSingleton<SharedPreferences>(prefs);
