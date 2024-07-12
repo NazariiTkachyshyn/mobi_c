@@ -1,27 +1,53 @@
 part of 'sync_cubit.dart';
 
-class SyncState extends Equatable {
-  final List<SyncStatus> syncStatuses;
-  final int number;
-
-  const SyncState({this.syncStatuses = const [], this.number = 0});
-
-  SyncState copyWith({List<SyncStatus>? syncStatuses, int? number}) {
-    return SyncState(
-        syncStatuses: syncStatuses ?? this.syncStatuses,
-        number: number ?? this.number);
-  }
-
-  @override
-  List<Object> get props => [syncStatuses, number];
+enum SyncStateStatus {
+  initialized,
+  downloading,
+  downloaded,
+  failure,
+  noConnection,
+  empty
 }
 
-enum SyncStateStatus { downloading, downloaded, failure }
-
 extension SyncStatusX on SyncStateStatus {
+  bool get isInitialized => this == SyncStateStatus.initialized;
   bool get isDownloading => this == SyncStateStatus.downloading;
   bool get isDownloaded => this == SyncStateStatus.downloaded;
   bool get isFailure => this == SyncStateStatus.failure;
+  bool get isNoConnection => this == SyncStateStatus.noConnection;
+  bool get isEmpty => this == SyncStateStatus.empty;
+}
+
+class SyncState extends Equatable {
+  final List<SyncStatus> syncStatuses;
+  final int number;
+  final SyncStateStatus pkoSyncStatus;
+  final SyncStateStatus orderSyncStatus;
+
+  const SyncState({
+    this.syncStatuses = const [],
+    this.number = 0,
+    this.pkoSyncStatus = SyncStateStatus.initialized, // Default value
+    this.orderSyncStatus = SyncStateStatus.initialized, // Default value
+  });
+
+  SyncState copyWith({
+    List<SyncStatus>? syncStatuses,
+    int? number,
+    SyncStateStatus? pkoSyncStatus,
+    SyncStateStatus? orderSyncStatus,
+  }) {
+    return SyncState(
+      syncStatuses: syncStatuses ?? this.syncStatuses,
+      number: number ?? this.number,
+      pkoSyncStatus: pkoSyncStatus ?? this.pkoSyncStatus,
+      orderSyncStatus: orderSyncStatus ?? this.orderSyncStatus,
+    );
+  }
+
+  @override
+  List<Object> get props =>
+      [syncStatuses, number, pkoSyncStatus, orderSyncStatus];
 }
 
 class SyncStatus {
@@ -29,6 +55,7 @@ class SyncStatus {
   final int resultCode;
 
   SyncStatus(this.dataType, this.resultCode);
+
   SyncStatus copyWith({
     String? dataType,
     int? resultCode,

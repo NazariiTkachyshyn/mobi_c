@@ -1,12 +1,15 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
 import 'package:mobi_c/common/func.dart';
 import 'package:mobi_c/feature/create_order/create_order_repo/create_order_repo.dart';
-import 'package:mobi_c/objectbox.g.dart';
 import 'package:mobi_c/repository/config_repo/config_repo.dart';
+import 'package:mobi_c/services/data_base/object_box/models/PKO.dart';
+import 'package:mobi_c/services/data_base/object_box/object_box.dart';
 import 'package:mobi_c/services/data_sync_service/models/order.dart';
 import 'package:mobi_c/services/data_base/object_box/models/models.dart';
 import 'package:http/http.dart' as http;
@@ -74,6 +77,20 @@ class CreatePKOCubit extends Cubit<CreatePKOState> {
     return state.sum;
   }
 
+  String getDescription() {
+    return extractCity(state.counterparty.description);
+  }
+
+  String extractCity(String input) {
+    final regex = RegExp(r'\((.*?)\)');
+    final matches = regex.allMatches(input);
+    if (matches.isNotEmpty) {
+      return matches.first.group(1) ?? '';
+    } else {
+      return '';
+    }
+  }
+
   String formatDateTime(DateTime dateTime) {
     final DateFormat formatter = DateFormat('yyyy-MM-ddTHH:mm:ss');
     return formatter.format(dateTime);
@@ -124,24 +141,42 @@ class CreatePKOCubit extends Cubit<CreatePKOState> {
     };
   }
 
-  Future<void> sendPostRequest() async {
+  Future<void> createPKO() async {
     final url = Uri.parse(
         "http://192.168.2.50:81/virok_test/odata/standard.odata/Document_ПриходныйКассовыйОрдер?\$format=json");
-    // "${Config.odataPath}/Document_ПриходныйКассовыйОрдер?\$format=json");
     const String username = 'dt';
     const String pass = 'DT20Group';
     final String basicAuth =
         'Basic ${base64Encode(utf8.encode('$username:$pass'))}';
     final headers = {
       'Authorization': basicAuth,
+      "Accept": "application/json",
+      "Accept-Charset": "UTF-8",
+      "Content-Type": "application/json",
     };
-    final body = jsonEncode(toJson());
+    var pko = toJson();
+    final body = jsonEncode(pko);
 
-    // ignore: unused_local_variable
-    final response = await http.post(
-      url,
-      headers: headers,
-      body: body,
-    );
+    try {
+      final result = await InternetAddress.lookup('example.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        final response = await http.post(url, headers: headers, body: body);
+        if (response.statusCode == 201) {
+          print('Pko hac been sent');
+        } else {
+          throw Exception(response.body);
+        }
+      } else {
+        final objectBox = GetIt.I<ObjectBox>();
+        final pkoBox = objectBox.store.box<PKO>();
+        await pkoBox.putAsync(PKO.fromJson(pko));
+      }
+    } on SocketException catch (_) {
+      final objectBox = GetIt.I<ObjectBox>();
+      final pkoBox = objectBox.store.box<PKO>();
+      await pkoBox.putAsync(PKO.fromJson(pko));
+    } catch (e) {
+      throw Exception('Failed to create PKO: $e');
+    }
   }
 }

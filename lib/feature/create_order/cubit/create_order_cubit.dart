@@ -138,6 +138,7 @@ class CreateOrderCubit extends Cubit<CreateOrderState> {
       await _createOrderRepo.createOrder(state.order.toJson(products));
       emit(state.copyWith(status: CreateOrderStatus.success));
     } catch (e) {
+      if (isClosed) return;
       emit(state.copyWith(
           status: CreateOrderStatus.failure, errorMessage: e.toString()));
     }

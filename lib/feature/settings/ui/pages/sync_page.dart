@@ -22,6 +22,7 @@ class SyncView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<SyncCubit>().state;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Синхронізація'),
@@ -56,15 +57,91 @@ class SyncView extends StatelessWidget {
           ),
           ListTile(
             title: const Text('Вивантажити замовлення'),
-            onTap: () => (context.read<SyncCubit>().syncOrders()),
+            onTap: () async {
+              String snackBarText = '';
+              try {
+                await context.read<SyncCubit>().syncOrders();
+                if (context.mounted) {
+                  switch (context.read<SyncCubit>().state.orderSyncStatus) {
+                    case SyncStateStatus.downloaded:
+                      snackBarText = 'Замовлення успішно вивантажено';
+                      break;
+                    case SyncStateStatus.empty:
+                      snackBarText = 'Немає збережених замовлень';
+                      break;
+                    case SyncStateStatus.noConnection:
+                      snackBarText = 'Немає з\'єднання з мережею';
+                      break;
+                    case SyncStateStatus.failure:
+                      snackBarText = 'Помилка при вивантаженні замовлень';
+                      break;
+                    default:
+                      break;
+                  }
+                }
+              } catch (e) {
+                if (context.mounted) {
+                  snackBarText = 'Помилка при вивантаженні замовлень';
+                }
+              }
+              if (context.mounted) {
+                ScaffoldMessenger.of(context)
+                  ..removeCurrentSnackBar()
+                  ..showSnackBar(
+                    SnackBar(
+                      content: Text(snackBarText),
+                      duration: const Duration(seconds: 2),
+                    ),
+                  );
+              }
+            },
           ),
           const Divider(
             endIndent: 20,
             indent: 20,
           ),
           ListTile(
-            title: const Text('Вивантажити пко'),
-            onTap: () => (),
+            title: const Text('Вивантажити ПКО'),
+            onTap: () async {
+              String snackBarText = '';
+              try {
+                await context.read<SyncCubit>().syncPKO();
+                if (!context.mounted) return;
+
+                final pkoSyncStatus =
+                    context.read<SyncCubit>().state.pkoSyncStatus;
+                switch (pkoSyncStatus) {
+                  case SyncStateStatus.downloaded:
+                    snackBarText = 'Ордер успішно вивантажено';
+                    break;
+                  case SyncStateStatus.empty:
+                    snackBarText = 'Немає збережених ПКО';
+                    break;
+                  case SyncStateStatus.noConnection:
+                    snackBarText = 'Немає з\'єднання з мережею';
+                    break;
+                  case SyncStateStatus.failure:
+                    snackBarText = 'Помилка при вивантаженні ордерів';
+                    break;
+                  default:
+                    break;
+                }
+              } catch (e) {
+                if (context.mounted) {
+                  snackBarText = 'Помилка при вивантаженні ПКО';
+                }
+              }
+              if (context.mounted) {
+                ScaffoldMessenger.of(context)
+                  ..removeCurrentSnackBar()
+                  ..showSnackBar(
+                    SnackBar(
+                      content: Text(snackBarText),
+                      duration: const Duration(seconds: 2),
+                    ),
+                  );
+              }
+            },
           ),
           const Divider(
             endIndent: 20,
@@ -79,6 +156,10 @@ class SyncView extends StatelessWidget {
                   'Ви впевнені, що хочете видалити базу даних? Цю дію не можна буде скасувати.',
               onPressedAccept: () => context.read<SyncCubit>().deleteAll(),
             ),
+          ),
+          const Divider(
+            endIndent: 20,
+            indent: 20,
           ),
         ],
       ),

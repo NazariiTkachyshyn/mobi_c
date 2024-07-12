@@ -19,6 +19,7 @@ class SelectCounterpartyCubit extends Cubit<SelectCounterpartyState> {
       final routesIds = routes.map((e) => e.refKey).toList();
       buildTree(folders, routesIds);
     } catch (e) {
+      if (isClosed) return;
       emit(state.copyWith(status: SelectCounterpartyStatus.failure));
     }
   }
@@ -84,4 +85,3 @@ class SelectCounterpartyCubit extends Cubit<SelectCounterpartyState> {
 
   clearCounterparty() => emit(state.copyWith(counterparty: []));
 }
-

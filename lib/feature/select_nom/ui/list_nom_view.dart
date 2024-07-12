@@ -1,4 +1,3 @@
-import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobi_c/common/common.dart';
@@ -144,4 +143,3 @@ class _ListViewItem extends StatelessWidget {
                 })));
   }
 }
-

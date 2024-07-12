@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:mobi_c/repository/config_repo/config_repo.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class LocationService {
   static Future<Position> getCurrentLocation() async {

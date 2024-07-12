@@ -1,14 +1,7 @@
-import 'dart:io';
-
-import 'package:get_it/get_it.dart';
 import 'package:mobi_c/common/ui/widgets/widget.dart';
-import 'package:mobi_c/feature/create_order/create_order_repo/order_repo.dart';
 import 'package:mobi_c/feature/create_order/cubit/create_order_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobi_c/services/data_base/object_box/models/order.dart';
-import 'package:mobi_c/services/data_base/object_box/object_box.dart';
-import 'package:mobi_c/services/data_sync_service/models/order.dart';
 import 'package:mobi_c/services/geo_location/send_location.dart';
 
 class AtherView extends StatefulWidget {
@@ -77,8 +70,16 @@ class _AtherViewState extends State<AtherView> {
                   onPressedAccept: () async {
                     context.read<CreateOrderCubit>().createOrder();
                     Navigator.pop(context);
-                    //var loc = await LocationService.getCurrentLocation();
-                    //await LocationService.sendToFirebase(loc);
+                    ScaffoldMessenger.of(context)
+                      ..removeCurrentSnackBar()
+                      ..showSnackBar(
+                        const SnackBar(
+                          content: Text('Операція успішна!'),
+                          duration: Duration(seconds: 2),
+                        ),
+                      );
+                    var loc = await LocationService.getCurrentLocation();
+                    await LocationService.sendToFirebase(loc);
                   },
                 ),
                 child: const Text('Створити замовлення'),

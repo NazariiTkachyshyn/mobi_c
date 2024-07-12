@@ -624,7 +624,7 @@
     },
     {
       "id": "26:971234464818448403",
-      "lastPropertyId": "26:8274217054659348819",
+      "lastPropertyId": "27:7824838109587272181",
       "name": "FullOrder",
       "properties": [
         {
@@ -737,12 +737,146 @@
           "id": "25:7262763369426231127",
           "name": "reciprocity",
           "type": 9
+        },
+        {
+          "id": "27:7824838109587272181",
+          "name": "productsJson",
+          "type": 9
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "27:5511085644544505511",
+      "lastPropertyId": "24:4794081886474227499",
+      "name": "PKO",
+      "properties": [
+        {
+          "id": "1:526355993144965446",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:8308698589516784387",
+          "name": "deletionMark",
+          "type": 1
+        },
+        {
+          "id": "3:4968657584397167523",
+          "name": "date",
+          "type": 9
+        },
+        {
+          "id": "4:9010395405791755789",
+          "name": "posted",
+          "type": 1
+        },
+        {
+          "id": "5:992510534512968866",
+          "name": "organizationKey",
+          "type": 9
+        },
+        {
+          "id": "6:3909745211414318807",
+          "name": "kasaKey",
+          "type": 9
+        },
+        {
+          "id": "7:1623575611059887449",
+          "name": "subdivisionKey",
+          "type": 9
+        },
+        {
+          "id": "8:3679158486776632292",
+          "name": "operationType",
+          "type": 9
+        },
+        {
+          "id": "9:913626315925923155",
+          "name": "counterpartyKey",
+          "type": 9
+        },
+        {
+          "id": "10:35840053083813065",
+          "name": "counterpartyType",
+          "type": 9
+        },
+        {
+          "id": "11:6927950236072199988",
+          "name": "contractKey",
+          "type": 9
+        },
+        {
+          "id": "12:6108516428328509673",
+          "name": "currencyKey",
+          "type": 9
+        },
+        {
+          "id": "13:4604061365347869027",
+          "name": "documentSum",
+          "type": 9
+        },
+        {
+          "id": "14:7146781289785176462",
+          "name": "acceptedFrom",
+          "type": 9
+        },
+        {
+          "id": "15:7759688477239478543",
+          "name": "reflectedInOperAccount",
+          "type": 1
+        },
+        {
+          "id": "16:7900229817500494711",
+          "name": "paid",
+          "type": 1
+        },
+        {
+          "id": "17:7014153415454748665",
+          "name": "responsibleUserKey",
+          "type": 9
+        },
+        {
+          "id": "18:9122937086694343796",
+          "name": "comment",
+          "type": 9
+        },
+        {
+          "id": "19:5684928181729982596",
+          "name": "reflectedInManageAccount",
+          "type": 1
+        },
+        {
+          "id": "20:887017617237380228",
+          "name": "reflectedInAccAccount",
+          "type": 1
+        },
+        {
+          "id": "21:6009433763687178043",
+          "name": "movementArticleKey",
+          "type": 9
+        },
+        {
+          "id": "22:8233247480136332413",
+          "name": "organizationAccountKey",
+          "type": 9
+        },
+        {
+          "id": "23:7509337218906668280",
+          "name": "reflectedInTaxAccount",
+          "type": 1
+        },
+        {
+          "id": "24:4794081886474227499",
+          "name": "paymentDecryption",
+          "type": 9
         }
       ],
       "relations": []
     }
   ],
-  "lastEntityId": "26:971234464818448403",
+  "lastEntityId": "27:5511085644544505511",
   "lastIndexId": "6:6308282322637790738",
   "lastRelationId": "2:2984543309158183382",
   "lastSequenceId": "0:0",

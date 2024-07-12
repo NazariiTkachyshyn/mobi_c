@@ -27,7 +27,7 @@ class FullOrder {
   double documentAmount;
   String organizationKey;
   String comment;
-  List<Map<String, dynamic>> productsJson; // Зберігаємо продукти як JSON-рядок
+  String productsJson;
 
   FullOrder({
     this.id = 0,
@@ -53,7 +53,7 @@ class FullOrder {
     required this.organizationKey,
     required this.comment,
     List<Map<String, dynamic>> products = const [],
-  }) : productsJson = [];
+  }) : productsJson = jsonEncode(products);
 
   factory FullOrder.fromJson(Map<String, dynamic> json) {
     return FullOrder(
@@ -78,7 +78,7 @@ class FullOrder {
       documentAmount: json['СуммаДокумента'],
       organizationKey: json['Организация_Key'],
       comment: json['Комментарий'],
-      products: List<Map<String, dynamic>>.from(jsonDecode(json['Товары'])),
+      products: json['Товары'],
     );
   }
 
@@ -109,6 +109,15 @@ class FullOrder {
     };
   }
 
-  // List<Map<String, dynamic>> get products =>
-  //     List<Map<String, dynamic>>.from(jsonDecode(productsJson));
+  List<Map<String, dynamic>> get products {
+    try {
+      return List<Map<String, dynamic>>.from(jsonDecode(productsJson));
+    } catch (e) {
+      return [];
+    }
+  }
+
+  set products(List<Map<String, dynamic>> value) {
+    productsJson = jsonEncode(value);
+  }
 }

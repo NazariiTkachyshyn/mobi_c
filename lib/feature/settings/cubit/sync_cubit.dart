@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:bloc/bloc.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:equatable/equatable.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobi_c/objectbox.g.dart';
@@ -8,13 +9,13 @@ import 'package:mobi_c/services/data_sync_service/data_sync_service.dart';
 import 'package:mobi_c/services/data_sync_service/models/full_order.dart';
 import 'package:http/http.dart' as http;
 
+import '../../../services/data_base/object_box/models/PKO.dart';
+
 part 'sync_state.dart';
 
 class SyncCubit extends Cubit<SyncState> {
   SyncCubit(this._dataSyncService) : super(const SyncState());
   final DataSyncService _dataSyncService;
-  final Box<FullOrder> fullOrderBox =
-      GetIt.I<ObjectBox>().store.box<FullOrder>();
 
   Future<void> syncDbData() async {
     emit(state.copyWith(syncStatuses: []));
@@ -36,24 +37,82 @@ class SyncCubit extends Cubit<SyncState> {
     await _dataSyncService.downloadImage();
   }
 
-  Future<void> syncOrders() async {
+  Future<bool> syncOrders() async {
     try {
-      emit(state.copyWith(syncStatuses: []));
+      final Box<FullOrder> fullOrderBox =
+          GetIt.I<ObjectBox>().store.box<FullOrder>();
       final orders = fullOrderBox.getAll();
+
+      if (orders.isEmpty) {
+        emit(state.copyWith(orderSyncStatus: SyncStateStatus.empty));
+        return false;
+      }
+      emit(state.copyWith(orderSyncStatus: SyncStateStatus.downloading));
+
+      var connectivityResult = await Connectivity().checkConnectivity();
+      if (connectivityResult.contains(ConnectivityResult.none)) {
+        emit(state.copyWith(orderSyncStatus: SyncStateStatus.noConnection));
+        return false;
+      }
+
       for (final order in orders) {
         final response = await _sendOrderToServer(order);
-        if (response.statusCode == 200) {
-          fullOrderBox.remove(order.id); // Remove order after successful sync
-          _updateSyncStatus(order.id, 200); // Update sync status
+        if (response.statusCode == 201) {
+          _updateSyncStatus(order.id, 201);
         } else {
           print('Failed to send order: ${response.body}');
-          _updateSyncStatus(
-              order.id, response.statusCode); // Update sync status
+          _updateSyncStatus(order.id, response.statusCode);
+          emit(state.copyWith(orderSyncStatus: SyncStateStatus.failure));
+          return false;
         }
       }
+      fullOrderBox.removeAll();
+
+      emit(state.copyWith(orderSyncStatus: SyncStateStatus.downloaded));
+      return true;
     } catch (e) {
       print('Error syncing orders: $e');
+      emit(state.copyWith(orderSyncStatus: SyncStateStatus.failure));
       throw Exception('Failed to sync orders');
+    }
+  }
+
+  Future<bool> syncPKO() async {
+    try {
+      final pkoBox = GetIt.I<ObjectBox>().store.box<PKO>();
+      final pkos = pkoBox.getAll();
+
+      if (pkos.isEmpty) {
+        emit(state
+            .copyWith(syncStatuses: [], pkoSyncStatus: SyncStateStatus.empty));
+        return false;
+      }
+      emit(state.copyWith(
+          syncStatuses: [], pkoSyncStatus: SyncStateStatus.downloading));
+
+      var connectivityResult = await Connectivity().checkConnectivity();
+      if (connectivityResult.contains(ConnectivityResult.none)) {
+        emit(state.copyWith(pkoSyncStatus: SyncStateStatus.noConnection));
+        return false;
+      }
+
+      for (final pko in pkos) {
+        final response = await _sendPKOToServer(pko);
+
+        if (response.statusCode == 201) {
+        } else {
+          print('Failed to send PKO: ${response.body}');
+          emit(state.copyWith(pkoSyncStatus: SyncStateStatus.failure));
+          return false;
+        }
+      }
+      pkoBox.removeAll();
+      emit(state.copyWith(pkoSyncStatus: SyncStateStatus.downloaded));
+      return true;
+    } catch (e) {
+      print('Error syncing PKO: $e');
+      emit(state.copyWith(pkoSyncStatus: SyncStateStatus.failure));
+      throw Exception('Failed to sync PKO');
     }
   }
 
@@ -67,6 +126,22 @@ class SyncCubit extends Cubit<SyncState> {
       'Content-Type': 'application/json',
     };
     final body = jsonEncode(order.toJson());
+
+    final url = Uri.http('192.168.2.50:81',
+        '/virok_test/odata/standard.odata/Document_ПриходныйКассовыйОрдер?\$format=json');
+    return await http.post(url, headers: headers, body: body);
+  }
+
+  Future<http.Response> _sendPKOToServer(PKO pko) async {
+    const String username = 'dt';
+    const String pass = 'DT20Group';
+    final String basicAuth =
+        'Basic ${base64Encode(utf8.encode('$username:$pass'))}';
+    final headers = {
+      'Authorization': basicAuth,
+      'Content-Type': 'application/json',
+    };
+    final body = jsonEncode(pko.toJson());
 
     final url = Uri.http('192.168.2.50:81',
         '/virok_test/odata/standard.odata/Document_ПриходныйКассовыйОрдер?\$format=json');

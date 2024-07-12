@@ -7,7 +7,6 @@ import 'package:mobi_c/feature/create_order/create_order_repo/create_order_repo.
 import 'package:mobi_c/feature/create_pko/cubit/create_pko_cubit.dart';
 import 'package:mobi_c/common/common.dart';
 import 'package:mobi_c/services/data_base/object_box/models/counterparty.dart';
-import 'package:mobi_c/services/geo_location/send_location.dart';
 
 class CreatePKOPage extends StatelessWidget {
   const CreatePKOPage({super.key});
@@ -72,155 +71,91 @@ class _CreatePKOPageState extends State<_CreatePKOPage> {
           builder: (context, state) {
             return Padding(
               padding: const EdgeInsets.all(16.0),
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Padding(padding: EdgeInsets.all(4)),
-                    SizedBox(
-                        width: 130,
-                        child: TextFielButton(
-                            text: DateFormat('dd.MM.yy')
-                                .format(state.selectedDate ?? DateTime.now()),
-                            lableText: 'Дата',
-                            onTap: _onSelectDate)),
-                    const Padding(padding: EdgeInsets.all(6)),
-                    TextFielButton(
-                      text: state.counterparty.description,
-                      lableText: 'Клієнт',
-                      onTap: _onSelectCounterparty,
-                    ),
-                    const SizedBox(
-                      height: 40,
-                      child: Text('Общий долг \n Львівська обл..'),
-                    ),
-                    const Padding(padding: EdgeInsets.all(6)),
-                    TextFielButton(
-                      text: state.contracts.isEmpty
-                          ? "Відсутній"
-                          : state.order.contractKey.isEmpty
-                              ? state.contracts.first.description
-                              : state.contracts
-                                  .firstWhere((e) =>
-                                      e.refKey == state.order.contractKey)
-                                  .description,
-                      lableText: 'Договір', //Угода
-                      onTap: () {
-                        _selectContractDialog(context);
-                      },
-                    ),
-                    const Padding(padding: EdgeInsets.all(6)),
-                    SizedBox(
-                        width: 200,
-                        child: TextField(
-                            keyboardType: TextInputType.number,
-                            decoration: const InputDecoration(
-                              label: Text('Сума'),
-                              hintText: '0,00',
-                            ),
-                            onChanged: (value) {
-                              currentValue = value;
-                              context
-                                  .read<CreatePKOCubit>()
-                                  .setSum(double.parse(currentValue));
-                            },
-                            onEditingComplete: () {
-                              context
-                                  .read<CreatePKOCubit>()
-                                  .setSum(double.parse(currentValue));
-                            })),
-                    const Padding(padding: EdgeInsets.all(6)),
-                    TextField(
-                      decoration: const InputDecoration(
-                        label: Text('Коментар'),
-                      ),
-                      onTap: () {},
-                    ),
-                    const Padding(padding: EdgeInsets.all(6)),
-                    Center(
-                      child: SizedBox(
-                        width: 200,
-                        child: FilledButton(
-                          onPressed: () async {
-                            if (context
-                                .read<CreatePKOCubit>()
-                                .counterPartyIsEmpty()) {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    title:
-                                        const Text('Контрагент не заповнений'),
-                                    content: const Text(
-                                        'Контрагент не заповнений. Будь ласка, заповніть необхідну інформацію.'),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                        child: const Text('Закрити'),
-                                      ),
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                          _onSelectCounterparty();
-                                        },
-                                        child: const Text('Ок'),
-                                      ),
-                                    ],
-                                  );
-                                },
-                              );
-                            } else if (context
-                                    .read<CreatePKOCubit>()
-                                    .getSum() <=
-                                0) {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    title:
-                                        const Text('Сума введена некоректно!'),
-                                    content: const Text(
-                                        'Будь ласка, заповніть необхідну інформацію.'),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                        child: const Text('Закрити'),
-                                      ),
-                                    ],
-                                  );
-                                },
-                              );
-                            } else {
-                              context.read<CreatePKOCubit>().sendPostRequest();
-
-                              var loc =
-                                  await LocationService.getCurrentLocation();
-                              await LocationService.sendToFirebase(loc);
-                              Navigator.pop(context);
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('Операція успішна!'),
-                                  duration: Duration(seconds: 2),
-                                ),
-                              );
-                            }
-                          },
-                          child: const Row(
-                            children: [
-                              Icon(Icons.ios_share),
-                              Padding(padding: EdgeInsets.all(6)),
-                              Text('Вивантажити'),
-                            ],
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Padding(padding: EdgeInsets.all(4)),
+                  SizedBox(
+                      width: 130,
+                      child: TextFielButton(
+                          text: DateFormat('dd.MM.yy')
+                              .format(state.selectedDate ?? DateTime.now()),
+                          lableText: 'Дата',
+                          onTap: _onSelectDate)),
+                  const Padding(padding: EdgeInsets.all(6)),
+                  TextFielButton(
+                    text: state.counterparty.description,
+                    lableText: 'Клієнт',
+                    onTap: _onSelectCounterparty,
+                  ),
+                  SizedBox(
+                    height: 30,
+                    child:
+                        Text(context.read<CreatePKOCubit>().getDescription()),
+                  ),
+                  const Padding(padding: EdgeInsets.all(6)),
+                  TextFielButton(
+                    text: state.contracts.isEmpty
+                        ? "Відсутній"
+                        : state.order.contractKey.isEmpty
+                            ? state.contracts.first.description
+                            : state.contracts
+                                .firstWhere(
+                                    (e) => e.refKey == state.order.contractKey)
+                                .description,
+                    lableText: 'Договір', //Угода
+                    onTap: () {
+                      _selectContractDialog(context);
+                    },
+                  ),
+                  const Padding(padding: EdgeInsets.all(6)),
+                  SizedBox(
+                      width: 200,
+                      child: TextField(
+                          keyboardType: TextInputType.number,
+                          decoration: const InputDecoration(
+                            label: Text('Сума'),
+                            hintText: '0,00',
                           ),
+                          onChanged: (value) {
+                            currentValue = value;
+                            context
+                                .read<CreatePKOCubit>()
+                                .setSum(double.parse(currentValue));
+                          },
+                          onEditingComplete: () {
+                            context
+                                .read<CreatePKOCubit>()
+                                .setSum(double.parse(currentValue));
+                          })),
+                  const Padding(padding: EdgeInsets.all(6)),
+                  TextField(
+                    decoration: const InputDecoration(
+                      label: Text('Коментар'),
+                    ),
+                    onTap: () {},
+                  ),
+                  const Padding(padding: EdgeInsets.all(6)),
+                  const Spacer(), // Додаємо Spacer для заповнення простору
+                  Center(
+                    child: SizedBox(
+                      width: 200,
+                      child: FilledButton(
+                        onPressed: () async {
+                          // Ваш код для кнопки
+                        },
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.ios_share),
+                            Padding(padding: EdgeInsets.all(6)),
+                            Text('Вивантажити'),
+                          ],
                         ),
                       ),
-                    )
-                  ],
-                ),
+                    ),
+                  )
+                ],
               ),
             );
           },

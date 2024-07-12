@@ -15,6 +15,7 @@ import 'package:objectbox/internal.dart'
 import 'package:objectbox/objectbox.dart' as obx;
 import 'package:objectbox_flutter_libs/objectbox_flutter_libs.dart';
 
+import 'services/data_base/object_box/models/PKO.dart';
 import 'services/data_base/object_box/models/barcode.dart';
 import 'services/data_base/object_box/models/config.dart';
 import 'services/data_base/object_box/models/contract.dart';
@@ -650,7 +651,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
       id: const obx_int.IdUid(26, 971234464818448403),
       name: 'FullOrder',
-      lastPropertyId: const obx_int.IdUid(26, 8274217054659348819),
+      lastPropertyId: const obx_int.IdUid(27, 7824838109587272181),
       flags: 0,
       properties: <obx_int.ModelProperty>[
         obx_int.ModelProperty(
@@ -762,6 +763,140 @@ final _entities = <obx_int.ModelEntity>[
             id: const obx_int.IdUid(25, 7262763369426231127),
             name: 'reciprocity',
             type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(27, 7824838109587272181),
+            name: 'productsJson',
+            type: 9,
+            flags: 0)
+      ],
+      relations: <obx_int.ModelRelation>[],
+      backlinks: <obx_int.ModelBacklink>[]),
+  obx_int.ModelEntity(
+      id: const obx_int.IdUid(27, 5511085644544505511),
+      name: 'PKO',
+      lastPropertyId: const obx_int.IdUid(24, 4794081886474227499),
+      flags: 0,
+      properties: <obx_int.ModelProperty>[
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(1, 526355993144965446),
+            name: 'id',
+            type: 6,
+            flags: 1),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(2, 8308698589516784387),
+            name: 'deletionMark',
+            type: 1,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(3, 4968657584397167523),
+            name: 'date',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(4, 9010395405791755789),
+            name: 'posted',
+            type: 1,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(5, 992510534512968866),
+            name: 'organizationKey',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(6, 3909745211414318807),
+            name: 'kasaKey',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(7, 1623575611059887449),
+            name: 'subdivisionKey',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(8, 3679158486776632292),
+            name: 'operationType',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(9, 913626315925923155),
+            name: 'counterpartyKey',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(10, 35840053083813065),
+            name: 'counterpartyType',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(11, 6927950236072199988),
+            name: 'contractKey',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(12, 6108516428328509673),
+            name: 'currencyKey',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(13, 4604061365347869027),
+            name: 'documentSum',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(14, 7146781289785176462),
+            name: 'acceptedFrom',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(15, 7759688477239478543),
+            name: 'reflectedInOperAccount',
+            type: 1,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(16, 7900229817500494711),
+            name: 'paid',
+            type: 1,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(17, 7014153415454748665),
+            name: 'responsibleUserKey',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(18, 9122937086694343796),
+            name: 'comment',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(19, 5684928181729982596),
+            name: 'reflectedInManageAccount',
+            type: 1,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(20, 887017617237380228),
+            name: 'reflectedInAccAccount',
+            type: 1,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(21, 6009433763687178043),
+            name: 'movementArticleKey',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(22, 8233247480136332413),
+            name: 'organizationAccountKey',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(23, 7509337218906668280),
+            name: 'reflectedInTaxAccount',
+            type: 1,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(24, 4794081886474227499),
+            name: 'paymentDecryption',
+            type: 9,
             flags: 0)
       ],
       relations: <obx_int.ModelRelation>[],
@@ -803,7 +938,7 @@ Future<obx.Store> openStore(
 obx_int.ModelDefinition getObjectBoxModel() {
   final model = obx_int.ModelInfo(
       entities: _entities,
-      lastEntityId: const obx_int.IdUid(26, 971234464818448403),
+      lastEntityId: const obx_int.IdUid(27, 5511085644544505511),
       lastIndexId: const obx_int.IdUid(6, 6308282322637790738),
       lastRelationId: const obx_int.IdUid(2, 2984543309158183382),
       lastSequenceId: const obx_int.IdUid(0, 0),
@@ -1698,7 +1833,8 @@ obx_int.ModelDefinition getObjectBoxModel() {
           final baseDocumentTypeOffset =
               fbb.writeString(object.baseDocumentType);
           final reciprocityOffset = fbb.writeString(object.reciprocity);
-          fbb.startTable(27);
+          final productsJsonOffset = fbb.writeString(object.productsJson);
+          fbb.startTable(28);
           fbb.addInt64(0, object.id);
           fbb.addOffset(1, dateOffset);
           fbb.addBool(2, object.posted);
@@ -1721,6 +1857,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
           fbb.addBool(22, object.autoVATCalculation);
           fbb.addOffset(23, baseDocumentTypeOffset);
           fbb.addOffset(24, reciprocityOffset);
+          fbb.addOffset(26, productsJsonOffset);
           fbb.finish(fbb.endTable());
           return object.id;
         },
@@ -1803,7 +1940,159 @@ obx_int.ModelDefinition getObjectBoxModel() {
               storageGroupType: storageGroupTypeParam,
               documentAmount: documentAmountParam,
               organizationKey: organizationKeyParam,
-              comment: commentParam);
+              comment: commentParam)
+            ..productsJson = const fb.StringReader(asciiOptimization: true)
+                .vTableGet(buffer, rootOffset, 56, '');
+
+          return object;
+        }),
+    PKO: obx_int.EntityDefinition<PKO>(
+        model: _entities[17],
+        toOneRelations: (PKO object) => [],
+        toManyRelations: (PKO object) => {},
+        getId: (PKO object) => object.id,
+        setId: (PKO object, int id) {
+          object.id = id;
+        },
+        objectToFB: (PKO object, fb.Builder fbb) {
+          final dateOffset = fbb.writeString(object.date);
+          final organizationKeyOffset = fbb.writeString(object.organizationKey);
+          final kasaKeyOffset = fbb.writeString(object.kasaKey);
+          final subdivisionKeyOffset = fbb.writeString(object.subdivisionKey);
+          final operationTypeOffset = fbb.writeString(object.operationType);
+          final counterpartyKeyOffset = fbb.writeString(object.counterpartyKey);
+          final counterpartyTypeOffset =
+              fbb.writeString(object.counterpartyType);
+          final contractKeyOffset = fbb.writeString(object.contractKey);
+          final currencyKeyOffset = fbb.writeString(object.currencyKey);
+          final documentSumOffset = fbb.writeString(object.documentSum);
+          final acceptedFromOffset = fbb.writeString(object.acceptedFrom);
+          final responsibleUserKeyOffset =
+              fbb.writeString(object.responsibleUserKey);
+          final commentOffset = fbb.writeString(object.comment);
+          final movementArticleKeyOffset =
+              fbb.writeString(object.movementArticleKey);
+          final organizationAccountKeyOffset =
+              fbb.writeString(object.organizationAccountKey);
+          final paymentDecryptionOffset =
+              fbb.writeString(object.paymentDecryption);
+          fbb.startTable(25);
+          fbb.addInt64(0, object.id);
+          fbb.addBool(1, object.deletionMark);
+          fbb.addOffset(2, dateOffset);
+          fbb.addBool(3, object.posted);
+          fbb.addOffset(4, organizationKeyOffset);
+          fbb.addOffset(5, kasaKeyOffset);
+          fbb.addOffset(6, subdivisionKeyOffset);
+          fbb.addOffset(7, operationTypeOffset);
+          fbb.addOffset(8, counterpartyKeyOffset);
+          fbb.addOffset(9, counterpartyTypeOffset);
+          fbb.addOffset(10, contractKeyOffset);
+          fbb.addOffset(11, currencyKeyOffset);
+          fbb.addOffset(12, documentSumOffset);
+          fbb.addOffset(13, acceptedFromOffset);
+          fbb.addBool(14, object.reflectedInOperAccount);
+          fbb.addBool(15, object.paid);
+          fbb.addOffset(16, responsibleUserKeyOffset);
+          fbb.addOffset(17, commentOffset);
+          fbb.addBool(18, object.reflectedInManageAccount);
+          fbb.addBool(19, object.reflectedInAccAccount);
+          fbb.addOffset(20, movementArticleKeyOffset);
+          fbb.addOffset(21, organizationAccountKeyOffset);
+          fbb.addBool(22, object.reflectedInTaxAccount);
+          fbb.addOffset(23, paymentDecryptionOffset);
+          fbb.finish(fbb.endTable());
+          return object.id;
+        },
+        objectFromFB: (obx.Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
+          final idParam =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
+          final deletionMarkParam =
+              const fb.BoolReader().vTableGet(buffer, rootOffset, 6, false);
+          final dateParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 8, '');
+          final postedParam =
+              const fb.BoolReader().vTableGet(buffer, rootOffset, 10, false);
+          final organizationKeyParam =
+              const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 12, '');
+          final kasaKeyParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 14, '');
+          final subdivisionKeyParam =
+              const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 16, '');
+          final operationTypeParam =
+              const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 18, '');
+          final counterpartyKeyParam =
+              const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 20, '');
+          final counterpartyTypeParam =
+              const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 22, '');
+          final contractKeyParam =
+              const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 24, '');
+          final currencyKeyParam =
+              const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 26, '');
+          final documentSumParam =
+              const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 28, '');
+          final acceptedFromParam =
+              const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 30, '');
+          final reflectedInOperAccountParam =
+              const fb.BoolReader().vTableGet(buffer, rootOffset, 32, false);
+          final paidParam =
+              const fb.BoolReader().vTableGet(buffer, rootOffset, 34, false);
+          final responsibleUserKeyParam =
+              const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 36, '');
+          final commentParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 38, '');
+          final reflectedInManageAccountParam =
+              const fb.BoolReader().vTableGet(buffer, rootOffset, 40, false);
+          final reflectedInAccAccountParam =
+              const fb.BoolReader().vTableGet(buffer, rootOffset, 42, false);
+          final movementArticleKeyParam =
+              const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 44, '');
+          final organizationAccountKeyParam =
+              const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 46, '');
+          final reflectedInTaxAccountParam =
+              const fb.BoolReader().vTableGet(buffer, rootOffset, 48, false);
+          final paymentDecryptionParam =
+              const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 50, '');
+          final object = PKO(
+              id: idParam,
+              deletionMark: deletionMarkParam,
+              date: dateParam,
+              posted: postedParam,
+              organizationKey: organizationKeyParam,
+              kasaKey: kasaKeyParam,
+              subdivisionKey: subdivisionKeyParam,
+              operationType: operationTypeParam,
+              counterpartyKey: counterpartyKeyParam,
+              counterpartyType: counterpartyTypeParam,
+              contractKey: contractKeyParam,
+              currencyKey: currencyKeyParam,
+              documentSum: documentSumParam,
+              acceptedFrom: acceptedFromParam,
+              reflectedInOperAccount: reflectedInOperAccountParam,
+              paid: paidParam,
+              responsibleUserKey: responsibleUserKeyParam,
+              comment: commentParam,
+              reflectedInManageAccount: reflectedInManageAccountParam,
+              reflectedInAccAccount: reflectedInAccAccountParam,
+              movementArticleKey: movementArticleKeyParam,
+              organizationAccountKey: organizationAccountKeyParam,
+              reflectedInTaxAccount: reflectedInTaxAccountParam,
+              paymentDecryption: paymentDecryptionParam);
 
           return object;
         })
@@ -2315,4 +2604,105 @@ class FullOrder_ {
   /// see [FullOrder.reciprocity]
   static final reciprocity =
       obx.QueryStringProperty<FullOrder>(_entities[16].properties[21]);
+
+  /// see [FullOrder.productsJson]
+  static final productsJson =
+      obx.QueryStringProperty<FullOrder>(_entities[16].properties[22]);
+}
+
+/// [PKO] entity fields to define ObjectBox queries.
+class PKO_ {
+  /// see [PKO.id]
+  static final id = obx.QueryIntegerProperty<PKO>(_entities[17].properties[0]);
+
+  /// see [PKO.deletionMark]
+  static final deletionMark =
+      obx.QueryBooleanProperty<PKO>(_entities[17].properties[1]);
+
+  /// see [PKO.date]
+  static final date = obx.QueryStringProperty<PKO>(_entities[17].properties[2]);
+
+  /// see [PKO.posted]
+  static final posted =
+      obx.QueryBooleanProperty<PKO>(_entities[17].properties[3]);
+
+  /// see [PKO.organizationKey]
+  static final organizationKey =
+      obx.QueryStringProperty<PKO>(_entities[17].properties[4]);
+
+  /// see [PKO.kasaKey]
+  static final kasaKey =
+      obx.QueryStringProperty<PKO>(_entities[17].properties[5]);
+
+  /// see [PKO.subdivisionKey]
+  static final subdivisionKey =
+      obx.QueryStringProperty<PKO>(_entities[17].properties[6]);
+
+  /// see [PKO.operationType]
+  static final operationType =
+      obx.QueryStringProperty<PKO>(_entities[17].properties[7]);
+
+  /// see [PKO.counterpartyKey]
+  static final counterpartyKey =
+      obx.QueryStringProperty<PKO>(_entities[17].properties[8]);
+
+  /// see [PKO.counterpartyType]
+  static final counterpartyType =
+      obx.QueryStringProperty<PKO>(_entities[17].properties[9]);
+
+  /// see [PKO.contractKey]
+  static final contractKey =
+      obx.QueryStringProperty<PKO>(_entities[17].properties[10]);
+
+  /// see [PKO.currencyKey]
+  static final currencyKey =
+      obx.QueryStringProperty<PKO>(_entities[17].properties[11]);
+
+  /// see [PKO.documentSum]
+  static final documentSum =
+      obx.QueryStringProperty<PKO>(_entities[17].properties[12]);
+
+  /// see [PKO.acceptedFrom]
+  static final acceptedFrom =
+      obx.QueryStringProperty<PKO>(_entities[17].properties[13]);
+
+  /// see [PKO.reflectedInOperAccount]
+  static final reflectedInOperAccount =
+      obx.QueryBooleanProperty<PKO>(_entities[17].properties[14]);
+
+  /// see [PKO.paid]
+  static final paid =
+      obx.QueryBooleanProperty<PKO>(_entities[17].properties[15]);
+
+  /// see [PKO.responsibleUserKey]
+  static final responsibleUserKey =
+      obx.QueryStringProperty<PKO>(_entities[17].properties[16]);
+
+  /// see [PKO.comment]
+  static final comment =
+      obx.QueryStringProperty<PKO>(_entities[17].properties[17]);
+
+  /// see [PKO.reflectedInManageAccount]
+  static final reflectedInManageAccount =
+      obx.QueryBooleanProperty<PKO>(_entities[17].properties[18]);
+
+  /// see [PKO.reflectedInAccAccount]
+  static final reflectedInAccAccount =
+      obx.QueryBooleanProperty<PKO>(_entities[17].properties[19]);
+
+  /// see [PKO.movementArticleKey]
+  static final movementArticleKey =
+      obx.QueryStringProperty<PKO>(_entities[17].properties[20]);
+
+  /// see [PKO.organizationAccountKey]
+  static final organizationAccountKey =
+      obx.QueryStringProperty<PKO>(_entities[17].properties[21]);
+
+  /// see [PKO.reflectedInTaxAccount]
+  static final reflectedInTaxAccount =
+      obx.QueryBooleanProperty<PKO>(_entities[17].properties[22]);
+
+  /// see [PKO.paymentDecryption]
+  static final paymentDecryption =
+      obx.QueryStringProperty<PKO>(_entities[17].properties[23]);
 }

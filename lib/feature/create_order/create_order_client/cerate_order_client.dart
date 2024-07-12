@@ -10,9 +10,6 @@ import 'package:mobi_c/services/data_base/object_box/models/models.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobi_c/services/data_base/object_box/object_box.dart';
 import 'package:mobi_c/services/data_sync_service/models/full_order.dart';
-import 'package:mobi_c/services/data_sync_service/models/order.dart';
-import 'package:mobi_c/services/data_base/object_box/models/order.dart'
-    as Model;
 
 class CreateOrderClient {
   final _store = GetIt.I.get<Store>();
@@ -120,25 +117,19 @@ class CreateOrderClient {
     try {
       final result = await InternetAddress.lookup('example.com');
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-        print('Connected to the internet');
         await createOrder(order);
       } else {
-        print('No internet connection');
         final objectBox = GetIt.I<ObjectBox>();
         final orderRepository =
             OrderRepository(objectBox.store.box<FullOrder>());
         await orderRepository.saveOrderOffline(FullOrder.fromJson(order));
       }
     } on SocketException catch (_) {
-      print('Not connected to the internet');
-// Create order locally
       final objectBox = GetIt.I<ObjectBox>();
       final orderRepository = OrderRepository(objectBox.store.box<FullOrder>());
-      final fullOrder = FullOrder.fromJson(
-          order); // Assuming order is of type Map<String, dynamic>
+      final fullOrder = FullOrder.fromJson(order);
       await orderRepository.saveOrderOffline(fullOrder);
     } catch (e) {
-      print('Error: $e');
       throw Exception('Failed to create order: $e');
     }
   }
